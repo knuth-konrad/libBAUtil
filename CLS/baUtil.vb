@@ -47,29 +47,20 @@ Public Class baUtil
 
 End Class
 
+''' <summary>
+''' General math helpers
+''' </summary>
 Public Class MathUtil
-   '------------------------------------------------------------------------------
-   'File:    : baUtil.vb
-   'Purpose  : General math helpers
-   '
-   'Prereq.  : -
-   'Note     : -
-   '
-   '   Author: Knuth Konrad
-   '     Date: 18.04.2019
-   '   Source: -
-   '  Changed: -
-   '------------------------------------------------------------------------------
 
+   ''' <summary>
+   ''' Returns the % of Total given by Part, e.g. Total = 200, Part = 50 = 25(%)
+   ''' </summary>
+   ''' <param name="part">Part of <paramref name="total"/> to be expressed as a precent value.</param>
+   ''' <param name="total">Value considered to be 100%.</param>
+   ''' <returns></returns>
    Public Shared Function Percent(ByVal part As Double, ByVal total As Double) As Double
       '------------------------------------------------------------------------------
-      'Purpose  : Returns the % of Total given by Part,
-      '           e.g. Total = 200, Part = 50 = 25(%)
-      'Param    : part  - Part to expressed as a precent value
-      '           total - = 100%
-      '
       'Prereq.  : -
-      'Returns  : -
       'Note     : -
       '
       '   Author: Knuth Konrad
@@ -88,6 +79,9 @@ Public Class MathUtil
 
 End Class
 
+''' <summary>
+''' Mimics VB6's fixed string
+''' </summary>
 <DefaultProperty("Value")>
 <Serializable()> Public Class FixedLengthString
 

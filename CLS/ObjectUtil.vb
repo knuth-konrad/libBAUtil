@@ -9,7 +9,7 @@ Imports System.Xml.Serialization
 Public Class ObjectUtil
 
    ''' <summary>
-   ''' Returns the Enumeration member's name for the specific value.
+   ''' Returns the enumeration member's name for the specific enumeration value.
    ''' </summary>
    ''' <param name="enumType">.NET type of enum as retrieved by <see cref="Type.GetType"/>.</param>
    ''' <param name="enumMemberValue">Return the member name for thise value</param>
@@ -48,38 +48,49 @@ Public Class ObjectUtil
 
    End Function
 
-   Public Overloads Shared Function GetEnumNameFromValue(ByVal eType As Type, ByVal lValue As Int32,
+   ''' <summary>
+   ''' Returns the enumeration member's name for the specific enumeration value.
+   ''' </summary>
+   ''' <param name="enumType">.NET type of enum as retrieved by <see cref="Type.GetType"/>.</param>
+   ''' <param name="enumMemberValue">Return the member name for thise value.</param>
+   ''' <param name="alternativeNames">
+   ''' Array with alternative names to return.
+   ''' Empty array elements of alternativeNames() will cause the Enum's member name to be returned. E.g.
+   ''' Enum MyEnum
+   '''    One
+   '''    Two
+   '''    Three
+   ''' End Enum
+   ''' alternativeNames() = "", "", "more than two"
+   ''' will return "One" for enumMemberValue = MyEnum.One, "Two" for MyEnum.Two, but "more than two" for MyEnum.Three
+   ''' </param>
+   ''' <returns>
+   ''' The enumeration's meber name matching <paramref name="enumMemberValue"/>.
+   ''' </returns>
+   ''' <remarks>
+   ''' <paramref name="enumType"/> MUST be an Enumeration's *type*, e.g. GetType(MyEnum)
+   ''' </remarks>
+   Public Overloads Shared Function GetEnumNameFromValue(ByVal enumType As Type, ByVal enumMemberValue As Int32,
                                                          ByVal ParamArray alternativeNames() As String) As String
       '------------------------------------------------------------------------------
-      'Name     : GetEnumNameFromValue
-      'Purpose  : Returns the Enumeration member's name for that value
-      'Param    :
-      '           enumType (Type)      : GetType(Enum)
-      '           enumMemberValue (Integer)  : Value whose member name to return
-      '           alternativeNames(): Array with alternative names to return.
-      '
       'Prereq.  : enumType MUST be an Enumeration's *type*, e.g. GetType(MyEnum)
-      'Note     : Empty array elements of alternativeNames() will cause in the Enum's name 
-      '           to be returned. E.g.
-      '           Enum MyEnum
-      '              One
-      '              Two
-      '              Three
-      '           End Enum
-      '           alternativeNames() = "", "", "more than two"
-      '           will return "One" for enumMemberValue = MyEnum.One, "Two" for MyEnum.Two, but "more than two" for MyEnum.Three
       '
       '   Author: Knuth Konrad
       '     Date: 24.04.2019
       '   Source: Modified from https://docs.microsoft.com/en-us/dotnet/visual-basic/language-reference/statements/enum-statement
       '  Changed: -
       '------------------------------------------------------------------------------
-      Dim names = [Enum].GetNames(eType)
-      Dim values = [Enum].GetValues(eType)
+      Dim names = [Enum].GetNames(enumType)
+      Dim values = [Enum].GetValues(enumType)
       Dim sTemp As String = String.Empty
 
+      ' Safe guard
+      If alternativeNames.Count <> names.Length Then
+         Throw New ArgumentOutOfRangeException("alternativeNames(). The number of array elements must match the numer of Enumeration members.")
+      End If
+
       For i As Int32 = 0 To names.Length - 1
-         If CType(values.GetValue(i), Int32) = lValue Then
+         If CType(values.GetValue(i), Int32) = enumMemberValue Then
             If Not String.IsNullOrEmpty(alternativeNames(i)) Then
                sTemp = alternativeNames(i)
             Else
@@ -96,15 +107,13 @@ Public Class ObjectUtil
 
    End Function
 
+   ''' <summary>
+   ''' Determine if an object is serializable.
+   ''' </summary>
+   ''' <param name="obj">Check this object</param>
    Public Shared Function IsSerializable(ByVal obj As Object) As Boolean
       '------------------------------------------------------------------------------
-      'Name     : IsSerializable
-      'Purpose  : Determine if an object is serializable
-      'Param    :
-      '    obj (Object): Check this object
-      '
       'Prereq.  : -
-      'Note     : -
       '
       '   Author: Knuth Konrad
       '     Date: 28.05.2019
@@ -122,18 +131,20 @@ Public Class ObjectUtil
 
    End Function
 
+   ''' <summary>
+   ''' Serialze an object to (a) XML (string).
+   ''' </summary>
+   ''' <param name="obj">Serialze this object</param>
+   ''' <param name="omitXmlDeclaration">True = Serialize without XML declaration (&lt;?xml version="1.0"?&gt;)</param>
+   ''' <param name="omitXmlNamespace">
+   ''' True = Serialize without XML namespace declaration
+   ''' (xmlnsxsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd = "http://www.w3.org/2001/XMLSchema")
+   ''' </param>
+   ''' <returns></returns>
    Public Shared Function Serialize(ByVal obj As Object, Optional ByVal omitXmlDeclaration As Boolean = False,
                                     Optional ByVal omitXmlNamespace As Boolean = False) As String
       '------------------------------------------------------------------------------
-      'Name     : Serialize
-      'Purpose  : Serialze an object to (a) XML (string)
-      'Param    : obj (Object)         - Serialze this object
-      '           omitXmlDeclaration   - True = Serialize without XML declaration (<?xml version="1.0"?>)
-      '           omitXmlNamespace     - True = Serialize without XML namespace declaration
-      '                                  (xmlnsxsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd = "http://www.w3.org/2001/XMLSchema")
-      '
       'Prereq.  : -
-      'Note     : -
       '
       '   Author: Knuth Konrad
       '     Date: 28.05.2019
@@ -166,20 +177,13 @@ Public Class ObjectUtil
 
    End Function
 
-   'Public Overloads Shared Function Serialize(ByVal o As Object) As String
-
-   '   Dim myTypeMapping As XmlTypeMapping =
-   '       New SoapReflectionImporter().ImportTypeMapping(GetType(o))
-
-   'End Function
-
+   ''' <summary>
+   ''' Deserialize a XML (string) to an object.
+   ''' </summary>
+   ''' <param name="xmlString">XML as String compatible with .NET's Deserialize method.</param>
+   ''' <param name="objType">Deserialize to this object type</param>
    Public Overloads Shared Function Deserialize(ByVal xmlString As String, ByVal objType As Type) As Object
       '------------------------------------------------------------------------------
-      'Name     : Deserialize
-      'Purpose  : Deserialize a XML (string) to an object
-      'Param    : xmlString   - XML as String compatible with .NET's Deserialize method
-      '           objType     - Deserialize to this object type
-      '
       'Prereq.  : -
       'Note     : -
       '
@@ -195,12 +199,14 @@ Public Class ObjectUtil
 
    End Function
 
+   ''' <summary>
+   ''' Deserialize a XML (string) to a specific class.
+   ''' </summary>
+   ''' <typeparam name="T">Return an object of this class.</typeparam>
+   ''' <param name="xmlString">XML as String compatible with .NET's Deserialize method.</param>
+   ''' <returns></returns>
    Public Shared Function DeserializeAsClass(Of T As Class)(ByVal xmlString As String) As T
       '------------------------------------------------------------------------------
-      'Name     : Deserialize
-      'Purpose  : Deserialize a XML (string) to a specific class
-      'Param    : xmlString   - XML as String compatible with .NET's Deserialize method
-      '
       'Prereq.  : -
       'Note     : -
       '

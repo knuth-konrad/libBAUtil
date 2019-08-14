@@ -1,7 +1,4 @@
-﻿Option Explicit On
-Option Strict On
-
-Imports System.Data.SqlClient
+﻿Imports System.Data.SqlClient
 
 Namespace DBTools.SQL
 

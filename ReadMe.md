@@ -18,8 +18,21 @@ Creates a backup of a file by copying/moving it from the source to the target fo
 
 
 ## MathUtil
+Returns the % of Total given by Part, e.g. Total = 200, Part = 50 = 25(%)
+
 
 ## ObjectUtil
+- GetEnumNameFromValue    
+Returns the Enumeration member's name for the specific value.
+- IsSerializable    
+Determine if an object is serializable.
+- Serialize    
+Serialze an object to (a) XML (string).
+- Deserialize    
+Deserialize a XML (string) to an object.
+- DeserializeAsClass    
+Deserialize a XML (string) to a specific class.
+
 
 ## StringUtil
 - Bytes2FormattedString()    
@@ -33,4 +46,4 @@ Emulate the respective VB6/VBA methods.
 Replacements for various handy VB6 string constants.
 
 ## FixedLengthString
-Emulates a VB6/VBA fixed length string (```MyString * 3```)
+Emulates a VB6/VBA fixed length string (e.g. ```MyString * 3```).
