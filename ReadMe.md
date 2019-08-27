@@ -8,6 +8,13 @@ Please note that I _didn't_ develop _all_ of these myself. Where possible/availa
 
 The following classes and methods are included:
 
+## CryptoUtil
+- baCrypto3DES.DecryptData()/EnCryptData()    
+String de-/encryption using 3DES.
+- baCryptoAES.DecryptData()/EnCryptData()    
+String de-/encryption using AES.
+
+
 ## FilesystemUtil
 - DenormalizePath()    
 Ensure a path does NOT end with a path delimiter.
