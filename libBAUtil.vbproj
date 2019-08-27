@@ -63,6 +63,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CLS\CryptoUtil.vb" />
     <Compile Include="CLS\DBOleDBUtil.vb" />
     <Compile Include="CLS\DBSqlDBUtil.vb" />
     <Compile Include="CLS\baUtil.vb" />
