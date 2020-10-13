@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("General purpose utilities.")>
 <Assembly: AssemblyCompany("")>
 <Assembly: AssemblyProduct("libBAUtil")>
-<Assembly: AssemblyCopyright("Copyright © Knuth Konrad 2019")>
+<Assembly: AssemblyCopyright("Copyright © Knuth Konrad 2020")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' übernehmen, indem Sie "*" eingeben:
 ' <Assembly: AssemblyVersion("1.0.*")>
 
-<Assembly: AssemblyVersion("1.100.0.16904")>
-<Assembly: AssemblyFileVersion("1.100.0.16904")>
+<Assembly: AssemblyVersion("1.112.40.20287")>
+<Assembly: AssemblyFileVersion("1.110.37.28129")>

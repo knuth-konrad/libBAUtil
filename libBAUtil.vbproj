@@ -12,6 +12,16 @@
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <TargetFrameworkProfile />
+    <ShouldCreateLogs>True</ShouldCreateLogs>
+    <AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
+    <UpdateAssemblyVersion>False</UpdateAssemblyVersion>
+    <UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
+    <UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
+    <AssemblyVersionSettings>
+    </AssemblyVersionSettings>
+    <UpdatePackageVersion>False</UpdatePackageVersion>
+    <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
+    <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,11 +73,13 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CLS\ConsoleUtil.vb" />
     <Compile Include="CLS\CryptoUtil.vb" />
     <Compile Include="CLS\DBOleDBUtil.vb" />
     <Compile Include="CLS\DBSqlDBUtil.vb" />
     <Compile Include="CLS\baUtil.vb" />
     <Compile Include="CLS\FilesystemUtil.vb" />
+    <Compile Include="CLS\FileUtil.vb" />
     <Compile Include="CLS\ObjectUtil.vb" />
     <Compile Include="CLS\StringUtil.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

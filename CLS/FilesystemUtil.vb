@@ -128,7 +128,7 @@ Public Class FilesystemUtil
    ''' If the destination file already exists, but <paramref name="incrementTarget"/> = <see langword="false"/>, 
    ''' the already existing file will be overwritten.
    ''' </remarks>
-   Public Function BackupFile(ByVal fileSource As String, ByVal fileDest As String,
+   Public Shared Function BackupFile(ByVal fileSource As String, ByVal fileDest As String,
                               Optional ByVal copyOnly As Boolean = False,
                               Optional ByVal incrementTarget As Boolean = True,
                               Optional ByRef newFile As String = "") As Boolean
@@ -168,10 +168,10 @@ Public Class FilesystemUtil
          If incrementTarget = True Then
             i = 0
             ' Generate a new file name that eventually doesn't exist in the target folder. Stop at 9999!
-            tempFile = NormalizePath(destPath) & destFile & "." & String.Format("0000", i) & destExt
+            tempFile = NormalizePath(destPath) & destFile & "." & String.Format("{0}:0000", i) & destExt
             Do While Exists(tempFile) = True And i < 9999
                i += 1
-               tempFile = NormalizePath(destPath) & destFile & "." & String.Format("0000", i) & destExt
+               tempFile = NormalizePath(destPath) & destFile & "." & String.Format("{0}:0000", i) & destExt
             Loop
          Else
             tempFile = fileDest

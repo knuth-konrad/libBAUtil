@@ -136,6 +136,32 @@ Public Class StringUtil
    End Function
 
    ''' <summary>
+   ''' Replacement for VB's Chr() function.
+   ''' </summary>
+   ''' <param name="ansiValue">ANSI value for which to return a string</param>
+   ''' <returns>
+   ''' ANSI String-Representation of <paramref name="ansiValue"/>
+   ''' </returns>
+   ''' <remarks>
+   ''' Source: https://stackoverflow.com/questions/36976240/c-sharp-char-from-int-used-as-string-the-real-equivalent-of-vb-chr?lq=1
+   ''' </remarks>
+   Public Overloads Shared Function Chr(ByVal ansiValue As Int32) As String
+      Return Char.ConvertFromUtf32(ansiValue)
+   End Function
+
+   ''' <summary>
+   ''' Replacement for VB's Chr() function.
+   ''' </summary>
+   ''' <param name="ansiValue">ANSI value for which to return a string</param>
+   ''' <returns>
+   ''' ANSI String-Representation of <paramref name="ansiValue"/>
+   ''' </returns>
+   Public Overloads Shared Function Chr(ByVal ansiValue As UInt32) As String
+      ' Return Char.ConvertFromUtf32(CType(ansiValue, Int32))
+      Return System.Convert.ToChar(ansiValue).ToString
+   End Function
+
+   ''' <summary>
    ''' Capitalize the first letter of a string.
    ''' </summary>
    ''' <param name="sText">Source string</param>
@@ -257,7 +283,7 @@ Public Class StringUtil
       '------------------------------------------------------------------------------
 
       ' Safe guards
-      If String.IsNullOrEmpty(source) OrElse (startIndex > source.Length - 1) Then
+      If String.IsNullOrEmpty(source) OrElse (startIndex > source.Length) Then
          Return String.Empty
       End If
       If startIndex < 0 Then
@@ -269,10 +295,10 @@ Public Class StringUtil
 
       ' Adjust length, if needed
       Try
-         If startIndex + length > source.Length - 1 OrElse length = 0 Then
-            Return source.Substring(startIndex)
+         If startIndex + length > source.Length OrElse length = 0 Then
+            Return source.Substring(startIndex - 1)
          Else
-            Return source.Substring(startIndex, length)
+            Return source.Substring(startIndex - 1, length)
          End If
       Catch ex As ArgumentOutOfRangeException
          Return String.Empty
@@ -280,21 +306,97 @@ Public Class StringUtil
 
    End Function
 
-   Public Overloads Shared Function Space(ByVal number As UInt32) As String
-      Return New String(" "c, CType(number, Integer))
+   ''' <summary>
+   ''' Encloses <paramref name="text"/> with quotation marks (").
+   ''' </summary>
+   ''' <param name="text">Wrap this string in quotation marks.</param>
+   Public Shared Function EnQuote(ByVal text As String) As String
+      Return System.Convert.ToChar(34).ToString & text & System.Convert.ToChar(34).ToString
    End Function
 
-   Public Overloads Shared Function Space(ByVal number As Int32) As String
-      Return New String(" "c, CType(number, Integer))
+#Region "Method String()"
+   Public Overloads Shared Function [String](ByVal character As Char, ByVal count As Int32) As String
+      Return New String(character, CType(count, Integer))
    End Function
 
+   Public Overloads Shared Function [String](ByVal character As Char, ByVal count As UInt32) As String
+      Return New String(character, CType(count, Integer))
+   End Function
+
+   Public Overloads Shared Function [String](ByVal character As String, ByVal count As Int32) As String
+      Return New String(CType(character, Char), CType(count, Integer))
+   End Function
+
+   Public Overloads Shared Function [String](ByVal character As String, ByVal count As UInt32) As String
+      Return New String(CType(character, Char), CType(count, Integer))
+   End Function
+#End Region
+
+#Region "Method Space()"
+   Public Overloads Shared Function Space(ByVal count As UInt32) As String
+      Return New String(" "c, CType(count, Integer))
+   End Function
+
+   Public Overloads Shared Function Space(ByVal count As Int32) As String
+      Return New String(" "c, CType(count, Integer))
+   End Function
+#End Region
+
+#Region "Date formatting"
+   ''' <summary>
+   ''' Create a date string of format YYYYMMDD[[T]HHNNSS].
+   ''' </summary>
+   ''' <param name="dtmDate">Date/Time to format</param>
+   ''' <param name="appendTime"><see langref="true"/> = append time to date</param>
+   ''' <param name="dateSeparator">Character to separate date parts</param>
+   ''' <param name="dateTimeSeparator">Character to separate date part from time part</param>
+   ''' <returns></returns>
+   Public Shared Function DateYMD(ByVal dtmDate As DateTime, Optional ByVal appendTime As Boolean = False,
+                                  Optional ByVal dateSeparator As String = "", Optional ByVal dateTimeSeparator As String = "T") As String
+
+      ' Date part
+      Dim sResult As String = dtmDate.Year.ToString("0000") & dateSeparator & dtmDate.Month.ToString("00") & dateSeparator & dtmDate.Day.ToString("00")
+
+
+      ' Time part
+      If appendTime = True Then
+         sResult &= dateTimeSeparator & dtmDate.Hour.ToString("00") & dtmDate.Minute.ToString("00") & dtmDate.Second.ToString("00")
+      End If
+
+      Return sResult
+
+   End Function
+#End Region
+
+#Region "VB6 String constants"
    ' ** Replacements for various handy VB6 string constants
-   Public Shared Function vbNewLine() As String
-      Return Environment.NewLine
+   Public Shared Function vbNewLine(Optional ByVal n As Int32 = 1) As String
+      Dim sResult As String = String.Empty
+      For i As Int32 = 1 To n
+         sResult &= Environment.NewLine
+      Next
+      Return sResult
    End Function
 
-   Public Shared Function vbTab() As String
-      Return System.Convert.ToChar(9).ToString
+   Public Shared Function vbNullString() As String
+      Return String.Empty
    End Function
+
+   Public Shared Function vbQuote(Optional ByVal n As Int32 = 1) As String
+      Dim sResult As String = String.Empty
+      For i As Int32 = 1 To n
+         sResult &= System.Convert.ToChar(34).ToString
+      Next
+      Return sResult
+   End Function
+
+   Public Shared Function vbTab(Optional ByVal n As Int32 = 1) As String
+      Dim sResult As String = String.Empty
+      For i As Int32 = 1 To n
+         sResult &= System.Convert.ToChar(9).ToString
+      Next
+      Return sResult
+   End Function
+#End Region
 
 End Class

@@ -1,5 +1,7 @@
 ﻿Imports System.IO
 
+Imports System.Runtime.Serialization.Formatters.Binary
+
 Imports System.Xml
 Imports System.Xml.Serialization
 
@@ -8,6 +10,7 @@ Imports System.Xml.Serialization
 ''' </summary>
 Public Class ObjectUtil
 
+#Region "Serialization"
    ''' <summary>
    ''' Returns the enumeration member's name for the specific enumeration value.
    ''' </summary>
@@ -28,7 +31,7 @@ Public Class ObjectUtil
       '   Source: Modified from https://docs.microsoft.com/en-us/dotnet/visual-basic/language-reference/statements/enum-statement
       '  Changed: 2019-01-12
       '           - Enum member names naturally starting with a number should be prefixed 
-      '           with a "_", e.g. _12_Passenger_Van. The underscore is than removed
+      '           with a "_", e.g. _12_Passenger_Van. The underscore is then removed
       '------------------------------------------------------------------------------
       Dim names = [Enum].GetNames(enumType)
       Dim values = [Enum].GetValues(enumType)
@@ -219,6 +222,38 @@ Public Class ObjectUtil
       Dim sr As StringReader = New StringReader(xmlString)
 
       Return CType(xser.Deserialize(sr), T)
+
+   End Function
+#End Region
+
+   ''' <summary>
+   ''' Create a deep copy of an object
+   ''' </summary>
+   ''' <param name="obj">Object to be cloned</param>
+   ''' <returns>
+   ''' Deep copy aka "a copy of all data and objects and their data" of <paramref name="obj"/>.
+   ''' </returns>
+   Public Function Clone(ByVal obj As Object) As Object
+      '------------------------------------------------------------------------------
+      'Name     : Clone
+      'Purpose  : Returns a deep copy of the object
+      'Param    :
+      '
+      'Prereq.  : -
+      'Note     : -
+      '
+      '   Author: ?
+      '     Date: 18.06.2018
+      '   Source: https://www.rectanglered.com/deep-copying-object-vb-net
+      '  Changed: -
+      '------------------------------------------------------------------------------
+      Dim m As New MemoryStream()
+      Dim f As New BinaryFormatter()
+
+      f.Serialize(m, obj)
+      m.Seek(0, SeekOrigin.Begin)
+
+      Return f.Deserialize(m)
 
    End Function
 

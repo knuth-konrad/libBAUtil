@@ -86,6 +86,37 @@ Namespace DBTools.SQL
 
       End Function
 
+      ''' <summary>
+      ''' Reads fieldName from Data Reader. If fieldName is DbNull, returns String.Empty.
+      ''' </summary>
+      ''' <returns>Safely returns a string. No need to check for DbNull.</returns>
+      Public Overloads Shared Function ReadNullAsEmptyString(ByVal reader As IDataReader, ByVal fieldName As String) As String
+         ' Source: https://stackoverflow.com/questions/20862628/how-to-deal-with-sqldatareader-null-values-in-vb-net
+         With reader
+            If .IsDBNull(.GetOrdinal(fieldName)) Then
+               Return String.Empty
+            Else
+               Return .Item(fieldName).ToString
+            End If
+         End With
+      End Function
+
+      ''' <summary>
+      ''' Reads fieldOrdinal from Data Reader. If fieldOrdinal is DbNull, returns String.Empty.
+      ''' </summary>
+      ''' <returns>Safely returns a string. No need to check for DbNull.</returns>
+      Public Overloads Shared Function ReadNullAsEmptyString(ByVal reader As IDataReader, ByVal fieldOrdinal As Integer) As String
+         ' Source: https://stackoverflow.com/questions/20862628/how-to-deal-with-sqldatareader-null-values-in-vb-net
+         With reader
+            If .IsDBNull(fieldOrdinal) Then
+               Return String.Empty
+            Else
+               Return reader.Item(fieldOrdinal).ToString
+            End If
+         End With
+      End Function
+
+
 #End Region
 
       Public Sub New()
