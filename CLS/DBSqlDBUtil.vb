@@ -6,14 +6,102 @@ Namespace DBTools.SQL
 
 #Region "Methods SqlClient"
 
-      Public Shared Function GetDBString(ByVal dr As SqlDataReader, ByVal sColumn As String) As String
+      Public Overloads Shared Function GetDBByte(ByVal dr As SqlDataReader, ByVal columnOrdinal As Int32) As Byte
 
          Try
             With dr
-               If .IsDBNull(.GetOrdinal(sColumn)) Then
+               If .IsDBNull(columnOrdinal) Then
+                  Return 0
+               Else
+                  Return CType(.Item(columnOrdinal), Byte)
+               End If
+            End With
+         Catch ex As Exception
+            Return 0
+         End Try
+
+      End Function
+
+      Public Overloads Shared Function GetDBByte(ByVal dr As SqlDataReader, ByVal columName As String) As Byte
+
+         Return GetDBByte(dr, dr.GetOrdinal(columName))
+
+      End Function
+
+      Public Overloads Shared Function GetDBDate(ByVal dr As SqlDataReader, ByVal columnOrdinal As Int32) As DateTime
+
+         Try
+            With dr
+               If .IsDBNull(columnOrdinal) Then
+                  Return Nothing
+               Else
+                  Return CType(.Item(columnOrdinal), DateTime)
+               End If
+            End With
+         Catch ex As Exception
+            Return CType(Nothing, DateTime)
+         End Try
+
+      End Function
+
+      Public Overloads Shared Function GetDBDate(ByVal dr As SqlDataReader, ByVal columName As String) As DateTime
+
+         Return GetDBDate(dr, dr.GetOrdinal(columName))
+
+      End Function
+
+      Public Overloads Shared Function GetDBGuid(ByVal dr As SqlDataReader, ByVal columnOrdinal As Int32) As Guid
+
+         Try
+            With dr
+               If .IsDBNull(columnOrdinal) Then
+                  Return Nothing
+               Else
+                  Return CType(.Item(columnOrdinal), Guid)
+               End If
+            End With
+         Catch ex As Exception
+            Return Nothing
+         End Try
+
+      End Function
+
+      Public Overloads Shared Function GetDBGuid(ByVal dr As SqlDataReader, ByVal columnName As String) As Guid
+
+         Return GetDBGuid(dr, dr.GetOrdinal(columnName))
+
+      End Function
+
+      Public Overloads Shared Function GetDBInteger(ByVal dr As SqlDataReader, ByVal columOrdinal As Int32) As Int32
+
+         Try
+            With dr
+               If .IsDBNull(columOrdinal) Then
+                  Return 0
+               Else
+                  Return CType(.Item(columOrdinal), Int32)
+               End If
+            End With
+         Catch ex As Exception
+            Return 0
+         End Try
+
+      End Function
+
+      Public Overloads Shared Function GetDBInteger(ByVal dr As SqlDataReader, ByVal columName As String) As Int32
+
+         Return GetDBInteger(dr, dr.GetOrdinal(columName))
+
+      End Function
+
+      Public Overloads Shared Function GetDBString(ByVal dr As SqlDataReader, ByVal columOrdinal As Int32) As String
+
+         Try
+            With dr
+               If .IsDBNull(columOrdinal) Then
                   Return String.Empty
                Else
-                  Return CType(.Item(sColumn), String)
+                  Return CType(.Item(columOrdinal), String)
                End If
             End With
          Catch ex As Exception
@@ -22,67 +110,9 @@ Namespace DBTools.SQL
 
       End Function
 
-      Public Shared Function GetDBInteger(ByVal dr As SqlDataReader, ByVal sColumn As String) As Integer
+      Public Overloads Shared Function GetDBString(ByVal dr As SqlDataReader, ByVal columName As String) As String
 
-         Try
-            With dr
-               If .IsDBNull(.GetOrdinal(sColumn)) Then
-                  Return 0
-               Else
-                  Return CType(.Item(sColumn), Integer)
-               End If
-            End With
-         Catch ex As Exception
-            Return 0
-         End Try
-
-      End Function
-
-      Public Shared Function GetDBByte(ByVal dr As SqlDataReader, ByVal sColumn As String) As Byte
-
-         Try
-            With dr
-               If .IsDBNull(.GetOrdinal(sColumn)) Then
-                  Return 0
-               Else
-                  Return CType(.Item(sColumn), Byte)
-               End If
-            End With
-         Catch ex As Exception
-            Return 0
-         End Try
-
-      End Function
-
-      Public Shared Function GetDBDate(ByVal dr As SqlDataReader, ByVal sColumn As String) As Date
-
-         Try
-            With dr
-               If .IsDBNull(.GetOrdinal(sColumn)) Then
-                  Return Nothing
-               Else
-                  Return CType(.Item(sColumn), Date)
-               End If
-            End With
-         Catch ex As Exception
-            Return CDate(Nothing)
-         End Try
-
-      End Function
-
-      Public Shared Function GetDBGuid(ByVal dr As SqlDataReader, ByVal sColumn As String) As Guid
-
-         Try
-            With dr
-               If .IsDBNull(.GetOrdinal(sColumn)) Then
-                  Return Nothing
-               Else
-                  Return CType(.Item(sColumn), Guid)
-               End If
-            End With
-         Catch ex As Exception
-            Return Nothing
-         End Try
+         Return GetDBString(dr, dr.GetOrdinal(columName))
 
       End Function
 
