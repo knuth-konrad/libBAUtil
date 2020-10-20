@@ -1,3 +1,12 @@
+2020-10-20
+
+** NEW **
+- Adding XML comments and help file
+
+** CHANGE **
+- New method: TextFileUtil.TxtReadFile
+
+
 2020-10-15
 
 ** CHANGE **

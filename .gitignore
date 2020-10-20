@@ -1,7 +1,7 @@
 ## Project specific files
 # Test implementation
 modMain.vb
-libBAUtil.sln
+# libBAUtil.sln
 
 # DevTracker addon
 libBAUtil.dt
