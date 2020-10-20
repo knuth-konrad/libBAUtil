@@ -1,7 +1,14 @@
+2020-10-15
+
+** CHANGE **
+- Added Overloads to the various DBSqlDBUtil.GetDB(data type) methods.
+
+
 2020-10-13
 
 ** CHANGE **
 - New StringUtil method: DateYMD
+
 
 2019-08-27
 

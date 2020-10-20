@@ -1,4 +1,4 @@
-﻿Imports System.Data.SqlClient
+Imports System.Data.SqlClient
 
 Namespace DBTools.SQL
 
@@ -23,9 +23,7 @@ Namespace DBTools.SQL
       End Function
 
       Public Overloads Shared Function GetDBByte(ByVal dr As SqlDataReader, ByVal columName As String) As Byte
-
          Return GetDBByte(dr, dr.GetOrdinal(columName))
-
       End Function
 
       Public Overloads Shared Function GetDBDate(ByVal dr As SqlDataReader, ByVal columnOrdinal As Int32) As DateTime
@@ -45,9 +43,7 @@ Namespace DBTools.SQL
       End Function
 
       Public Overloads Shared Function GetDBDate(ByVal dr As SqlDataReader, ByVal columName As String) As DateTime
-
          Return GetDBDate(dr, dr.GetOrdinal(columName))
-
       End Function
 
       Public Overloads Shared Function GetDBGuid(ByVal dr As SqlDataReader, ByVal columnOrdinal As Int32) As Guid
@@ -67,9 +63,7 @@ Namespace DBTools.SQL
       End Function
 
       Public Overloads Shared Function GetDBGuid(ByVal dr As SqlDataReader, ByVal columnName As String) As Guid
-
          Return GetDBGuid(dr, dr.GetOrdinal(columnName))
-
       End Function
 
       Public Overloads Shared Function GetDBInteger(ByVal dr As SqlDataReader, ByVal columOrdinal As Int32) As Int32
@@ -89,9 +83,7 @@ Namespace DBTools.SQL
       End Function
 
       Public Overloads Shared Function GetDBInteger(ByVal dr As SqlDataReader, ByVal columName As String) As Int32
-
          Return GetDBInteger(dr, dr.GetOrdinal(columName))
-
       End Function
 
       Public Overloads Shared Function GetDBString(ByVal dr As SqlDataReader, ByVal columOrdinal As Int32) As String
@@ -111,10 +103,32 @@ Namespace DBTools.SQL
       End Function
 
       Public Overloads Shared Function GetDBString(ByVal dr As SqlDataReader, ByVal columName As String) As String
-
          Return GetDBString(dr, dr.GetOrdinal(columName))
+      End Function
+
+      Public Overloads Shared Function GetDBVarBinaryAsString(ByVal dr As SqlDataReader, ByVal columOrdinal As Int32) As String
+
+         Try
+            With dr
+               If .IsDBNull(columOrdinal) Then
+                  Return String.Empty
+               Else
+                  Dim lLength As Int32 = CType(.GetBytes(columOrdinal, 0, Nothing, 0, 255), Int32)
+                  Dim b(lLength - 1) As Byte
+                  Dim lRet As Int32 = CType(.GetBytes(columOrdinal, 0, b, 0, lLength), Int32)
+                  Return System.Text.Encoding.Unicode.GetString(b)
+               End If
+            End With
+         Catch ex As Exception
+            Return String.Empty
+         End Try
 
       End Function
+
+      Public Overloads Shared Function GetDBVarBinaryAsString(ByVal dr As SqlDataReader, ByVal columName As String) As String
+         Return GetDBVarBinaryAsString(dr, dr.GetOrdinal(columName))
+      End Function
+
 
       ''' <summary>
       ''' Reads fieldName from Data Reader. If fieldName is DbNull, returns String.Empty.

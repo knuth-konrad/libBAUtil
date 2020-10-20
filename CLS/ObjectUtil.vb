@@ -1,4 +1,4 @@
-﻿Imports System.IO
+Imports System.IO
 
 Imports System.Runtime.Serialization.Formatters.Binary
 
@@ -15,9 +15,9 @@ Public Class ObjectUtil
    ''' Returns the enumeration member's name for the specific enumeration value.
    ''' </summary>
    ''' <param name="enumType">.NET type of enum as retrieved by <see cref="Type.GetType"/>.</param>
-   ''' <param name="enumMemberValue">Return the member name for thise value</param>
+   ''' <param name="enumMemberValue">Return the member name for this value</param>
    ''' <returns>
-   ''' The enumeration's meber name matching <paramref name="enumMemberValue"/>
+   ''' The enumeration's member name matching <paramref name="enumMemberValue"/>
    ''' </returns>
    ''' <remarks>
    ''' <paramref name="enumType"/> MUST be an Enumeration's *type*, e.g. GetType(MyEnum)
@@ -55,7 +55,7 @@ Public Class ObjectUtil
    ''' Returns the enumeration member's name for the specific enumeration value.
    ''' </summary>
    ''' <param name="enumType">.NET type of enum as retrieved by <see cref="Type.GetType"/>.</param>
-   ''' <param name="enumMemberValue">Return the member name for thise value.</param>
+   ''' <param name="enumMemberValue">Return the member name for this value.</param>
    ''' <param name="alternativeNames">
    ''' Array with alternative names to return.
    ''' Empty array elements of alternativeNames() will cause the Enum's member name to be returned. E.g.
@@ -68,7 +68,7 @@ Public Class ObjectUtil
    ''' will return "One" for enumMemberValue = MyEnum.One, "Two" for MyEnum.Two, but "more than two" for MyEnum.Three
    ''' </param>
    ''' <returns>
-   ''' The enumeration's meber name matching <paramref name="enumMemberValue"/>.
+   ''' The enumeration's member name matching <paramref name="enumMemberValue"/>.
    ''' </returns>
    ''' <remarks>
    ''' <paramref name="enumType"/> MUST be an Enumeration's *type*, e.g. GetType(MyEnum)
@@ -135,9 +135,9 @@ Public Class ObjectUtil
    End Function
 
    ''' <summary>
-   ''' Serialze an object to (a) XML (string).
+   ''' Serialize an object to (a) XML (string).
    ''' </summary>
-   ''' <param name="obj">Serialze this object</param>
+   ''' <param name="obj">Serialize this object</param>
    ''' <param name="omitXmlDeclaration">True = Serialize without XML declaration (&lt;?xml version="1.0"?&gt;)</param>
    ''' <param name="omitXmlNamespace">
    ''' True = Serialize without XML namespace declaration
@@ -233,20 +233,9 @@ Public Class ObjectUtil
    ''' <returns>
    ''' Deep copy aka "a copy of all data and objects and their data" of <paramref name="obj"/>.
    ''' </returns>
+   ''' <remarks>Source: https://www.rectanglered.com/deep-copying-object-vb-net </remarks>
    Public Function Clone(ByVal obj As Object) As Object
-      '------------------------------------------------------------------------------
-      'Name     : Clone
-      'Purpose  : Returns a deep copy of the object
-      'Param    :
-      '
-      'Prereq.  : -
-      'Note     : -
-      '
-      '   Author: ?
-      '     Date: 18.06.2018
-      '   Source: https://www.rectanglered.com/deep-copying-object-vb-net
-      '  Changed: -
-      '------------------------------------------------------------------------------
+
       Dim m As New MemoryStream()
       Dim f As New BinaryFormatter()
 
