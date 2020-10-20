@@ -1,4 +1,4 @@
-﻿Imports System.IO
+Imports System.IO
 Imports System.IO.File
 Imports System.IO.Path
 
@@ -94,8 +94,12 @@ Public Class FilesystemUtil
    ''' <summary>
    ''' Alias for <see cref="System.IO.File.Exists(String)"/>
    ''' </summary>
-   ''' <param name="[file]"></param>
-   ''' <returns></returns>
+   ''' <param name="file">The file to check.</param>
+   ''' <returns><see langword="true"/> if the caller has the required permissions and path contains the name of an existing file; otherwise, <see langword="false"/>. 
+   ''' This method also returns <see langword="false"/> if path is <see langword="null"/>, an invalid path, or a zero-length string. 
+   ''' If the caller does not have sufficient permissions to read the specified file, no exception is thrown and the method returns 
+   ''' <see langword="false"/> regardless of the existence of path.
+   ''' </returns>
    Public Shared Function FileExists(ByVal [file] As String) As Boolean
       Return Exists(file)
    End Function
@@ -108,7 +112,7 @@ Public Class FilesystemUtil
    ''' Fully qualified source file name.
    ''' </param>
    ''' <param name="fileDest">
-   ''' Fully qualified desitnation file name.
+   ''' Fully qualified destination file name.
    ''' </param>
    ''' <param name="copyOnly">
    ''' Copy only (True) or move (False)?

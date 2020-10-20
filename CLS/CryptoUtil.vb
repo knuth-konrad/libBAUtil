@@ -1,10 +1,12 @@
-﻿Imports System.Security.Cryptography
+Imports System.Security.Cryptography
 
 ''' <summary>
-''' En-/Decrypting helper (3DES).
+''' En-/Decryption helper (3DES).
 ''' </summary>
+''' <remarks>
+''' Source: https://msdn.microsoft.com/en-us/library/ms172831(v=vs.110).aspx
+''' </remarks>
 Public NotInheritable Class baCrypto3DES
-   ' Source: https://msdn.microsoft.com/en-us/library/ms172831(v=vs.110).aspx
 
 #Region "Declares"
 
@@ -14,10 +16,15 @@ Public NotInheritable Class baCrypto3DES
 
 #Region "Methods - Public"
 
-   Public Function DecryptData(ByVal encryptedtext As String) As String
+   ''' <summary>
+   ''' Decode a string.
+   ''' </summary>
+   ''' <param name="encryptedText">Encoded string</param>
+   ''' <returns>Decoded <paramref name="encryptedText"/></returns>
+   Public Function DecryptData(ByVal encryptedText As String) As String
 
       ' Convert the encrypted text string to a byte array. 
-      Dim encryptedBytes() As Byte = Convert.FromBase64String(encryptedtext)
+      Dim encryptedBytes() As Byte = Convert.FromBase64String(encryptedText)
 
       ' Create the stream. 
       Dim ms As New System.IO.MemoryStream
@@ -33,14 +40,19 @@ Public NotInheritable Class baCrypto3DES
 
    End Function
 
-   Public Function EncryptData(ByVal plaintext As String) As String
+   ''' <summary>
+   ''' Encode a string.
+   ''' </summary>
+   ''' <param name="plainText">Plain string</param>
+   ''' <returns>Encoded <paramref name="plainText"/></returns>
+   Public Function EncryptData(ByVal plainText As String) As String
 
-      If String.IsNullOrEmpty(plaintext) = True Then
-         plaintext = ""
+      If String.IsNullOrEmpty(plainText) = True Then
+         plainText = ""
       End If
 
       ' Convert the plaintext string to a byte array. 
-      Dim plaintextBytes() As Byte = System.Text.Encoding.Unicode.GetBytes(plaintext)
+      Dim plaintextBytes() As Byte = System.Text.Encoding.Unicode.GetBytes(plainText)
 
       ' Create the stream. 
       Dim ms As New System.IO.MemoryStream
@@ -59,7 +71,8 @@ Public NotInheritable Class baCrypto3DES
    Sub New(ByVal key As String)
       ' Initialize the crypto provider.
       TripleDes.Key = TruncateHash(key, TripleDes.KeySize \ 8)
-      TripleDes.IV = TruncateHash("", TripleDes.BlockSize \ 8)
+      'TripleDes.IV = TruncateHash("", TripleDes.BlockSize \ 8)
+      TripleDes.IV = TruncateHash(String.Empty, TripleDes.BlockSize \ 8)
    End Sub
 
    Private Function TruncateHash(ByVal key As String, ByVal length As Int32) As Byte()
@@ -83,8 +96,10 @@ End Class
 ''' <summary>
 ''' En-/Decrypting helper (AES).
 ''' </summary>
+''' <remarks>
+''' Source: https://msdn.microsoft.com/en-us/library/ms172831(v=vs.110).aspx
+''' </remarks>
 Public NotInheritable Class baCryptoAES
-   ' Source: https://msdn.microsoft.com/en-us/library/ms172831(v=vs.110).aspx
 
 #Region "Declares"
 
@@ -94,10 +109,15 @@ Public NotInheritable Class baCryptoAES
 
 #Region "Methods - Public"
 
-   Public Function DecryptData(ByVal encryptedtext As String) As String
+   ''' <summary>
+   ''' Decode a string.
+   ''' </summary>
+   ''' <param name="encryptedText">Encoded string</param>
+   ''' <returns>Decoded <paramref name="encryptedText"/></returns>
+   Public Function DecryptData(ByVal encryptedText As String) As String
 
       ' Convert the encrypted text string to a byte array. 
-      Dim encryptedBytes() As Byte = Convert.FromBase64String(encryptedtext)
+      Dim encryptedBytes() As Byte = Convert.FromBase64String(encryptedText)
 
       ' Create the stream. 
       Dim ms As New System.IO.MemoryStream
@@ -113,14 +133,19 @@ Public NotInheritable Class baCryptoAES
 
    End Function
 
-   Public Function EncryptData(ByVal plaintext As String) As String
+   ''' <summary>
+   ''' Encode a string.
+   ''' </summary>
+   ''' <param name="plainText">Plain string</param>
+   ''' <returns>Encoded <paramref name="plainText"/></returns>
+   Public Function EncryptData(ByVal plainText As String) As String
 
-      If String.IsNullOrEmpty(plaintext) = True Then
-         plaintext = ""
+      If String.IsNullOrEmpty(plainText) = True Then
+         plainText = ""
       End If
 
       ' Convert the plaintext string to a byte array. 
-      Dim plaintextBytes() As Byte = System.Text.Encoding.Unicode.GetBytes(plaintext)
+      Dim plaintextBytes() As Byte = System.Text.Encoding.Unicode.GetBytes(plainText)
 
       ' Create the stream. 
       Dim ms As New System.IO.MemoryStream

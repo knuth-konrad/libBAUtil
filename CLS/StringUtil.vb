@@ -1,21 +1,17 @@
-﻿Imports System.Globalization
+Imports System.Globalization
 
 ''' <summary>
 ''' General purpose string handling/formatting helpers
 ''' </summary>
 Public Class StringUtil
-   '------------------------------------------------------------------------------
-   'Prereq.  : -
-   '
-   '   Author: Knuth Konrad
-   '     Date: 13.11.2018
-   '   Source: -
-   '  Changed: -
-   '------------------------------------------------------------------------------
 
 #Region "Declares"
 
    ' Bytes to <unit> - Function Bytes2FormattedString()
+   ''' <summary>
+   ''' Data storage units
+   ''' </summary>
+   ''' <seealso cref="Bytes2FormattedString"/>
    Enum eSizeUnits As Long
       B = 1024L
       KB = B * B
@@ -34,16 +30,12 @@ Public Class StringUtil
    ''' <returns>
    ''' Spelled out size, e.g. 1030 -> '1KB'
    ''' </returns>
+   ''' <remarks>
+   ''' Author: dbasnett
+   ''' Source: http://www.vbforums.com/showthread.php?634675-RESOLVED-Bytes-to-MB-etc
+   ''' </remarks>
    Public Overloads Shared Function Bytes2FormattedString(ByVal uintBytes As UInt64) As String
-      '------------------------------------------------------------------------------
-      'Prereq.  : -
-      'Note     : -
-      '
-      '   Author:  dbasnett
-      '     Date: 07.06.2018
-      '   Source: http://www.vbforums.com/showthread.php?634675-RESOLVED-Bytes-to-MB-etc
-      '  Changed: -
-      '------------------------------------------------------------------------------
+
       Dim dblInUnits As Double
       Dim sUnits As String = String.Empty, szAsStr As String = String.Empty
 
@@ -81,16 +73,12 @@ Public Class StringUtil
    ''' <returns>
    ''' Spelled out size, e.g. 1030 -> '1KB'
    ''' </returns>
+   ''' <remarks>
+   ''' Author: dbasnett
+   ''' Source: http://www.vbforums.com/showthread.php?634675-RESOLVED-Bytes-to-MB-etc
+   ''' </remarks>
    Public Overloads Shared Function Bytes2FormattedString(ByVal uintBytes As UInt64,
                                                           Optional ByVal largestUnitOnly As Boolean = True) As String
-      '------------------------------------------------------------------------------
-      'Prereq.  : -
-      '
-      '   Author: Knuth Konrad
-      '     Date: 07.06.2018
-      '   Source: -
-      '  Changed: -
-      '------------------------------------------------------------------------------
       Dim uintDivisor As UInt64
       Dim sUnits As String = String.Empty, szAsStr As String = String.Empty
 
@@ -169,15 +157,11 @@ Public Class StringUtil
    ''' <returns>
    ''' <paramref name="sText"/> with the first letter capitalized.
    ''' </returns>
+   ''' <remarks>
+   ''' Source: https://social.msdn.microsoft.com/Forums/vstudio/en-US/c0872f6d-2975-43e6-872a-d2ba7901ed0e/convert-first-letter-of-string-to-capital?forum=csharpgeneral
+   ''' </remarks>
    Public Shared Function MCase(ByVal sText As String, Optional ByVal sCulture As String = "") As String
-      '------------------------------------------------------------------------------
-      'Prereq.  : -
-      '
-      '   Author: Knuth Konrad
-      '     Date: 13.11.2018
-      '   Source: https://social.msdn.microsoft.com/Forums/vstudio/en-US/c0872f6d-2975-43e6-872a-d2ba7901ed0e/convert-first-letter-of-string-to-capital?forum=csharpgeneral
-      '  Changed: -
-      '------------------------------------------------------------------------------
+
       Dim ti As TextInfo
 
       Try
@@ -199,20 +183,15 @@ Public Class StringUtil
    ''' <param name="source">Source string</param>
    ''' <param name="leftChars">Number of characters to return</param>
    ''' <returns>
-   ''' For leftChars ...
-   '''    &gt; source.Length: source
-   '''    = 0: Empty string
+   ''' For leftChars ...<br />
+   '''    &gt; source.Length: source<br />
+   '''    = 0: Empty string<br />
    '''    &lt; 0: Position from the end of source, e.g. Left("1234567890", -2) -> "12345678"
    ''' </returns>
+   ''' <remarks>
+   ''' Source: Developed from https://stackoverflow.com/questions/844059/net-equivalent-of-the-old-vb-leftstring-length-function/12481156
+   ''' </remarks>
    Public Shared Function Left(ByVal source As String, ByVal leftChars As Integer) As String
-      '------------------------------------------------------------------------------
-      'Prereq.  : -
-      '
-      '   Author: Knuth Konrad
-      '     Date: 19.03.2019
-      '   Source: Developed from https://stackoverflow.com/questions/844059/net-equivalent-of-the-old-vb-leftstring-length-function/12481156
-      '  Changed: -
-      '------------------------------------------------------------------------------
 
       If String.IsNullOrEmpty(source) OrElse leftChars = 0 Then
          Return String.Empty
@@ -232,21 +211,15 @@ Public Class StringUtil
    ''' <param name="source">Source string</param>
    ''' <param name="rightChars">Number of characters to return</param>
    ''' <returns>
-   ''' For rightChars ...
-   '''    &gt; source.Length: source
-   '''    = 0: Empty string
+   ''' For rightChars ...<br />
+   '''    &gt; source.Length: source<br />
+   '''    = 0: Empty string<br />
    '''    &lt; 0: Position from the start of source, e.g. Right("1234567890", -2) -&gt; "34567890"
    ''' </returns>
+   ''' <remarks>
+   ''' Source: Developed from https://stackoverflow.com/questions/844059/net-equivalent-of-the-old-vb-leftstring-length-function/12481156
+   ''' </remarks>
    Public Shared Function Right(ByVal source As String, ByVal rightChars As Integer) As String
-      '------------------------------------------------------------------------------
-      'Prereq.  : -
-      '
-      '   Author: Knuth Konrad
-      '     Date: 19.03.2019
-      '   Source: Developed from https://stackoverflow.com/questions/844059/net-equivalent-of-the-old-vb-leftstring-length-function/12481156
-      '  Changed: 09.04.2019
-      '           - Add exceptional case handling
-      '------------------------------------------------------------------------------
 
       If String.IsNullOrEmpty(source) OrElse rightChars = 0 Then
          Return String.Empty
@@ -269,18 +242,13 @@ Public Class StringUtil
    ''' <param name="startIndex">(0-based) start</param>
    ''' <param name="length">Number of chars to return</param>
    ''' <returns>
-   ''' For startIndex > source.Length: String.Empty
-   ''' For length > startIndex + source.Length: all of source from startIndex
+   ''' For <paramref name="startIndex"/> &gt; <paramref name="source"/>.Length: <see cref="String.Empty"/>
+   ''' For <paramref name="length"/> &gt; <paramref name="startIndex"/> + <paramref name="source"/>.Length: all of <paramref name="source"/> from <paramref name="startIndex"/>
    ''' </returns>
+   ''' <remarks>
+   ''' Source: Developed from https://stackoverflow.com/questions/844059/net-equivalent-of-the-old-vb-leftstring-length-function/12481156
+   ''' </remarks>
    Public Shared Function Mid(ByVal source As String, ByVal startIndex As Integer, Optional ByVal length As Integer = 0) As String
-      '------------------------------------------------------------------------------
-      'Prereq.  : -
-      '
-      '   Author: Knuth Konrad
-      '     Date: 26.04.2019
-      '   Source: Developed from https://stackoverflow.com/questions/844059/net-equivalent-of-the-old-vb-leftstring-length-function/12481156
-      '  Changed: -
-      '------------------------------------------------------------------------------
 
       ' Safe guards
       If String.IsNullOrEmpty(source) OrElse (startIndex > source.Length) Then
@@ -307,36 +275,71 @@ Public Class StringUtil
    End Function
 
    ''' <summary>
-   ''' Encloses <paramref name="text"/> with quotation marks (").
+   ''' Encloses <paramref name="text"/> with double quotation marks (").
    ''' </summary>
    ''' <param name="text">Wrap this string in quotation marks.</param>
+   ''' <returns><paramref name="text"/> enclosed in double quotation marks (")</returns>
    Public Shared Function EnQuote(ByVal text As String) As String
       Return System.Convert.ToChar(34).ToString & text & System.Convert.ToChar(34).ToString
    End Function
 
 #Region "Method String()"
+   ''' <summary>
+   ''' Mimics VB6's String() Function
+   ''' </summary>
+   ''' <param name="character">Character to use</param>
+   ''' <param name="count">Number of characters</param>
+   ''' <returns>String of <paramref name="count"/> x <paramref name="character"/></returns>
    Public Overloads Shared Function [String](ByVal character As Char, ByVal count As Int32) As String
       Return New String(character, CType(count, Integer))
    End Function
 
+   ''' <summary>
+   ''' Mimics VB6's String() Function
+   ''' </summary>
+   ''' <param name="character">Character to use</param>
+   ''' <param name="count">Number of characters</param>
+   ''' <returns>String of <paramref name="count"/> x <paramref name="character"/></returns>
    Public Overloads Shared Function [String](ByVal character As Char, ByVal count As UInt32) As String
       Return New String(character, CType(count, Integer))
    End Function
 
+   ''' <summary>
+   ''' Mimics VB6's String() Function
+   ''' </summary>
+   ''' <param name="character">Character to use</param>
+   ''' <param name="count">Number of characters</param>
+   ''' <returns>String of <paramref name="count"/> x <paramref name="character"/></returns>
    Public Overloads Shared Function [String](ByVal character As String, ByVal count As Int32) As String
       Return New String(CType(character, Char), CType(count, Integer))
    End Function
 
+   ''' <summary>
+   ''' Mimics VB6's String() Function
+   ''' </summary>
+   ''' <param name="character">Character to use</param>
+   ''' <param name="count">Number of characters</param>
+   ''' <returns>String of <paramref name="count"/> x <paramref name="character"/></returns>
    Public Overloads Shared Function [String](ByVal character As String, ByVal count As UInt32) As String
       Return New String(CType(character, Char), CType(count, Integer))
    End Function
 #End Region
 
 #Region "Method Space()"
+   ''' <summary>
+   ''' Mimics VB6's Space() function
+   ''' </summary>
+   ''' <param name="count">Number of space</param>
+   ''' <returns>String of <paramref name="count"/> spaces</returns>
    Public Overloads Shared Function Space(ByVal count As UInt32) As String
       Return New String(" "c, CType(count, Integer))
    End Function
 
+   ''' <summary>
+   ''' Mimics VB6's Space() function
+   ''' </summary>
+   ''' <param name="count">Number of space</param>
+   ''' <returns>String of <paramref name="count"/> spaces</returns>
    Public Overloads Shared Function Space(ByVal count As Int32) As String
       Return New String(" "c, CType(count, Integer))
    End Function
@@ -350,7 +353,9 @@ Public Class StringUtil
    ''' <param name="appendTime"><see langref="true"/> = append time to date</param>
    ''' <param name="dateSeparator">Character to separate date parts</param>
    ''' <param name="dateTimeSeparator">Character to separate date part from time part</param>
-   ''' <returns></returns>
+   ''' <returns>
+   ''' Date/time formatted as string.
+   ''' </returns>
    Public Shared Function DateYMD(ByVal dtmDate As DateTime, Optional ByVal appendTime As Boolean = False,
                                   Optional ByVal dateSeparator As String = "", Optional ByVal dateTimeSeparator As String = "T") As String
 
@@ -370,6 +375,12 @@ Public Class StringUtil
 
 #Region "VB6 String constants"
    ' ** Replacements for various handy VB6 string constants
+
+   ''' <summary>
+   ''' Mimics VB6's vbNewLine constant.
+   ''' </summary>
+   ''' <param name="n">Return this number of new lines</param>
+   ''' <returns>OS-specific new line character(s)</returns>
    Public Shared Function vbNewLine(Optional ByVal n As Int32 = 1) As String
       Dim sResult As String = String.Empty
       For i As Int32 = 1 To n
@@ -378,10 +389,19 @@ Public Class StringUtil
       Return sResult
    End Function
 
+   ''' <summary>
+   ''' Mimics VB6's vbNullString constant
+   ''' </summary>
+   ''' <returns>String.Empty</returns>
    Public Shared Function vbNullString() As String
       Return String.Empty
    End Function
 
+   ''' <summary>
+   ''' Constant for a double quotation mark (").
+   ''' </summary>
+   ''' <param name="n">Number of DQs to return</param>
+   ''' <returns><paramref name="n"/> "</returns>
    Public Shared Function vbQuote(Optional ByVal n As Int32 = 1) As String
       Dim sResult As String = String.Empty
       For i As Int32 = 1 To n
@@ -390,6 +410,11 @@ Public Class StringUtil
       Return sResult
    End Function
 
+   ''' <summary>
+   ''' Mimics VB6's vbTab constant.
+   ''' </summary>
+   ''' <param name="n">Number of tabs to return</param>
+   ''' <returns><paramref name="n"/> tabs.</returns>
    Public Shared Function vbTab(Optional ByVal n As Int32 = 1) As String
       Dim sResult As String = String.Empty
       For i As Int32 = 1 To n

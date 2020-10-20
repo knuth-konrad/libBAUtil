@@ -2,10 +2,19 @@ Imports System.Data.SqlClient
 
 Namespace DBTools.SQL
 
+   ''' <summary>
+   ''' ADO.NET helper for SqlClient provider.
+   ''' </summary>
    Public Class SqlDBUtil
 
 #Region "Methods SqlClient"
 
+      ''' <summary>
+      ''' Retrieve the value of a <see cref="SqlDbType.TinyInt"/> column.
+      ''' </summary>
+      ''' <param name="dr">Instantiated <see cref="SqlDataReader"/></param>
+      ''' <param name="columnOrdinal">Column ordinal</param>
+      ''' <returns>Column value as <see cref="Byte"/></returns>
       Public Overloads Shared Function GetDBByte(ByVal dr As SqlDataReader, ByVal columnOrdinal As Int32) As Byte
 
          Try
@@ -22,10 +31,22 @@ Namespace DBTools.SQL
 
       End Function
 
+      ''' <summary>
+      ''' Retrieve the value of a <see cref="SqlDbType.TinyInt"/> column.
+      ''' </summary>
+      ''' <param name="dr">Instantiated SqlDataReader</param>
+      ''' <param name="columName">Column name</param>
+      ''' <returns>Column value as <see cref="Byte"/></returns>
       Public Overloads Shared Function GetDBByte(ByVal dr As SqlDataReader, ByVal columName As String) As Byte
          Return GetDBByte(dr, dr.GetOrdinal(columName))
       End Function
 
+      ''' <summary>
+      ''' Retrieve the value of a <see cref="SqlDbType.DateTime"/> column.
+      ''' </summary>
+      ''' <param name="dr">Instantiated <see cref="SqlDataReader"/></param>
+      ''' <param name="columnOrdinal">Column ordinal</param>
+      ''' <returns>Column value as <see cref="DateTime"/></returns>
       Public Overloads Shared Function GetDBDate(ByVal dr As SqlDataReader, ByVal columnOrdinal As Int32) As DateTime
 
          Try
@@ -42,10 +63,22 @@ Namespace DBTools.SQL
 
       End Function
 
+      ''' <summary>
+      ''' Retrieve the value of a <see cref="SqlDbType.DateTime"/> column.
+      ''' </summary>
+      ''' <param name="dr">Instantiated <see cref="SqlDataReader"/></param>
+      ''' <param name="columName">Column name</param>
+      ''' <returns>Column value as <see cref="DateTime"/></returns>
       Public Overloads Shared Function GetDBDate(ByVal dr As SqlDataReader, ByVal columName As String) As DateTime
          Return GetDBDate(dr, dr.GetOrdinal(columName))
       End Function
 
+      ''' <summary>
+      ''' Retrieve a GUID stored in a integer type column.
+      ''' </summary>
+      ''' <param name="dr">Instantiated <see cref="SqlDataReader"/></param>
+      ''' <param name="columnOrdinal">Column ordinal</param>
+      ''' <returns>Column value as <see cref="Guid"/></returns>
       Public Overloads Shared Function GetDBGuid(ByVal dr As SqlDataReader, ByVal columnOrdinal As Int32) As Guid
 
          Try
@@ -62,18 +95,31 @@ Namespace DBTools.SQL
 
       End Function
 
+      ''' <summary>
+      ''' Retrieve a GUID stored in a integer type column.
+      ''' </summary>
+      ''' <param name="dr">Instantiated <see cref="SqlDataReader"/></param>
+      ''' <param name="columnName">Column name</param>
+      ''' <returns>Column value as <see cref="Guid"/></returns>
       Public Overloads Shared Function GetDBGuid(ByVal dr As SqlDataReader, ByVal columnName As String) As Guid
          Return GetDBGuid(dr, dr.GetOrdinal(columnName))
       End Function
 
-      Public Overloads Shared Function GetDBInteger(ByVal dr As SqlDataReader, ByVal columOrdinal As Int32) As Int32
+      ''' <summary>
+      ''' Retrieve the value of an integer type column with a column size 
+      ''' less than or equal to <see cref="SqlDbType.Int"/>
+      ''' </summary>
+      ''' <param name="dr">Instantiated <see cref="SqlDataReader"/></param>
+      ''' <param name="columnOrdinal">Column ordinal</param>
+      ''' <returns>Column value as <see cref="Int32"/></returns>
+      Public Overloads Shared Function GetDBInteger(ByVal dr As SqlDataReader, ByVal columnOrdinal As Int32) As Int32
 
          Try
             With dr
-               If .IsDBNull(columOrdinal) Then
+               If .IsDBNull(columnOrdinal) Then
                   Return 0
                Else
-                  Return CType(.Item(columOrdinal), Int32)
+                  Return CType(.Item(columnOrdinal), Int32)
                End If
             End With
          Catch ex As Exception
@@ -82,8 +128,72 @@ Namespace DBTools.SQL
 
       End Function
 
+      ''' <summary>
+      ''' Retrieve the value of an integer type column with a column size 
+      ''' less than or equal to <see cref="SqlDbType.Int"/>
+      ''' </summary>
+      ''' <param name="dr">Instantiated <see cref="SqlDataReader"/></param>
+      ''' <param name="columName">Column name</param>
+      ''' <returns>Column value as <see cref="Int32"/></returns>
       Public Overloads Shared Function GetDBInteger(ByVal dr As SqlDataReader, ByVal columName As String) As Int32
          Return GetDBInteger(dr, dr.GetOrdinal(columName))
+      End Function
+
+      ''' <summary>
+      ''' Retrieve the value of an integer type column with a column size 
+      ''' less than or equal to <see cref="SqlDbType.Int"/>
+      ''' </summary>
+      ''' <param name="dr">Instantiated <see cref="SqlDataReader"/></param>
+      ''' <param name="columnOrdinal">Column ordinal</param>
+      ''' <returns>Column value as <see cref="Int32"/></returns>
+      Public Overloads Shared Function GetDBInteger32(ByVal dr As SqlDataReader, ByVal columnOrdinal As Int32) As Int32
+         Return GetDBInteger(dr, columnOrdinal)
+      End Function
+
+      ''' <summary>
+      ''' Retrieve the value of an integer type column with a column size 
+      ''' less than or equal to <see cref="SqlDbType.Int"/>
+      ''' </summary>
+      ''' <param name="dr">Instantiated <see cref="SqlDataReader"/></param>
+      ''' <param name="columName">Column name</param>
+      ''' <returns>Column value as <see cref="Int32"/></returns>
+      Public Overloads Shared Function GetDBInteger32(ByVal dr As SqlDataReader, ByVal columName As String) As Int32
+         Return GetDBInteger(dr, dr.GetOrdinal(columName))
+      End Function
+
+      ''' <summary>
+      ''' Retrieve the value of an integer type column with a column size 
+      ''' less than or equal to <see cref="SqlDbType.BigInt"/>
+      ''' </summary>
+      ''' <param name="dr">Instantiated <see cref="SqlDataReader"/></param>
+      ''' <param name="columnOrdinal">Column ordinal</param>
+      ''' <returns>Column value as <see cref="Int64"/></returns>
+      Public Overloads Shared Function GetDBInteger64(ByVal dr As SqlDataReader, ByVal columnOrdinal As Int32) As Int64
+
+         Try
+            With dr
+               If .IsDBNull(columnOrdinal) Then
+                  Return 0
+               Else
+                  Return CType(.Item(columnOrdinal), Int64)
+               End If
+            End With
+         Catch ex As Exception
+            Return 0
+         End Try
+
+      End Function
+
+
+      ''' <summary>
+      ''' Retrieve the value of an integer type column with a column size 
+      ''' less than or equal to <see cref="SqlDbType.BigInt"/>
+      ''' </summary>
+      ''' <param name="dr">Instantiated <see cref="SqlDataReader"/></param>
+      ''' <param name="columName">Column name</param>
+      ''' <returns>Column value as <see cref="Int64"/></returns>
+      Public Overloads Shared Function GetDBInteger64(ByVal dr As SqlDataReader, ByVal columName As String) As Int64
+         Return GetDBInteger64(dr, dr.GetOrdinal(columName))
       End Function
 
       Public Overloads Shared Function GetDBString(ByVal dr As SqlDataReader, ByVal columOrdinal As Int32) As String
