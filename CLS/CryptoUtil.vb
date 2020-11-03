@@ -68,6 +68,10 @@ Public NotInheritable Class baCrypto3DES
 
    End Function
 
+   ''' <summary>
+   ''' Initializes a new instance of the CryptoUtil class
+   ''' </summary>
+   ''' <param name="key">De-/Encryption key ("password")</param>
    Sub New(ByVal key As String)
       ' Initialize the crypto provider.
       TripleDes.Key = TruncateHash(key, TripleDes.KeySize \ 8)
@@ -161,6 +165,10 @@ Public NotInheritable Class baCryptoAES
 
    End Function
 
+   ''' <summary>
+   ''' Initializes a new instance of the CryptoUtil class
+   ''' </summary>
+   ''' <param name="key">De-/Encryption key ("password")</param>
    Sub New(ByVal key As String)
       ' Initialize the crypto provider.
       AES.Key = TruncateHash(key, AES.KeySize \ 8)
