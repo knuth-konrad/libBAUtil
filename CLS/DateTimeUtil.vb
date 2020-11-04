@@ -305,12 +305,35 @@ Imports libBAUtil.StringUtil
    ''' <summary>
    ''' Return the last day in a month
    ''' </summary>
+   ''' <returns>
+   ''' Last day of the month given of the current <see cref="System.DateTime" />
+   ''' </returns>
+   Public Overloads Function GetLastDayInMonth() As DateTime
+
+      Dim m As Int32 = Me.Month
+
+      If m = 12 Then
+         m = 1
+      Else
+         m += 1
+      End If
+
+      Dim dtm As New DateTime(Year, m, 1)
+
+      Dim tsp As New TimeSpan(1, 0, 0, 0)
+      Return dtm.Subtract(tsp)
+
+   End Function
+
+   ''' <summary>
+   ''' Return the last day in a month
+   ''' </summary>
    ''' <param name="month">Last day of this month</param>
    ''' <param name="year">Month in this year</param>
    ''' <returns>
    ''' Last day of given <paramref name="month"/> in <paramref name="year"/> as <see cref="System.DateTime" />
    ''' </returns>
-   Public Overloads Shared Function GetLastDayInMonth(ByVal month As Int32, ByVal year As Int32) As DateTime
+   Public Overloads Function GetLastDayInMonth(ByVal month As Int32, ByVal year As Int32) As DateTime
 
       If month = 12 Then
          month = 1
