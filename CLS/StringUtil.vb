@@ -11,7 +11,7 @@ Public Class StringUtil
    ''' Data storage units
    ''' </summary>
    ''' <seealso cref="Bytes2FormattedString"/>
-   Public Enum eSizeUnits As Long
+   Public Enum eSizeUnits As Int64
       B = 1024L
       KB = B * B
       MB = KB * B
