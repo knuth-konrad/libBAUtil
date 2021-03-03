@@ -50,7 +50,7 @@ Serialze an object to (a) XML (string).
 Deserialize a XML (string) to an object.
 - DeserializeAsClass  
 Deserialize a XML (string) to a specific class.
-- Clone()
+- Clone()  
 Deep clone an object.
 
 ## StringUtil
@@ -62,10 +62,10 @@ Capitalize the first letter of a string.
 - Left() / Right() / Mid() / String()  
 Emulate the respective VB6/VBA methods.
 - Space()  
-Creat a string with (n) spaces.
-- DateYMD()
+Create a string with (n) spaces.
+- DateYMD()  
 Return a date as a string in the form yyyymmdd[[T]hhnnss]
-- EnQuote()
+- EnQuote()  
 Enclose a string in dobule quotes _(")_.
 - vbNewLine, vbTab, vbQuote, vbNullString  
 Replacements for various handy VB6 string constants.
