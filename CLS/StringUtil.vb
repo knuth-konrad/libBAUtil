@@ -6,20 +6,18 @@ Imports System.Globalization
 Public Class StringUtil
 
 #Region "Declares"
-
    ' Bytes to <unit> - Function Bytes2FormattedString()
    ''' <summary>
    ''' Data storage units
    ''' </summary>
    ''' <seealso cref="Bytes2FormattedString"/>
-   Enum eSizeUnits As Long
+   Public Enum eSizeUnits As Long
       B = 1024L
       KB = B * B
       MB = KB * B
       GB = MB * B
       TB = GB * B
    End Enum
-
 #End Region
 
    ''' <summary>
@@ -31,7 +29,7 @@ Public Class StringUtil
    ''' Spelled out size, e.g. 1030 -> '1KB'
    ''' </returns>
    ''' <remarks>
-   ''' Author: dbasnett
+   ''' Author: dbasnett<br />
    ''' Source: http://www.vbforums.com/showthread.php?634675-RESOLVED-Bytes-to-MB-etc
    ''' </remarks>
    Public Overloads Shared Function Bytes2FormattedString(ByVal uintBytes As UInt64) As String
@@ -74,7 +72,7 @@ Public Class StringUtil
    ''' Spelled out size, e.g. 1030 -> '1KB'
    ''' </returns>
    ''' <remarks>
-   ''' Author: dbasnett
+   ''' Author: dbasnett<br />
    ''' Source: http://www.vbforums.com/showthread.php?634675-RESOLVED-Bytes-to-MB-etc
    ''' </remarks>
    Public Overloads Shared Function Bytes2FormattedString(ByVal uintBytes As UInt64,
@@ -124,7 +122,7 @@ Public Class StringUtil
    End Function
 
    ''' <summary>
-   ''' Replacement for VB's Chr() function.
+   ''' Replacement for VB6's Chr() function.
    ''' </summary>
    ''' <param name="ansiValue">ANSI value for which to return a string</param>
    ''' <returns>
@@ -138,7 +136,7 @@ Public Class StringUtil
    End Function
 
    ''' <summary>
-   ''' Replacement for VB's Chr() function.
+   ''' Replacement for VB6's Chr() function.
    ''' </summary>
    ''' <param name="ansiValue">ANSI value for which to return a string</param>
    ''' <returns>
@@ -234,7 +232,7 @@ Public Class StringUtil
    End Function
 
    ''' <summary>
-   ''' Implements VB's/PB's Mid$() functionality, as .NET's String.SubString() 
+   ''' Implements VB6's/PB's Mid$() functionality, as .NET's String.SubString() 
    ''' differs in its behavior that it raises an exception if startIndex > source.Length, 
    ''' whereas Mid$() returns an empty string in such a case.
    ''' </summary>

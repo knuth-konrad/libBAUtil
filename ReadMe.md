@@ -15,8 +15,14 @@ String de-/encryption using AES.
 
 ## DateTimeUtil
 
-- GetLastDayInMonth()
+Implements System.DateTime and enhanced it with additional methods/properties, which are:
+
+- GetLastDayInMonth()  
 Retrieve the last day in a month.
+- IATADateLong  
+Return the current DateTime property as IATA date formatted _(ddMMMyy)_ string.
+- IATADateShort  
+Return the current DateTime property as IATA date formatted _(ddMMM)_ string.
 
 ## FilesystemUtil
 

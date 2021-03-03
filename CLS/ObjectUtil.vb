@@ -234,7 +234,7 @@ Public Class ObjectUtil
    ''' Deep copy aka "a copy of all data and objects and their data" of <paramref name="obj"/>.
    ''' </returns>
    ''' <remarks>Source: https://www.rectanglered.com/deep-copying-object-vb-net </remarks>
-   Public Function Clone(ByVal obj As Object) As Object
+   Public Shared Function Clone(ByVal obj As Object) As Object
 
       Dim m As New MemoryStream()
       Dim f As New BinaryFormatter()
@@ -244,6 +244,17 @@ Public Class ObjectUtil
 
       Return f.Deserialize(m)
 
+   End Function
+
+   ''' <summary>
+   ''' Simple wrapper to <see cref="Clone(Object)"/>
+   ''' </summary>
+   ''' <param name="o"></param>
+   ''' <returns>
+   ''' Deep copy aka "a copy of all data and objects and their data" of <paramref name="o"/>.
+   ''' </returns>
+   Public Shared Function DeepClone(ByVal o As Object) As Object
+      Return Clone(o)
    End Function
 
 End Class

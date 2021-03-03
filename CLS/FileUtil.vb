@@ -2,7 +2,7 @@ Imports System.IO
 Imports System.Text
 
 ''' <summary>
-''' Simply text file manipulation.
+''' Simple text file manipulation.
 ''' </summary>
 Public Class TextFileUtil
 
