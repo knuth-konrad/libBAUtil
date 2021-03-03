@@ -5,6 +5,15 @@ Imports libBAUtil.StringUtil
 ''' </summary>
 Public Class ConsoleUtil
 
+#Region "Declarations"
+   ' Copyright notice values
+   Private Const COPY_COMPANYNAME As String = "STA Travel GmbH"
+   Private Const COPY_AUTHOR As String = "Knuth Konrad"
+   ' Console defaults
+   Private Const CON_SEPARATOR As String = "---"
+
+#End Region
+
    ''' <summary>
    ''' Display an application intro
    ''' </summary>
@@ -58,33 +67,25 @@ Public Class ConsoleUtil
    ''' Display a copyright notice.
    ''' </summary>
    Public Overloads Shared Sub ConCopyright()
-
-      Console.WriteLine("Copyright " & Chr(169) & " " & DateTime.Now.Year.ToString & " by STA Travel GmbH. All rights reserved.")
-      Console.WriteLine("Written by Knuth Konrad")
-
+      ConCopyright(DateTime.Now.Year.ToString, COPY_COMPANYNAME)
    End Sub
 
    ''' <summary>
    ''' Display a copyright notice.
+   ''' </summary>
+   ''' <param name="companyName">Copyright owner</param>
+   Public Overloads Shared Sub ConCopyright(ByVal companyName As String)
+      ConCopyright(DateTime.Now.Year.ToString, companyName)
+   End Sub
+
+   ''' <summary>
+   ''' Display a copyright notice.
+   ''' </summary>
    ''' <param name="year">Copyrighted in year</param>
    ''' <param name="companyName">Copyright owner</param>
-   ''' </summary>
    Public Overloads Shared Sub ConCopyright(ByVal year As String, ByVal companyName As String)
-
-      Console.WriteLine("Copyright " & Chr(169) & " " & year & " by " & companyName & ". All rights reserved.")
-      Console.WriteLine("Written by Knuth Konrad")
-
-   End Sub
-
-   ''' <summary>
-   ''' Display a copyright notice.
-   ''' <param name="companyName">Copyright owner</param>
-   ''' </summary>
-   Public Overloads Shared Sub ConCopyright(ByVal companyName As String)
-
-      Console.WriteLine("Copyright " & Chr(169) & " " & DateTime.Now.Year.ToString & " by " & companyName & ". All rights reserved.")
-      Console.WriteLine("Written by Knuth Konrad")
-
+      Console.WriteLine(String.Format("Copyright {0} {1} by {2}. All rights reserved.", Chr(169), year, companyName))
+      Console.WriteLine("Written by " & COPY_AUTHOR)
    End Sub
 
    ''' <summary>
@@ -108,16 +109,37 @@ Public Class ConsoleUtil
    ''' Insert a blank line at the current position.
    ''' </summary>
    ''' <param name="blankLines">Number of blank lines to insert.</param>
-   Public Shared Sub BlankLine(Optional ByVal blankLines As Int32 = 1)
+   ''' <param name="addSeparatingLine"><see langword="true"/>: Add a visual separation indicator before the blank line(s)</param>
+   Public Overloads Shared Sub BlankLine(Optional ByVal blankLines As Int32 = 1, Optional ByVal addSeparatingLine As Boolean = False)
 
       ' Safe guard
       If blankLines < 1 Then
-         Exit Sub
+         blankLines = 1
       End If
 
-      For i As Int32 = 1 To blankLines
+      If addSeparatingLine = True Then
+         Console.WriteLine(CON_SEPARATOR)
+      End If
+
+      For i As Int32 = 0 To blankLines - 1
          Console.WriteLine("")
       Next
+
+   End Sub
+
+   ''' <summary>
+   ''' Output text indented by (<paramref name="indentBy"/>) spaces
+   ''' </summary>
+   ''' <param name="text">Output text</param>
+   ''' <param name="indentBy">Number of leading spaces</param>
+   ''' <param name="addNewLine">Add a new line after <paramref name="text"/></param>
+   Public Shared Sub WriteIndent(ByVal text As String, ByVal indentBy As Int32, Optional ByVal addNewLine As Boolean = True)
+
+      If addNewLine = True Then
+         Console.WriteLine(String.Concat(New String(CType(" ", Char), indentBy) & text))
+      Else
+         Console.Write(String.Concat(New String(CType(" ", Char), indentBy) & text))
+      End If
 
    End Sub
 

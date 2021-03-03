@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="CLS\ConsoleUtil.vb" />
     <Compile Include="CLS\CryptoUtil.vb" />
+    <Compile Include="CLS\DateTimeUtil.vb" />
     <Compile Include="CLS\DBOleDBUtil.vb" />
     <Compile Include="CLS\DBSqlDBUtil.vb" />
     <Compile Include="CLS\baUtil.vb" />

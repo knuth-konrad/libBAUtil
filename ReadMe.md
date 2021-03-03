@@ -13,6 +13,11 @@ String de-/encryption using 3DES.
 - baCryptoAES.DecryptData()/EnCryptData()  
 String de-/encryption using AES.
 
+## DateTimeUtil
+
+- GetLastDayInMonth()
+Retrieve the last day in a month.
+
 ## FilesystemUtil
 
 - DenormalizePath()  
