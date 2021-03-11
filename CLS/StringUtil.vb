@@ -90,27 +90,32 @@ Public Class StringUtil
             ' TB
             uintDivisor = uintBytes \ CType(1024 ^ 4, UInt64)
             uintBytes = uintBytes - (uintDivisor * CType(1024 ^ 4, UInt64))
-            sUnits = "GB "
+            sUnits = "TB "
+            ' Debug.Print(String.Format("TB - uintDivisor: {0}, uintBytes: {1}", uintDivisor, uintBytes))
          ElseIf uintBytes \ CType(1024 ^ 3, UInt64) > 0 Then
             ' GB
             uintDivisor = uintBytes \ CType(1024 ^ 3, UInt64)
             uintBytes = uintBytes - (uintDivisor * CType(1024 ^ 3, UInt64))
             sUnits = "GB "
+            ' Debug.Print(String.Format("GB - uintDivisor: {0}, uintBytes: {1}", uintDivisor, uintBytes))
          ElseIf uintBytes \ CType(1024 ^ 2, UInt64) > 0 Then
             ' MB
             uintDivisor = uintBytes \ CType(1024 ^ 2, UInt64)
             uintBytes = uintBytes - (uintDivisor * CType(1024 ^ 2, UInt64))
             sUnits = "MB "
+            ' Debug.Print(String.Format("MB - uintDivisor: {0}, uintBytes: {1}", uintDivisor, uintBytes))
          ElseIf uintBytes \ CType(1024 ^ 1, UInt64) > 0 Then
             ' KB
             uintDivisor = uintBytes \ CType(1024 ^ 1, UInt64)
             uintBytes = uintBytes - (uintDivisor * CType(1024 ^ 1, UInt64))
             sUnits = "KB "
+            ' Debug.Print(String.Format("KB - uintDivisor: {0}, uintBytes: {1}", uintDivisor, uintBytes))
          Else
             ' B
             uintDivisor = uintBytes \ CType(1024 ^ 0, UInt64)
             uintBytes = uintBytes - (uintDivisor * CType(1024 ^ 0, UInt64))
             sUnits = "B "
+            ' Debug.Print(String.Format(" B - uintDivisor: {0}, uintBytes: {1}", uintDivisor, uintBytes))
          End If
 
          szAsStr &= uintDivisor.ToString("n0") & sUnits
