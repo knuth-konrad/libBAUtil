@@ -360,7 +360,8 @@ Public Class StringUtil
    ''' Date/time formatted as string.
    ''' </returns>
    Public Shared Function DateYMD(ByVal dtmDate As DateTime, Optional ByVal appendTime As Boolean = False,
-                                  Optional ByVal dateSeparator As String = "", Optional ByVal dateTimeSeparator As String = "T") As String
+                                  Optional ByVal dateSeparator As String = "", Optional ByVal dateTimeSeparator As String = "T") _
+                                  As String
 
       ' Date part
       Dim sResult As String = dtmDate.Year.ToString("0000") & dateSeparator & dtmDate.Month.ToString("00") & dateSeparator & dtmDate.Day.ToString("00")
