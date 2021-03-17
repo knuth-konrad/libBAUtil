@@ -1,30 +1,37 @@
+2021-03-17
+   ** FIX **
+   - FilesystemUtils.BackupFile()
+      - Fixed an invalid number formatting string, which caused the method to never create 
+         a valid filename.
+         
+         
 2020-10-30
-** NEW **
-- DateTime helper class
+   ** NEW **
+   - DateTime helper class
 
 
 2020-10-20
 
-** NEW **
-- Adding XML comments and help file
+   ** NEW **
+   - Adding XML comments and help file
 
-** CHANGE **
-- New method: TextFileUtil.TxtReadFile
+   ** CHANGE **
+   - New method: TextFileUtil.TxtReadFile
 
 
 2020-10-15
 
-** CHANGE **
-- Added Overloads to the various DBSqlDBUtil.GetDB(data type) methods.
+   ** CHANGE **
+   - Added Overloads to the various DBSqlDBUtil.GetDB(data type) methods.
 
 
 2020-10-13
 
-** CHANGE **
-- New StringUtil method: DateYMD
+   ** CHANGE **
+   - New StringUtil method: DateYMD
 
 
 2019-08-27
 
-** CHANGE **
-- New helper methods for en-/decryption (CryptoUtil.vb)
+   ** CHANGE **
+   - New helper methods for en-/decryption (CryptoUtil.vb)
