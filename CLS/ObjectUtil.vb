@@ -88,8 +88,8 @@ Public Class ObjectUtil
       Dim sTemp As String = String.Empty
 
       ' Safe guard
-      If alternativeNames.Count <> names.Length Then
-         Throw New ArgumentOutOfRangeException("alternativeNames(). The number of array elements must match the numer of Enumeration members.")
+      If alternativeNames.Length <> names.Length Then
+         Throw New ArgumentOutOfRangeException("alternativeNames(). The number of array elements must match the number of Enumeration members.")
       End If
 
       For i As Int32 = 0 To names.Length - 1
@@ -165,9 +165,10 @@ Public Class ObjectUtil
          ns.Add("", "")
       End If
 
-      If omitXmlDeclaration = True Then
-         settings.OmitXmlDeclaration = True
-      End If
+      'If omitXmlDeclaration = True Then
+      '   settings.OmitXmlDeclaration = True
+      'End If
+      settings.OmitXmlDeclaration = omitXmlDeclaration
 
       Dim ms As New MemoryStream()
       Dim sw As XmlWriter = XmlWriter.Create(ms, settings)
