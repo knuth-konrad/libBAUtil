@@ -314,6 +314,7 @@ Imports libBAUtil.StringUtil
 
       If month = 12 Then
          month = 1
+         year = year + 1
       Else
          month += 1
       End If
