@@ -545,40 +545,40 @@ Imports libBAUtil.StringUtil
    End Sub
 
    Public Sub New(ByVal year As Int32, ByVal month As Int32, ByVal day As Int32,
-                        ByVal hour As Int32, ByVal minute As Int32, second As Int32)
+                        ByVal hour As Int32, ByVal minute As Int32, ByVal second As Int32)
       Me.Date = New Date(year, month, day, hour, minute, second)
    End Sub
 
    Public Sub New(ByVal year As Int32, ByVal month As Int32, ByVal day As Int32,
-                        ByVal hour As Int32, ByVal minute As Int32, second As Int32, kind As DateTimeKind)
+                        ByVal hour As Int32, ByVal minute As Int32, ByVal second As Int32, ByVal kind As DateTimeKind)
       Me.Date = New Date(year, month, day, hour, minute, second, kind)
    End Sub
 
    Public Sub New(ByVal year As Int32, ByVal month As Int32, ByVal day As Int32,
-                        ByVal hour As Int32, ByVal minute As Int32, second As Int32, ByVal calendar As Globalization.Calendar)
+                        ByVal hour As Int32, ByVal minute As Int32, ByVal second As Int32, ByVal calendar As Globalization.Calendar)
       Me.Date = New Date(year, month, day, hour, minute, second, calendar)
    End Sub
 
    Public Sub New(ByVal year As Int32, ByVal month As Int32, ByVal day As Int32,
-                        ByVal hour As Int32, ByVal minute As Int32, second As Int32, ByVal millisecond As Int32)
+                        ByVal hour As Int32, ByVal minute As Int32, ByVal second As Int32, ByVal millisecond As Int32)
       Me.Date = New Date(year, month, day, hour, minute, second, millisecond)
    End Sub
 
    Public Sub New(ByVal year As Int32, ByVal month As Int32, ByVal day As Int32,
-                        ByVal hour As Int32, ByVal minute As Int32, second As Int32, ByVal millisecond As Int32,
+                        ByVal hour As Int32, ByVal minute As Int32, ByVal second As Int32, ByVal millisecond As Int32,
                         kind As DateTimeKind)
       Me.Date = New Date(year, month, day, hour, minute, second, millisecond, kind)
    End Sub
 
    Public Sub New(ByVal year As Int32, ByVal month As Int32, ByVal day As Int32,
-                        ByVal hour As Int32, ByVal minute As Int32, second As Int32, ByVal millisecond As Int32,
+                        ByVal hour As Int32, ByVal minute As Int32, ByVal second As Int32, ByVal millisecond As Int32,
                         calendar As Globalization.Calendar)
       Me.Date = New Date(year, month, day, hour, minute, second, millisecond, calendar)
    End Sub
 
    Public Sub New(ByVal year As Int32, ByVal month As Int32, ByVal day As Int32,
-                        ByVal hour As Int32, ByVal minute As Int32, second As Int32, ByVal millisecond As Int32,
-                        calendar As Globalization.Calendar, kind As DateTimeKind)
+                        ByVal hour As Int32, ByVal minute As Int32, ByVal second As Int32, ByVal millisecond As Int32,
+                        ByVal calendar As Globalization.Calendar, ByVal kind As DateTimeKind)
       Me.Date = New Date(year, month, day, hour, minute, second, millisecond, calendar, kind)
    End Sub
 
