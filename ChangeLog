@@ -1,3 +1,8 @@
+2021-04-05
+   ** NEW **
+   -  New method StringUtil.InStr()
+      Mimics VB6's InStr() method.
+
 2021-03-17
    ** FIX **
    - FilesystemUtils.BackupFile()

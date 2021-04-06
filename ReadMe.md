@@ -59,7 +59,7 @@ Deep clone an object.
 Creates a formatted string representing the size in its proper 'spelled out' unit _(Bytes, KB etc.)._
 - MCase()  
 Capitalize the first letter of a string.
-- Left() / Right() / Mid() / String()  
+- Left() / Right() / Mid() / String() / InStr()  
 Emulate the respective VB6/VBA methods.
 - Space()  
 Create a string with (n) spaces.

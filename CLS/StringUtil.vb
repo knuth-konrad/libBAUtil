@@ -127,32 +127,6 @@ Public Class StringUtil
    End Function
 
    ''' <summary>
-   ''' Replacement for VB6's Chr() function.
-   ''' </summary>
-   ''' <param name="ansiValue">ANSI value for which to return a string</param>
-   ''' <returns>
-   ''' ANSI String-Representation of <paramref name="ansiValue"/>
-   ''' </returns>
-   ''' <remarks>
-   ''' Source: https://stackoverflow.com/questions/36976240/c-sharp-char-from-int-used-as-string-the-real-equivalent-of-vb-chr?lq=1
-   ''' </remarks>
-   Public Overloads Shared Function Chr(ByVal ansiValue As Int32) As String
-      Return Char.ConvertFromUtf32(ansiValue)
-   End Function
-
-   ''' <summary>
-   ''' Replacement for VB6's Chr() function.
-   ''' </summary>
-   ''' <param name="ansiValue">ANSI value for which to return a string</param>
-   ''' <returns>
-   ''' ANSI String-Representation of <paramref name="ansiValue"/>
-   ''' </returns>
-   Public Overloads Shared Function Chr(ByVal ansiValue As UInt32) As String
-      ' Return Char.ConvertFromUtf32(CType(ansiValue, Int32))
-      Return System.Convert.ToChar(ansiValue).ToString
-   End Function
-
-   ''' <summary>
    ''' Capitalize the first letter of a string.
    ''' </summary>
    ''' <param name="sText">Source string</param>
@@ -179,6 +153,62 @@ Public Class StringUtil
       End Try
 
    End Function
+
+#Region "Method Chr()"
+   ''' <summary>
+   ''' Replacement for VB6's Chr() function.
+   ''' </summary>
+   ''' <param name="ansiValue">ANSI value for which to return a string</param>
+   ''' <returns>
+   ''' ANSI String-Representation of <paramref name="ansiValue"/>
+   ''' </returns>
+   ''' <remarks>
+   ''' Source: https://stackoverflow.com/questions/36976240/c-sharp-char-from-int-used-as-string-the-real-equivalent-of-vb-chr?lq=1
+   ''' </remarks>
+   Public Overloads Shared Function Chr(ByVal ansiValue As Int32) As String
+      Return Char.ConvertFromUtf32(ansiValue)
+   End Function
+
+   ''' <summary>
+   ''' Replacement for VB6's Chr() function.
+   ''' </summary>
+   ''' <param name="ansiValue">ANSI value for which to return a string</param>
+   ''' <returns>
+   ''' ANSI String-Representation of <paramref name="ansiValue"/>
+   ''' </returns>
+   Public Overloads Shared Function Chr(ByVal ansiValue As UInt32) As String
+      ' Return Char.ConvertFromUtf32(CType(ansiValue, Int32))
+      Return System.Convert.ToChar(ansiValue).ToString
+   End Function
+
+#End Region
+
+#Region "Method InStr()"
+   Public Overloads Shared Function InStr(ByVal start As Int32, ByVal string1 As String, ByVal string2 As String) As Int32
+
+      ' Safe guards
+      If start <= 0 Then
+         Throw New ArgumentOutOfRangeException("start must be > 0.", "start")
+      End If
+
+      If String.IsNullOrEmpty(string1) Then
+         Return 0
+      End If
+
+      If String.IsNullOrEmpty(string2) Then
+         Return start
+      End If
+
+      Return string1.IndexOf(string2, start - 1) + 1
+
+   End Function
+
+   Public Overloads Shared Function InStr(ByVal string1 As String, ByVal string2 As String) As Int32
+
+      Return InStr(1, string1, string2)
+
+   End Function
+#End Region
 
    ''' <summary>
    ''' Implements VB6's Left$() functionality.
