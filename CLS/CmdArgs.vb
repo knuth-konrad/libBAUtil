@@ -13,8 +13,15 @@ Public Class CmdArgs
 
 #Region "Declarations"
 
+   Public Enum eArgumentDelimiterStyle
+      Windows
+      POSIX
+   End Enum
+
+
    ' Default arguments and key/value delimiter
-   Private Const DELIMITER_ARGS As String = "/"
+   Private Const DELIMITER_ARGS_WIN As String = "/"
+   Private Const DELIMITER_ARGS_POSIX As String = "--"
    Private Const DELIMITER_VALUE As String = "="
 
    Dim msDelimiterArgs As String = String.Empty    ' Arguments delimiter, typically "/"
@@ -108,7 +115,7 @@ Public Class CmdArgs
                ' '/file' for /file=MyFile.txt
                .KeyLong = Left(sParam, InStr(sParam, DelimiterValue) - 1).Trim
                ' Remove the leading delimiter, results in 'file'
-               If .KeyLong.IndexOf(Me.DelimiterArgs) > 0 Then
+               If .KeyLong.IndexOf(Me.DelimiterArgs) > -1 Then
                   .KeyLong = Mid(.KeyLong, Me.DelimiterArgs.Length + 1)
                End If
                ' Since we parse this from the command line, set both
@@ -126,7 +133,7 @@ Public Class CmdArgs
 
             With o
                .KeyLong = sParam.Trim
-               If .KeyLong.IndexOf(Me.DelimiterArgs) > 0 Then
+               If .KeyLong.IndexOf(Me.DelimiterArgs) > -1 Then
                   .KeyLong = Mid(.KeyLong, Me.DelimiterArgs.Length + 1)
                End If
                ' Since we parse this from the command line, set both
@@ -155,6 +162,9 @@ Public Class CmdArgs
    ''' <returns></returns>
    Public Function Initialize(Optional ByVal cmdLineArgs As String = "") As Boolean
 
+      ' Clear everything, as we're parsing anew.
+      Me.KeyValues = New List(Of KeyValue)
+
       If cmdLineArgs.Length < 1 Then
          Dim asArgs() As String = System.Environment.GetCommandLineArgs()
          ' When using System.Environment.GetCommandLineArgs(), the 1st array element is the executables name
@@ -175,15 +185,13 @@ Public Class CmdArgs
       MyBase.New
 
       With Me
-         .DelimiterArgs = DELIMITER_ARGS
+         .DelimiterArgs = DELIMITER_ARGS_WIN
          .DelimiterValue = DELIMITER_VALUE
-
-         .KeyValues = New List(Of KeyValue)
       End With
 
    End Sub
 
-   Public Sub New(Optional ByVal delimiterArgs As String = DELIMITER_ARGS, Optional ByVal delimiterValue As String = DELIMITER_VALUE)
+   Public Sub New(Optional ByVal delimiterArgs As String = DELIMITER_ARGS_WIN, Optional ByVal delimiterValue As String = DELIMITER_VALUE)
 
       MyBase.New
 
@@ -195,7 +203,26 @@ Public Class CmdArgs
       With Me
          .DelimiterArgs = delimiterArgs
          .DelimiterValue = delimiterValue
+      End With
 
+   End Sub
+
+   Public Sub New(Optional ByVal delimiterArgsType As eArgumentDelimiterStyle = eArgumentDelimiterStyle.Windows, Optional ByVal delimiterValue As String = DELIMITER_VALUE)
+
+      MyBase.New
+
+      ' Safe guard
+      If delimiterValue.Length < 1 Then
+         Throw New ArgumentOutOfRangeException("Empty argument or key/value delimiter are not allowed.")
+      End If
+
+      With Me
+         If delimiterArgsType = eArgumentDelimiterStyle.Windows Then
+            .DelimiterArgs = DELIMITER_ARGS_WIN
+         Else
+            .DelimiterArgs = DELIMITER_ARGS_POSIX
+         End If
+         .DelimiterValue = delimiterValue
          .KeyValues = New List(Of KeyValue)
       End With
 
