@@ -67,23 +67,23 @@ Public Class CmdArgs
 #Region "Methods - Private"
 
    Private Overloads Function ParseCmd(ByVal asArgs() As String, Optional ByVal startIndex As Int32 = 0) As Boolean
-      ' Stub
 
       Dim sKey As String = String.Empty, sValue As String = String.Empty
-
+      Dim bolResult As Boolean = True
 
       For i As Int32 = startIndex To asArgs.Length - 1
-         Console.WriteLine(asArgs(i))
-         Return ParseParam(asArgs(i))
+         bolResult = bolResult AndAlso ParseParam(asArgs(i))
       Next
 
-      Return True
+      Return bolResult
+
    End Function
 
    Private Overloads Function ParseCmd(ByVal sArgs As String) As Boolean
-      ' Stub
 
-      Return True
+      Dim asArgs As String() = sArgs.Split(CType(Me.DelimiterArgs, Char))
+      Return ParseCmd(asArgs)
+
    End Function
 
    ''' <summary>
@@ -105,7 +105,12 @@ Public Class CmdArgs
             Dim o As New KeyValue
 
             With o
+               ' '/file' for /file=MyFile.txt
                .KeyLong = Left(sParam, InStr(sParam, DelimiterValue) - 1).Trim
+               ' Remove the leading delimiter, results in 'file'
+               If .KeyLong.IndexOf(Me.DelimiterArgs) > 0 Then
+                  .KeyLong = Mid(.KeyLong, Me.DelimiterArgs.Length + 1)
+               End If
                ' Since we parse this from the command line, set both
                .KeyShort = .KeyLong
                .Value = Mid(sParam, InStr(sParam, DelimiterValue) + 1)
@@ -121,6 +126,9 @@ Public Class CmdArgs
 
             With o
                .KeyLong = sParam.Trim
+               If .KeyLong.IndexOf(Me.DelimiterArgs) > 0 Then
+                  .KeyLong = Mid(.KeyLong, Me.DelimiterArgs.Length + 1)
+               End If
                ' Since we parse this from the command line, set both
                .KeyShort = .KeyLong
                .Value = True

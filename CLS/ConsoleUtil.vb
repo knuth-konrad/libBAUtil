@@ -7,7 +7,7 @@ Public Class ConsoleUtil
 
 #Region "Declarations"
    ' Copyright notice values
-   Private Const COPY_COMPANYNAME As String = "STA Travel GmbH"
+   Private Const COPY_COMPANYNAME As String = "BasicAware"
    Private Const COPY_AUTHOR As String = "Knuth Konrad"
    ' Console defaults
    Private Const CON_SEPARATOR As String = "---"
@@ -66,16 +66,16 @@ Public Class ConsoleUtil
    ''' <summary>
    ''' Display a copyright notice.
    ''' </summary>
-   Public Overloads Shared Sub ConCopyright()
-      ConCopyright(DateTime.Now.Year.ToString, COPY_COMPANYNAME)
+   Public Overloads Shared Sub ConCopyright(Optional ByVal trailingBlankLine As Boolean = True)
+      ConCopyright(DateTime.Now.Year.ToString, COPY_COMPANYNAME, trailingBlankLine)
    End Sub
 
    ''' <summary>
    ''' Display a copyright notice.
    ''' </summary>
    ''' <param name="companyName">Copyright owner</param>
-   Public Overloads Shared Sub ConCopyright(ByVal companyName As String)
-      ConCopyright(DateTime.Now.Year.ToString, companyName)
+   Public Overloads Shared Sub ConCopyright(ByVal companyName As String, Optional ByVal trailingBlankLine As Boolean = True)
+      ConCopyright(DateTime.Now.Year.ToString, companyName, trailingBlankLine)
    End Sub
 
    ''' <summary>
@@ -83,9 +83,13 @@ Public Class ConsoleUtil
    ''' </summary>
    ''' <param name="year">Copyrighted in year</param>
    ''' <param name="companyName">Copyright owner</param>
-   Public Overloads Shared Sub ConCopyright(ByVal year As String, ByVal companyName As String)
+   Public Overloads Shared Sub ConCopyright(ByVal year As String, ByVal companyName As String, Optional ByVal trailingBlankLine As Boolean = True)
       Console.WriteLine(String.Format("Copyright {0} {1} by {2}. All rights reserved.", Chr(169), year, companyName))
       Console.WriteLine("Written by " & COPY_AUTHOR)
+
+      If trailingBlankLine = True Then
+         Console.WriteLine("")
+      End If
    End Sub
 
    ''' <summary>
@@ -94,7 +98,7 @@ Public Class ConsoleUtil
    ''' <param name="waitMessage">Pause message</param>
    ''' <param name="blankLinesBefore">Number of blank lines before the message</param>
    ''' <param name="blankLinesAfter">Number of blank lines after the message</param>
-   Public Shared Sub AnyKey(Optional ByVal waitMessage As String = "-- Press any key --",
+   Public Shared Sub AnyKey(Optional ByVal waitMessage As String = "-- Press ENTER to continue --",
                             Optional ByVal blankLinesBefore As Int32 = 0,
                             Optional ByVal blankLinesAfter As Int32 = 0)
 
