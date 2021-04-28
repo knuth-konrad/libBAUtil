@@ -1,3 +1,7 @@
+2021-04-28
+   ** NEW **
+   - 1st version of CmdUtils, parsing command line arguments
+
 2021-04-05
    ** NEW **
    -  New method StringUtil.InStr()

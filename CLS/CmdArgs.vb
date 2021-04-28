@@ -24,17 +24,34 @@ Public Class CmdArgs
    Private Const DELIMITER_ARGS_POSIX As String = "--"
    Private Const DELIMITER_VALUE As String = "="
 
+   Dim mbolCaseSensitive As Boolean                ' Treat parameter names as case-sensitive?
    Dim msDelimiterArgs As String = String.Empty    ' Arguments delimiter, typically "/"
    Dim msDelimiterValue As String = String.Empty   ' Key/value delimiter, typically "="
-   Dim mlArgsCount As Int32                        ' # of arguments
-   Dim masParams() As String                       ' Name of all arguments, e.g. /file = "file"
-   Dim maoValues() As Object                       ' All values
 
    Private mcolKeyValues As List(Of KeyValue)
 
 #End Region
 
 #Region "Properties - Public"
+
+   Public ReadOnly Property ArgsCount As Int32
+      Get
+         If Not Me.KeyValues Is Nothing Then
+            Return Me.KeyValues.Count
+         Else
+            Return 0
+         End If
+      End Get
+   End Property
+
+   Public Property CaseSensitive As Boolean
+      Get
+         Return mbolCaseSensitive
+      End Get
+      Set(value As Boolean)
+         mbolCaseSensitive = value
+      End Set
+   End Property
 
    Public Property DelimiterArgs As String
       Get
@@ -52,12 +69,6 @@ Public Class CmdArgs
       Set(value As String)
          msDelimiterValue = value
       End Set
-   End Property
-
-   Public ReadOnly Property ArgsCount As Int32
-      Get
-         Return mlArgsCount
-      End Get
    End Property
 
    Public Property KeyValues As List(Of KeyValue)
@@ -167,7 +178,7 @@ Public Class CmdArgs
 
       If cmdLineArgs.Length < 1 Then
          Dim asArgs() As String = System.Environment.GetCommandLineArgs()
-         ' When using System.Environment.GetCommandLineArgs(), the 1st array element is the executables name
+         ' When using System.Environment.GetCommandLineArgs(), the 1st array element is the executable's name
          Return ParseCmd(asArgs, 1)
       Else
          Return ParseCmd(cmdLineArgs)
@@ -175,8 +186,106 @@ Public Class CmdArgs
 
    End Function
 
+   ''' <summary>
+   ''' Validates all passed parameters
+   ''' </summary>
+   Public Sub Validate()
+
+      ' Safe guard
+      If Me.KeyValues.Count < 1 Then
+         Exit Sub
+      End If
+
+      ' Any duplicates?
+      For i As Int32 = 0 To Me.KeyValues.Count - 1
+         Dim o As KeyValue = Me.KeyValues.Item(i)
+         If HasDuplicate(o, i) = True Then
+            Throw New ArgumentException(String.Format("Duplicate parameter: {0}", o.Key))
+         End If
+      Next
+
+   End Sub
+
+   Public Function HasParameter(ByVal key As String) As Boolean
+
+      With Me
+         For Each o As KeyValue In .KeyValues
+            If .CaseSensitive = True Then
+               If o.Key = key Then
+                  Return True
+               End If
+            Else
+               If o.Key.ToLower = key.ToLower Then
+                  Return True
+               End If
+            End If
+         Next
+      End With
+
+      Return False
+
+   End Function
+
+   ''' <summary>
+   ''' Return the value of a parameter
+   ''' </summary>
+   ''' <param name="key">The parameter's name (<see cref="KeyValue.Key"/></param>
+   ''' <param name="caseSensitive">Treat the name as case-sensitive?</param>
+   ''' <returns></returns>
+   Public Function GetValueByName(ByVal key As String, Optional ByVal caseSensitive As Boolean = False) As Object
+
+      ' Safe guard
+      If HasParameter(key) = False Then
+         Throw New ArgumentException("Parameter doesn't exist: " & key)
+      End If
+
+      For Each o As KeyValue In Me.KeyValues
+         If caseSensitive = False Then
+            If o.Key.ToLower = key Then
+               Return o.Value
+            End If
+         Else
+            If o.Key = key Then
+               Return o.Value
+            End If
+         End If
+      Next
+
+      ' We should never reach this point
+      Return Nothing
+
+   End Function
 
 #End Region
+
+   ''' <summary>
+   ''' Is a parameter present more than once?
+   ''' </summary>
+   Private Function HasDuplicate(ByVal currentKey As KeyValue, ByVal currentIndex As Int32) As Boolean
+
+      ' Safe guard
+      If Me.KeyValues.Count < 1 Then
+         Return False
+      End If
+
+      ' Compare the passed parameter to the list and see if there's a duplicate entry
+      With Me
+         For i As Int32 = 0 To .KeyValues.Count - 1
+            Dim o As KeyValue = .KeyValues.Item(i)
+            If .CaseSensitive = False Then
+               If (o.Key.ToLower = currentKey.Key.ToLower) AndAlso (i <> currentIndex) Then
+                  Return True
+               ElseIf (o.Key = currentKey.Key) AndAlso (i <> currentIndex) Then
+                  Return True
+               End If
+            End If
+         Next
+      End With
+
+      ' Reaching here, we've found no duplicates
+      Return False
+
+   End Function
 
 #Region "Constructor/Dispose"
 
@@ -203,6 +312,7 @@ Public Class CmdArgs
       With Me
          .DelimiterArgs = delimiterArgs
          .DelimiterValue = delimiterValue
+         .KeyValues = New List(Of KeyValue)
       End With
 
    End Sub
@@ -228,6 +338,46 @@ Public Class CmdArgs
 
    End Sub
 
+   Public Sub New(ByVal keyValueList As List(Of KeyValue), Optional ByVal delimiterArgs As String = DELIMITER_ARGS_WIN,
+                  Optional ByVal delimiterValue As String = DELIMITER_VALUE)
+
+      MyBase.New
+
+      ' Safe guard
+      If delimiterArgs.Length < 1 OrElse delimiterValue.Length < 1 Then
+         Throw New ArgumentOutOfRangeException("Empty argument or key/value delimiter are not allowed.")
+      End If
+
+      With Me
+         .DelimiterArgs = delimiterArgs
+         .DelimiterValue = delimiterValue
+         .KeyValues = keyValueList
+      End With
+
+   End Sub
+
+   Public Sub New(ByVal keyValueList As List(Of KeyValue), Optional ByVal delimiterArgsType As eArgumentDelimiterStyle = eArgumentDelimiterStyle.Windows,
+                  Optional ByVal delimiterValue As String = DELIMITER_VALUE)
+
+      MyBase.New
+
+      ' Safe guard
+      If delimiterValue.Length < 1 Then
+         Throw New ArgumentOutOfRangeException("Empty argument or key/value delimiter are not allowed.")
+      End If
+
+      With Me
+         If delimiterArgsType = eArgumentDelimiterStyle.Windows Then
+            .DelimiterArgs = DELIMITER_ARGS_WIN
+         Else
+            .DelimiterArgs = DELIMITER_ARGS_POSIX
+         End If
+         .DelimiterValue = delimiterValue
+         .KeyValues = keyValueList
+      End With
+
+   End Sub
+
 #End Region
 
 End Class
@@ -237,7 +387,7 @@ Public Class KeyValue
    Private msHelpText As String = String.Empty
    Private msKeyLong As String = String.Empty
    Private msKeyShort As String = String.Empty
-   Private mbolMandatory As Boolean = False
+
    Private moValue As Object
 
    ''' <summary>
@@ -249,19 +399,6 @@ Public Class KeyValue
       End Get
       Set(value As String)
          msHelpText = value
-      End Set
-   End Property
-
-   ''' <summary>
-   ''' Indicates that this parameter is mandatory
-   ''' </summary>
-   ''' <returns></returns>
-   Public Property IsMandatory As Boolean
-      Get
-         Return mbolMandatory
-      End Get
-      Set(value As Boolean)
-         mbolMandatory = value
       End Set
    End Property
 
@@ -323,9 +460,6 @@ Public Class KeyValue
 
       With Me
          Dim sText As String = .Key
-         If .IsMandatory = True Then
-            sText &= " (mandatory)"
-         End If
          If .HelpText.Length < 1 Then
             Return sText
          Else
@@ -338,14 +472,12 @@ Public Class KeyValue
 #End Region
 
    Public Sub New(Optional ByVal keyShort As String = "", Optional ByVal keyLong As String = "",
-                  Optional ByVal value As Object = Nothing, Optional ByVal isMandatory As Boolean = False,
-                  Optional ByVal helpText As String = "")
+                  Optional ByVal value As Object = Nothing, Optional ByVal helpText As String = "")
 
       MyBase.New
 
       With Me
          .HelpText = helpText
-         .IsMandatory = isMandatory
          .KeyLong = keyLong
          .KeyShort = keyShort
          .Value = value
