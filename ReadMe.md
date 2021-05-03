@@ -63,12 +63,18 @@ Capitalize the first letter of a string.
 Emulate the respective VB6/VBA methods.
 - Space()  
 Create a string with (n) spaces.
+- String()  
+Create a string consisting of (n) charatcers.
+- TrimAny()  
+Trim (start and end) _any_ of the passed characters from a string.
 - DateYMD()  
 Return a date as a string in the form yyyymmdd[[T]hhnnss]
 - EnQuote()  
 Enclose a string in dobule quotes _(")_.
 - vbNewLine, vbTab, vbQuote, vbNullString  
 Replacements for various handy VB6 string constants.
+- vbWhiteSpace  
+A string consisting of what's considered to be _white space_.
 
 ## FixedLengthString
 

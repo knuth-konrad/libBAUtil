@@ -378,6 +378,64 @@ Public Class StringUtil
    End Function
 #End Region
 
+#Region "TrimAny"
+
+
+   ''' <summary>
+   ''' Remove any occurrence of <paramref name="removeChars"/> in <paramref name="source"/>
+   ''' </summary>
+   ''' <param name="source">Source string</param>
+   ''' <param name="removeChars">List of strings to remove from <paramref name="source"/></param>
+   ''' <returns></returns>
+   Public Overloads Shared Function TrimAny(ByVal source As String, ByVal removeChars() As Char) As String
+
+      Dim result As String = source
+
+      result = result.TrimStart(removeChars)
+      result = result.TrimEnd(removeChars)
+
+      Return result
+
+   End Function
+
+   ''' <summary>
+   ''' Remove any occurrence of <paramref name="removeChars"/> in <paramref name="source"/>
+   ''' </summary>
+   ''' <param name="source">Source string</param>
+   ''' <param name="removeChars">List of strings to remove from <paramref name="source"/></param>
+   ''' <returns></returns>
+   Public Overloads Shared Function TrimAny(ByVal source As String, ByVal removeChars As String) As String
+
+      Dim result As String = source
+
+      result = result.TrimStart(removeChars.ToCharArray)
+      result = result.TrimEnd(removeChars.ToCharArray)
+
+      Return result
+
+   End Function
+
+   ''' <summary>
+   ''' Remove any occurrence of <paramref name="removeChars"/> in <paramref name="source"/>
+   ''' </summary>
+   ''' <param name="source">Source string</param>
+   ''' <param name="removeChars">List of strings to remove from <paramref name="source"/></param>
+   ''' <returns></returns>
+   Public Overloads Shared Function TrimAny(ByVal source As String, ByVal removeChars() As String) As String
+
+      Dim result As String = source
+
+      For Each s As String In removeChars
+         result = result.TrimStart(s.ToCharArray)
+         result = result.TrimEnd(s.ToCharArray)
+      Next
+
+      Return result
+
+   End Function
+
+#End Region
+
 #Region "Date formatting"
    ''' <summary>
    ''' Create a date string of format YYYYMMDD[[T]HHNNSS].
@@ -456,6 +514,15 @@ Public Class StringUtil
       Next
       Return sResult
    End Function
+
+   ''' <summary>
+   ''' Return a string of what's considered to be 'white space'
+   ''' </summary>
+   ''' <returns></returns>
+   Public Shared Function vbWhiteSpace() As String
+      Return vbTab() & vbNewLine() & " "
+   End Function
+
 #End Region
 
 End Class

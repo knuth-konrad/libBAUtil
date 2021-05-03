@@ -1,6 +1,12 @@
+2021-05-01
+   ** NEW **
+   - StringUtil: new methods vbWhiteSpace, TrimAny
+   
+
 2021-04-28
    ** NEW **
    - 1st version of CmdUtils, parsing command line arguments
+
 
 2021-04-05
    ** NEW **
