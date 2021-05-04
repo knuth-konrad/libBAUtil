@@ -376,6 +376,24 @@ Public Class StringUtil
    Public Overloads Shared Function Space(ByVal count As Int32) As String
       Return New String(" "c, CType(count, Integer))
    End Function
+
+   ''' <summary>
+   ''' Mimics VB6's Space() function
+   ''' </summary>
+   ''' <param name="count">Number of space</param>
+   ''' <returns>String of <paramref name="count"/> spaces</returns>
+   Public Overloads Shared Function Space(ByVal count As UInt64) As String
+      Return New String(" "c, CType(count, Integer))
+   End Function
+
+   ''' <summary>
+   ''' Mimics VB6's Space() function
+   ''' </summary>
+   ''' <param name="count">Number of space</param>
+   ''' <returns>String of <paramref name="count"/> spaces</returns>
+   Public Overloads Shared Function Space(ByVal count As Int64) As String
+      Return New String(" "c, CType(count, Integer))
+   End Function
 #End Region
 
 #Region "TrimAny"
