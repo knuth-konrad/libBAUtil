@@ -454,6 +454,115 @@ Public Class StringUtil
 
 #End Region
 
+#Region "Extract"
+
+   ''' <summary>
+   ''' Extract characters from a string up to a character or group of characters.
+   ''' </summary>
+   ''' <param name="startIndex">startIndex is the starting position to begin extracting.
+   ''' If startIndex is not specified, it will start at position 1. If startIndex is zero, or beyond the length of mainString, an empty string is returned. If startIndex is negative, the starting position is counted from right to left: 
+   ''' if -1, the search begins at the last character; if -2, the second to last, and so forth. 
+   ''' </param>
+   ''' <param name="mainString">mainString is the string expression from which to extract.</param>
+   ''' <param name="anyMatchChar">If <see langword="true"/>, matchString specifies a list of single characters to be searched for individually, 
+   ''' a match on any one of which will cause the extract operation to be performed up to that character.
+   ''' </param>
+   ''' <param name="matchStr">matchString is the string expression to extract up to. Extract is case-sensitive.</param>
+   ''' <returns>Extract returns a sub-string of mainString, starting with its first character (or the character specified by startIndex) and up to (but not including) the first occurrence of matchString. 
+   ''' If matchString is not present in mainString, or either string parameter is empty, all of mainString is returned.
+   ''' </returns>
+   ''' <remarks>Mimics PB's Extract$()</remarks>
+   Public Overloads Shared Function Extract(ByVal startIndex As Int32, ByVal mainString As String, ByVal anyMatchChar As Boolean, ByVal matchStr As String) As String
+
+      ' Safe guards
+      If startIndex = 0 OrElse startIndex > mainString.Length Then
+         Return vbNullString()
+      End If
+
+      If mainString.Length < 1 OrElse matchStr.Length < 1 Then
+         Return mainString
+      End If
+
+      If anyMatchChar = True Then
+         For i As Int32 = 0 To matchStr.Length - 1
+            If mainString.Contains(matchStr.ElementAt(i)) Then
+               ' ToDo: egal an welcher Stelle ein Char in matchStr steht, wenn mehrere Chars aus matchString in mainString sind, Extract gibt den Anteil von mainString zurück, 
+               ' the following line returns nothing (match on first character "a")
+               ' x$ = Extract("abacadabra", ANY "cad")
+               Return Extract(startIndex, mainString, matchStr.ElementAt(i))
+            End If
+         Next
+         ' Reaching here, no character of matchStr is in mainString
+         Return vbNullString()
+      Else
+         Return Extract(startIndex, mainString, matchStr)
+      End If
+
+   End Function
+
+   ''' <summary>
+   ''' Extract characters from a string up to a character or group of characters.
+   ''' </summary>
+   ''' <param name="startIndex">startIndex is the starting position to begin extracting.
+   ''' If startIndex is not specified, it will start at position 1. If startIndex is zero, or beyond the length of mainString, an empty string is returned. If startIndex is negative, the starting position is counted from right to left: 
+   ''' if -1, the search begins at the last character; if -2, the second to last, and so forth. 
+   ''' </param>
+   ''' <param name="mainString">mainString is the string expression from which to extract.</param>
+   ''' <param name="matchStr">matchString is the string expression to extract up to. Extract is case-sensitive.</param>
+   ''' <returns>Extract returns a sub-string of mainString, starting with its first character (or the character specified by startIndex) and up to (but not including) the first occurrence of matchString. 
+   ''' If matchString is not present in mainString, or either string parameter is empty, all of mainString is returned.
+   ''' </returns>
+   ''' <remarks>Mimics PB's Extract$()</remarks>
+   Public Overloads Shared Function Extract(ByVal startIndex As Int32, ByVal mainString As String, ByVal matchStr As String) As String
+
+      ' Safe guards
+      If startIndex = 0 OrElse startIndex > mainString.Length Then
+         Return vbNullString()
+      End If
+
+      If mainString.Length < 1 OrElse matchStr.Length < 1 Then
+         Return mainString
+      End If
+
+      If mainString.Contains(matchStr) Then
+         Return Mid(mainString, startIndex, InStr(mainString, matchStr) - 1)
+      Else
+         Return vbNullString()
+      End If
+
+   End Function
+
+   ''' <summary>
+   ''' Extract characters from a string up to a character or group of characters.
+   ''' </summary>
+   ''' <param name="mainString">mainString is the string expression from which to extract.</param>
+   ''' <param name="anyMatchChar">If <see langword="true"/>, matchString specifies a list of single characters to be searched for individually, 
+   ''' a match on any one of which will cause the extract operation to be performed up to that character.
+   ''' </param>
+   ''' <param name="matchStr">matchString is the string expression to extract up to. Extract is case-sensitive.</param>
+   ''' <returns>Extract returns a sub-string of mainString, starting with its first character (or the character specified by startIndex) and up to (but not including) the first occurrence of matchString. 
+   ''' If matchString is not present in mainString, or either string parameter is empty, all of mainString is returned.
+   ''' </returns>
+   ''' <remarks>Mimics PB's Extract$()</remarks>
+   Public Overloads Shared Function Extract(ByVal mainString As String, ByVal anyMatchChar As Boolean, ByVal matchStr As String) As String
+      Return Extract(1, mainString, anyMatchChar, matchStr)
+   End Function
+
+   ''' <summary>
+   ''' Extract characters from a string up to a character or group of characters.
+   ''' </summary>
+   ''' <param name="mainString">mainString is the string expression from which to extract.</param>
+   ''' <param name="matchStr">matchString is the string expression to extract up to. Extract is case-sensitive.</param>
+   ''' <returns>Extract returns a sub-string of mainString, starting with its first character (or the character specified by startIndex) and up to (but not including) the first occurrence of matchString. 
+   ''' If matchString is not present in mainString, or either string parameter is empty, all of mainString is returned.
+   ''' </returns>
+   ''' <remarks>Mimics PB's Extract$()</remarks>
+   Public Overloads Shared Function Extract(ByVal mainString As String, ByVal matchStr As String) As String
+      Return Extract(1, mainString, False, matchStr)
+   End Function
+
+#End Region
+
 #Region "Date formatting"
    ''' <summary>
    ''' Create a date string of format YYYYMMDD[[T]HHNNSS].
