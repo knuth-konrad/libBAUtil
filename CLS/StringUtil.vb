@@ -484,18 +484,23 @@ Public Class StringUtil
       End If
 
       If anyMatchChar = True Then
-         For i As Int32 = 0 To matchStr.Length - 1
-            If mainString.Contains(matchStr.ElementAt(i)) Then
-               ' ToDo: egal an welcher Stelle ein Char in matchStr steht, wenn mehrere Chars aus matchString in mainString sind, Extract gibt den Anteil von mainString zurück, 
-               ' the following line returns nothing (match on first character "a")
-               ' x$ = Extract("abacadabra", ANY "cad")
-               Return Extract(startIndex, mainString, matchStr.ElementAt(i))
-            End If
-         Next
-         ' Reaching here, no character of matchStr is in mainString
-         Return vbNullString()
+         If mainString.IndexOfAny(matchStr.ToCharArray) > -1 Then
+
+            Dim start As Int32 = mainString.Length
+            For i As Int32 = 0 To matchStr.Length - 1
+               If mainString.Contains(matchStr.ElementAt(i)) Then
+                  If mainString.IndexOf(matchStr.ElementAt(i)) < start Then
+                     start = mainString.IndexOf(matchStr.ElementAt(i))
+                  End If
+               End If
+            Next
+            Return Left(mainString, start)
+         Else
+            Return vbNullString()
+         End If
+
       Else
-         Return Extract(startIndex, mainString, matchStr)
+            Return Extract(startIndex, mainString, matchStr)
       End If
 
    End Function
