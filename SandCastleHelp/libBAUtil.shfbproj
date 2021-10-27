@@ -22,7 +22,8 @@
     <Language>en-US</Language>
     <DocumentationSources>
       <DocumentationSource sourceFile="..\bin\Debug\libBAUtil.dll" />
-<DocumentationSource sourceFile="..\bin\Debug\libBAUtil.xml" /></DocumentationSources>
+      <DocumentationSource sourceFile="..\bin\Debug\libBAUtil.xml" />
+    </DocumentationSources>
     <HelpFileFormat>HtmlHelp1</HelpFileFormat>
     <SyntaxFilters>C#, Visual Basic, Visual Basic Usage</SyntaxFilters>
     <PresentationStyle>VS2013</PresentationStyle>
@@ -43,9 +44,10 @@
     <SdkLinkTarget>Blank</SdkLinkTarget>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="(global)" isDocumented="False" xmlns="">A collection of common helper utilities.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="libBAUtil" isDocumented="True" xmlns="" />
-<NamespaceSummaryItem name="libBAUtil.DBTools.Ole" isDocumented="False" xmlns="" />
-<NamespaceSummaryItem name="libBAUtil.DBTools.SQL" isDocumented="False" xmlns="" /></NamespaceSummaries>
+      <NamespaceSummaryItem name="libBAUtil" isDocumented="True" xmlns="" />
+      <NamespaceSummaryItem name="libBAUtil.DBTools.Ole" isDocumented="False" xmlns="" />
+      <NamespaceSummaryItem name="libBAUtil.DBTools.SQL" isDocumented="False" xmlns="" />
+    </NamespaceSummaries>
     <MissingTags>Summary, Parameter, Returns, AutoDocumentCtors, TypeParameter, AutoDocumentDispose</MissingTags>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform

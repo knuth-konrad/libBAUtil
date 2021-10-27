@@ -1,18 +1,21 @@
 Imports libBAUtil.StringUtil
+Imports libBAUtil.ConHelperData
 
 ''' <summary>
 ''' General purpose console application helpers
 ''' </summary>
-Public Class ConsoleUtil
+Public Class ConsoleHelper
 
 #Region "Declarations"
    ' Copyright notice values
-   Private Const COPY_COMPANYNAME As String = "BasicAware"
-   Private Const COPY_AUTHOR As String = "Knuth Konrad"
+   ' Private Const COPY_COMPANYNAME As String = "BasicAware"
+   ' Private Const COPY_AUTHOR As String = "Knuth Konrad"
    ' Console defaults
-   Private Const CON_SEPARATOR As String = "---"
+   ' Private Const CON_SEPARATOR As String = "---"
 
 #End Region
+
+#Region "AppIntro"
 
    ''' <summary>
    ''' Display an application intro
@@ -22,7 +25,7 @@ Public Class ConsoleUtil
    ''' <param name="versionMinor">Minor version</param>
    ''' <param name="versionRevision">Revision</param>
    ''' <param name="versionBuild">Build</param>
-   Public Overloads Shared Sub ConHeadline(ByVal appName As String, ByVal versionMajor As Integer,
+   Public Overloads Shared Sub AppIntro(ByVal appName As String, ByVal versionMajor As Integer,
                                            Optional ByVal versionMinor As Integer = 0,
                                            Optional ByVal versionRevision As Int32 = 0,
                                            Optional versionBuild As Int32 = 0)
@@ -42,7 +45,7 @@ Public Class ConsoleUtil
    ''' Display an application intro
    ''' </summary>
    ''' <param name="appName">Name of the application</param>
-   Public Overloads Shared Sub ConHeadline(ByVal appName As String)
+   Public Overloads Shared Sub AppIntro(ByVal appName As String)
 
       Console.ForegroundColor = ConsoleColor.White
       Console.WriteLine("* " & appName & " *")
@@ -55,27 +58,30 @@ Public Class ConsoleUtil
    ''' </summary>
    ''' <param name="appName">Name of the application</param>
    ''' <param name="versionMajor">Major version</param>
-   Public Overloads Shared Sub ConHeadline(ByVal appName As String, ByVal versionMajor As Integer)
+   Public Overloads Shared Sub AppIntro(ByVal appName As String, ByVal versionMajor As Integer)
 
       Console.ForegroundColor = ConsoleColor.White
       Console.WriteLine("* " & appName & " v" & versionMajor.ToString & ".0 *")
       Console.ForegroundColor = ConsoleColor.Gray
 
    End Sub
+#End Region
+
+#Region "AppCopyright"
 
    ''' <summary>
    ''' Display a copyright notice.
    ''' </summary>
-   Public Overloads Shared Sub ConCopyright(Optional ByVal trailingBlankLine As Boolean = True)
-      ConCopyright(DateTime.Now.Year.ToString, COPY_COMPANYNAME, trailingBlankLine)
+   Public Overloads Shared Sub AppCopyright(Optional ByVal trailingBlankLine As Boolean = True)
+      AppCopyright(DateTime.Now.Year.ToString, ConHelperData.COPY_COMPANYNAME, trailingBlankLine)
    End Sub
 
    ''' <summary>
    ''' Display a copyright notice.
    ''' </summary>
    ''' <param name="companyName">Copyright owner</param>
-   Public Overloads Shared Sub ConCopyright(ByVal companyName As String, Optional ByVal trailingBlankLine As Boolean = True)
-      ConCopyright(DateTime.Now.Year.ToString, companyName, trailingBlankLine)
+   Public Overloads Shared Sub AppCopyright(ByVal companyName As String, Optional ByVal trailingBlankLine As Boolean = True)
+      AppCopyright(DateTime.Now.Year.ToString, companyName, trailingBlankLine)
    End Sub
 
    ''' <summary>
@@ -83,15 +89,18 @@ Public Class ConsoleUtil
    ''' </summary>
    ''' <param name="year">Copyrighted in year</param>
    ''' <param name="companyName">Copyright owner</param>
-   Public Overloads Shared Sub ConCopyright(ByVal year As String, ByVal companyName As String, Optional ByVal trailingBlankLine As Boolean = True)
+   Public Overloads Shared Sub AppCopyright(ByVal year As String, ByVal companyName As String, Optional ByVal trailingBlankLine As Boolean = True)
       Console.WriteLine(String.Format("Copyright {0} {1} by {2}. All rights reserved.", Chr(169), year, companyName))
-      Console.WriteLine("Written by " & COPY_AUTHOR)
+      Console.WriteLine("Written by " & ConHelperData.COPY_AUTHOR)
 
       If trailingBlankLine = True Then
          Console.WriteLine("")
       End If
    End Sub
 
+#End Region
+
+#Region "AnyKey"
    ''' <summary>
    ''' Pauses the program execution and waits for a key press
    ''' </summary>
@@ -109,6 +118,9 @@ Public Class ConsoleUtil
 
    End Sub
 
+#End Region
+
+#Region "BlankLine"
    ''' <summary>
    ''' Insert a blank line at the current position.
    ''' </summary>
@@ -130,7 +142,9 @@ Public Class ConsoleUtil
       Next
 
    End Sub
+#End Region
 
+#Region "WriteIndent"
    ''' <summary>
    ''' Output text indented by (<paramref name="indentBy"/>) spaces
    ''' </summary>
@@ -146,5 +160,6 @@ Public Class ConsoleUtil
       End If
 
    End Sub
+#End Region
 
 End Class

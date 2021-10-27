@@ -74,7 +74,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CLS\CmdArgs.vb" />
-    <Compile Include="CLS\ConsoleUtil.vb" />
+    <Compile Include="CLS\ConHelperData.vb" />
+    <Compile Include="CLS\ConsoleHelper.vb" />
     <Compile Include="CLS\CryptoUtil.vb" />
     <Compile Include="CLS\DateTimeUtil.vb" />
     <Compile Include="CLS\DBOleDBUtil.vb" />
