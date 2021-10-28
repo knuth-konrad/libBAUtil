@@ -72,6 +72,7 @@ Public Class ConsoleHelper
    ''' <summary>
    ''' Display a copyright notice.
    ''' </summary>
+   ''' <param name="trailingBlankLine">Add a blank line afterwards.</param>
    Public Overloads Shared Sub AppCopyright(Optional ByVal trailingBlankLine As Boolean = True)
       AppCopyright(DateTime.Now.Year.ToString, ConHelperData.COPY_COMPANYNAME, trailingBlankLine)
    End Sub
@@ -80,6 +81,7 @@ Public Class ConsoleHelper
    ''' Display a copyright notice.
    ''' </summary>
    ''' <param name="companyName">Copyright owner</param>
+   ''' <param name="trailingBlankLine">Add a blank line afterwards.</param>
    Public Overloads Shared Sub AppCopyright(ByVal companyName As String, Optional ByVal trailingBlankLine As Boolean = True)
       AppCopyright(DateTime.Now.Year.ToString, companyName, trailingBlankLine)
    End Sub
@@ -89,6 +91,7 @@ Public Class ConsoleHelper
    ''' </summary>
    ''' <param name="year">Copyrighted in year</param>
    ''' <param name="companyName">Copyright owner</param>
+   ''' <param name="trailingBlankLine">Add a blank line afterwards.</param>
    Public Overloads Shared Sub AppCopyright(ByVal year As String, ByVal companyName As String, Optional ByVal trailingBlankLine As Boolean = True)
       Console.WriteLine(String.Format("Copyright {0} {1} by {2}. All rights reserved.", Chr(169), year, companyName))
       Console.WriteLine("Written by " & ConHelperData.COPY_AUTHOR)

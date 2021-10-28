@@ -114,84 +114,135 @@ Imports libBAUtil.StringUtil
       End Get
    End Property
 
+   ''' <summary>
+   ''' Gets the current date represented by <see cref="Date"/> in IATA long date format, e.g. 01JAN21.
+   ''' </summary>
    Public ReadOnly Property IATADateLong As String
       Get
          Return Me.ToDateIATA(eIATADateType.DateLong, eIATADateCasing.ToUpper)
       End Get
    End Property
 
+   ''' <summary>
+   ''' Gets the current date represented by <see cref="Date"/> in IATA short date format, e.g. 01JAN.
+   ''' </summary>
    Public ReadOnly Property IATADateShort As String
       Get
          Return Me.ToDateIATA(eIATADateType.DateShort, eIATADateCasing.ToUpper)
       End Get
    End Property
 
+   ''' <summary>
+   ''' Gets a value that indicates whether the time represented by this instance Is based on local time, Coordinated Universal Time (UTC), Or neither.
+   ''' </summary>
+   Public ReadOnly Property Kind As DateTimeKind
+      Get
+         Return Me.Date.Kind
+      End Get
+   End Property
+
+   ''' <summary>
+   ''' Gets the milliseconds component of the date represented by this instance.
+   ''' </summary>
    Public ReadOnly Property Millisecond As Integer
       Get
          Return Me.Date.Millisecond
       End Get
    End Property
 
+   ''' <summary>
+   ''' Gets the minute component of the date represented by this instance.
+   ''' </summary>
    Public ReadOnly Property Minute As Integer
       Get
          Return Me.Date.Minute
       End Get
    End Property
 
+   ''' <summary>
+   ''' Gets the month component of the date represented by this instance.
+   ''' </summary>
    Public ReadOnly Property Month As Integer
       Get
          Return Me.Date.Month
       End Get
    End Property
 
+   ''' <summary>
+   ''' Gets a DateTime object that Is set to the current date And time on this computer, expressed as the local time.
+   ''' </summary>
    Public ReadOnly Property Now As DateTime
       Get
          Return DateTime.Now
       End Get
    End Property
 
+   ''' <summary>
+   ''' Gets the seconds component of the date represented by this instance.
+   ''' </summary>
    Public ReadOnly Property Second As Integer
       Get
          Return Me.Date.Second
       End Get
    End Property
 
+   ''' <summary>
+   ''' Gets the number of ticks that represent the date And time of this instance.
+   ''' </summary>
    Public ReadOnly Property Ticks As Long
       Get
          Return Me.Date.Ticks
       End Get
    End Property
 
+   ''' <summary>
+   ''' Gets the time of day for this instance.
+   ''' </summary>
    Public ReadOnly Property TimeOfDay As System.TimeSpan
       Get
          Return Me.Date.TimeOfDay()
       End Get
    End Property
 
+   ''' <summary>
+   ''' Gets the current date.
+   ''' </summary>
    Public ReadOnly Property Today As DateTime
       Get
          Return DateTime.Today
       End Get
    End Property
 
+   ''' <summary>
+   ''' Gets a DateTime object that Is set to the current date And time on this computer, expressed as the Coordinated Universal Time (UTC).
+   ''' </summary>
    Public ReadOnly Property UtcNow As DateTime
       Get
          Return DateTime.UtcNow
       End Get
    End Property
 
+   ''' <summary>
+   ''' Gets the year component of the date represented by this instance.
+   ''' </summary>
    Public ReadOnly Property Year As Integer
       Get
          Return Me.Date.Year
       End Get
    End Property
 
+   ''' <summary>
+   ''' Represents the largest possible value of DateTime. This field Is read-only.
+   ''' </summary>
    Public ReadOnly Property MaxValue As DateTimeOffset
       Get
          Return DateTime.MaxValue
       End Get
    End Property
 
+   ''' <summary>
+   ''' Represents the smallest possible value of DateTime. This field Is read-only.
+   ''' </summary>
    Public ReadOnly Property MinValue As DateTimeOffset
       Get
          Return DateTime.MinValue
@@ -202,102 +253,256 @@ Imports libBAUtil.StringUtil
 
 #Region "Methods - Public"
 
+   ''' <summary>
+   ''' Returns a New DateTime that adds the value of the specified TimeSpan to the value of this instance.
+   ''' </summary>
+   ''' <param name="timeSpan">A positive Or negative time interval.</param>
+   ''' <returns>An object whose value Is the sum of the date And time represented by this instance And the time interval represented by value.</returns>
    Public Function Add(ByVal timeSpan As System.TimeSpan) As DateTime
       Return Me.Date.Add(timeSpan)
    End Function
 
+   ''' <summary>
+   ''' Returns a New DateTime that adds the specified number of days to the value of this instance.
+   ''' </summary>
+   ''' <param name="days">A number of whole And fractional days. The value parameter can be negative Or positive.</param>
+   ''' <returns>An object whose value Is the sum of the date And time represented by this instance And the number of days represented by value.</returns>
    Public Function AddDays(ByVal days As Double) As DateTime
       Return Me.Date.AddDays(days)
    End Function
 
+   ''' <summary>
+   ''' Returns a New DateTime that adds the specified number of hours to the value of this instance.
+   ''' </summary>
+   ''' <param name="hours">A number of whole And fractional hours. The value parameter can be negative Or positive.</param>
+   ''' <returns>Returns a New DateTime that adds the specified number of hours to the value of this instance.</returns>
    Public Function AddHours(ByVal hours As Double) As DateTime
       Return Me.Date.AddHours(hours)
    End Function
 
+   ''' <summary>
+   ''' Returns a New DateTime that adds the specified number of milliseconds to the value of this instance.
+   ''' </summary>
+   ''' <param name="milliseconds">A number of whole And fractional milliseconds. The value parameter can be negative Or positive. Note that this value Is rounded to the nearest integer.</param>
+   ''' <returns>An object whose value Is the sum of the date And time represented by this instance And the number of milliseconds represented by value.</returns>
    Public Function AddMilliseconds(ByVal milliseconds As Double) As DateTime
       Return Me.Date.AddMilliseconds(milliseconds)
    End Function
 
+   ''' <summary>
+   ''' Returns a New DateTime that adds the specified number of minutes to the value of this instance.
+   ''' </summary>
+   ''' <param name="minutes">A number of whole And fractional minutes. The value parameter can be negative Or positive.</param>
+   ''' <returns>An object whose value Is the sum of the date And time represented by this instance And the number of minutes represented by value.</returns>
    Public Function AddMinutes(ByVal minutes As Double) As DateTime
       Return Me.Date.AddMinutes(minutes)
    End Function
 
+   ''' <summary>
+   ''' Returns a New DateTime that adds the specified number of months to the value of this instance.
+   ''' </summary>
+   ''' <param name="months">A number of months. The months parameter can be negative Or positive.</param>
+   ''' <returns>An object whose value Is the sum of the date And time represented by this instance And months.</returns>
    Public Function AddMonths(ByVal months As Integer) As DateTime
       Return Me.Date.AddMonths(months)
    End Function
 
+   ''' <summary>
+   ''' Returns a New DateTime that adds the specified number of seconds to the value of this instance.
+   ''' </summary>
+   ''' <param name="seconds">A number of whole And fractional seconds. The value parameter can be negative Or positive.</param>
+   ''' <returns>An object whose value Is the sum of the date And time represented by this instance And the number of seconds represented by value.</returns>
    Public Function AddSeconds(ByVal seconds As Double) As DateTime
       Return Me.Date.AddSeconds(seconds)
    End Function
 
+   ''' <summary>
+   ''' Returns a New DateTime that adds the specified number of ticks to the value of this instance.
+   ''' </summary>
+   ''' <param name="ticks">A number of 100-nanosecond ticks. The value parameter can be positive Or negative.</param>
+   ''' <returns>An object whose value Is the sum of the date And time represented by this instance And the time represented by value.</returns>
    Public Function AddTicks(ByVal ticks As Long) As DateTime
       Return Me.Date.AddTicks(ticks)
    End Function
 
+   ''' <summary>
+   ''' Returns a New DateTime that adds the specified number of years to the value of this instance.
+   ''' </summary>
+   ''' <param name="years">A number of years. The value parameter can be negative Or positive.</param>
+   ''' <returns>An object whose value Is the sum of the date And time represented by this instance And the number of years represented by value.</returns>
    Public Function AddYears(ByVal years As Integer) As DateTime
       Return Me.Date.AddYears(years)
    End Function
 
+   ''' <summary>
+   ''' Compares the value of this instance to a specified DateTime value And returns an integer that indicates whether this instance Is earlier than, the same as, Or later than the specified DateTime value.
+   ''' </summary>
+   ''' <param name="value">The object to compare to the current instance.</param>
+   ''' <returns>The object to compare to the current instance.
+   ''' Less than zero: This instance Is earlier than value. 
+   ''' Zero: This instance Is the same As value. 
+   ''' Greater than zero This instance Is later than value. 
+   ''' </returns>
    Public Overloads Function CompareTo(ByVal value As DateTime) As Integer
       Return Me.Date.CompareTo(value)
    End Function
 
+   ''' <summary>
+   ''' Compares the value of this instance to a specified object that contains a specified DateTime value, And returns an integer that indicates whether this instance Is earlier than, the same as, Or later than the specified DateTime value.
+   ''' </summary>
+   ''' <param name="value">A boxed object to compare, Or null.</param>
+   ''' <returns>The object to compare to the current instance.
+   ''' Less than zero: This instance Is earlier than value. 
+   ''' Zero: This instance Is the same As value. 
+   ''' Greater than zero This instance Is later than value. 
+   ''' </returns>
    Public Overloads Function CompareTo(ByVal value As Object) As Integer
       Return Me.Date.CompareTo(value)
    End Function
 
+   ''' <summary>
+   ''' Returns the number of days in the specified month And year.
+   ''' </summary>
+   ''' <param name="year">The year.</param>
+   ''' <param name="month">The month (a number ranging from 1 to 12).</param>
+   ''' <returns>The number of days in month for the specified year.
+   ''' For example, if month equals 2 for February, the return value Is 28 Or 29 depending upon whether year Is a leap year.
+   ''' </returns>
    Public Function DaysInMonth(ByVal year As Integer, ByVal month As Integer) As Integer
       Return DateTime.DaysInMonth(year, month)
    End Function
 
+   ''' <summary>
+   ''' Returns a value indicating whether the value of this instance Is equal to the value of the specified DateTime instance.
+   ''' </summary>
+   ''' <param name="value">The object to compare to this instance.</param>
+   ''' <returns>
+   ''' <see langword="true"/> if the value parameter equals the value of this instance; otherwise, <see langword="false"/>. 
+   ''' </returns>
    Public Shadows Function Equals(ByVal value As DateTime) As Boolean
       Return Me.Date.Equals(value)
    End Function
 
+   ''' <summary>
+   ''' Returns a value indicating whether two DateTime objects, Or a DateTime instance And another object Or DateTime, have the same value.
+   ''' </summary>
+   ''' <param name="t1">The first object to compare.</param>
+   ''' <param name="t2">The second object to compare.</param>
+   ''' <returns>
+   ''' <see langword="true"/> if the two values are equal; otherwise, <see langword="false"/>.
+   ''' </returns>
+
+   Public Shadows Function Equals(ByVal t1 As DateTime, ByVal t2 As DateTime) As Boolean
+      Return DateTime.Equals(t1, t2)
+   End Function
+
+   ''' <summary>
+   ''' Deserializes a 64-bit binary value And recreates an original serialized DateTime object.
+   ''' </summary>
+   ''' <param name="dateData">A 64-bit signed integer that encodes the Kind property in a 2-bit field And the Ticks property in a 62-bit field.</param>
+   ''' <returns>An object that Is equivalent to the DateTime object that was serialized by the <see cref="DateTime.ToBinary()"/> method.</returns>
    Public Function FromBinary(ByVal dateData As Long) As DateTime
       Return DateTime.FromBinary(dateData)
    End Function
 
-   Public Function FromFileTime(ByVal dateData As Long) As DateTime
-      Return DateTime.FromFileTime(dateData)
+   ''' <summary>
+   ''' Converts the specified Windows file time to an equivalent local time.
+   ''' </summary>
+   ''' <param name="fileTime">A Windows file time expressed in ticks.</param>
+   ''' <returns>An object that represents the local time equivalent of the date And time represented by the fileTime parameter.</returns>
+   Public Function FromFileTime(ByVal fileTime As Long) As DateTime
+      Return DateTime.FromFileTime(fileTime)
    End Function
 
-   Public Function FromFileTimeUtc(ByVal dateData As Long) As DateTime
-      Return DateTime.FromFileTimeUtc(dateData)
+   ''' <summary>
+   ''' Converts the specified Windows file time to an equivalent UTC time.
+   ''' </summary>
+   ''' <param name="fileTime">A Windows file time expressed in ticks.</param>
+   ''' <returns>An object that represents the UTC time equivalent of the date And time represented by the fileTime parameter.</returns>
+   Public Function FromFileTimeUtc(ByVal fileTime As Long) As DateTime
+      Return DateTime.FromFileTimeUtc(fileTime)
    End Function
 
+   ''' <summary>
+   ''' Returns a <see cref="DateTime"/> equivalent to the specified OLE Automation Date.
+   ''' </summary>
+   ''' <param name="d">An OLE Automation Date value.</param>
+   ''' <returns>An object that represents the same date And time as d.</returns>
    Public Function FromOADate(ByVal d As Double) As DateTime
       Return DateTime.FromOADate(d)
    End Function
 
+   ''' <summary>
+   ''' Converts the value of this instance to all the string representations supported by the standard date And time format specifiers.
+   ''' </summary>
+   ''' <returns>A string array where each element Is the representation of the value of this instance formatted with one of the standard date And time format specifiers.</returns>
    Public Overloads Function GetDateTimeFormats() As String()
       Return Me.Date.GetDateTimeFormats
    End Function
 
+   ''' <summary>
+   ''' Converts the value of this instance to all the string representations supported by the specified standard date And time format specifier.
+   ''' </summary>
+   ''' <param name="format">A standard date And time format string.</param>
+   ''' <returns>A string array where each element Is the representation of the value of this instance formatted with one of the standard date And time format specifiers.</returns>
    Public Overloads Function GetDateTimeFormats(ByVal format As Char) As String()
       Return Me.Date.GetDateTimeFormats(format)
    End Function
 
+   ''' <summary>
+   ''' Converts the value of this instance to all the string representations supported by the specified standard date And time format specifier.
+   ''' </summary>
+   ''' <param name="format">A standard date And time format string.</param>
+   ''' <param name="provider">An object that supplies culture-specific formatting information about this instance.</param>
+   ''' <returns>A string array where each element Is the representation of the value of this instance formatted with one of the standard date And time format specifiers.</returns>
    Public Overloads Function GetDateTimeFormats(ByVal format As Char, ByVal provider As System.IFormatProvider) As String()
       Return Me.Date.GetDateTimeFormats(format, provider)
    End Function
 
+   ''' <summary>
+   ''' Converts the value of this instance to all the string representations supported by the specified standard date And time format specifier.
+   ''' </summary>
+   ''' <param name="provider">An object that supplies culture-specific formatting information about this instance.</param>
+   ''' <returns>A string array where each element Is the representation of the value of this instance formatted with one of the standard date And time format specifiers.</returns>
    Public Overloads Function GetDateTimeFormats(ByVal provider As System.IFormatProvider) As String()
       Return Me.Date.GetDateTimeFormats(provider)
    End Function
 
+   ''' <summary>
+   ''' Indicates whether this instance of <see cref="System.DateTime"/> Is within the daylight saving time range for the current time zone.
+   ''' </summary>
+   ''' <returns>
+   ''' <see langword="true"/> if the value of the <see cref="DateTime.Kind"/> property Is <see cref="DateTimeKind.Local"/> Or 
+   ''' <see cref="DateTimeKind.Unspecified"/> And the value of this instance of <see cref="System.DateTime"/> Is within the 
+   ''' daylight saving time range for the local time zone; false if <see cref="DateTime.Kind"/> Is <see cref="DateTimeKind.Utc"/>.
+   ''' </returns>
    Public Function IsDaylightSavingTime() As Boolean
       Return Me.Date.IsDaylightSavingTime
    End Function
 
+   ''' <summary>
+   ''' Returns an indication whether the specified year Is a leap year.
+   ''' </summary>
+   ''' <param name="year">A 4-digit year.</param>
+   ''' <returns><see langword="true"/> if year Is a leap year; otherwise, <see langword="false"/> .</returns>
    Public Function IsLeapYear(ByVal year As Integer) As Boolean
       Return DateTime.IsLeapYear(year)
    End Function
 
+   ''' <summary>
+   ''' Returns the value that results from subtracting the specified time Or duration from the value of this instance
+   ''' </summary>
+   ''' <param name="value">The date And time value to subtract.</param>
+   ''' <returns>A time interval that Is equal to the date And time represented by this instance minus the date And time represented by value.</returns>
    Public Overloads Function Subtract(ByVal value As Date) As System.TimeSpan
       Return Me.Date.Subtract(value)
    End Function
 
+   ''' <summary>
+   ''' Returns a New DateTime that subtracts the specified duration from the value of this instance.
+   ''' </summary>
+   ''' <param name="value">The time interval to subtract.</param>
+   ''' <returns>An object that Is equal to the date And time represented by this instance minus the time interval represented by value.</returns>
    Public Overloads Function Subtract(ByVal value As System.TimeSpan) As DateTime
       Return Me.Date.Subtract(value)
    End Function
@@ -388,6 +593,10 @@ Imports libBAUtil.StringUtil
 
    End Function
 
+   ''' <summary>
+   ''' Serializes the current DateTime object to a 64-bit binary value that subsequently can be used to recreate the DateTime object.
+   ''' </summary>
+   ''' <returns>A 64-bit signed integer that encodes the Kind And Ticks properties.</returns>
    Public Function ToBinary() As Long
       Return Me.Date.ToBinary
    End Function
@@ -470,49 +679,123 @@ Imports libBAUtil.StringUtil
 
    End Function
 
+   ''' <summary>
+   ''' Converts the value of the current DateTime object to a Windows file time.
+   ''' </summary>
+   ''' <returns>The value of the current DateTime object expressed as a Windows file time.</returns>
    Public Function ToFileTime() As Long
       Return Me.Date.ToFileTime
    End Function
 
+   ''' <summary>
+   ''' Converts the value of the current DateTime object to a Windows file time.
+   ''' </summary>
+   ''' <returns>The value of the current DateTime object expressed as a Windows file time.</returns>
    Public Function ToFileTimeUtc() As Long
       Return Me.Date.ToFileTimeUtc
    End Function
 
+   ''' <summary>
+   ''' Converts the value of the current DateTime object to local time.
+   ''' </summary>
+   ''' <returns>
+   ''' An object whose Kind property Is Local, And whose value Is the local time equivalent to the value of the current DateTime object, 
+   ''' Or MaxValue if the converted value Is too large to be represented by a DateTime object, Or MinValue if the converted value Is 
+   ''' too small to be represented as a DateTime object.
+   ''' </returns>
    Public Function ToLocalTime() As Date
       Return Me.Date.ToLocalTime
    End Function
 
+   ''' <summary>
+   ''' Converts the value of the current DateTime object to its equivalent long date string representation.
+   ''' </summary>
+   ''' <returns>A string that contains the long date string representation of the current DateTime object.</returns>
    Public Function ToLongDateString() As String
       Return Me.Date.ToLongDateString
    End Function
 
+   ''' <summary>
+   ''' Converts the value of the current DateTime object to its equivalent long time string representation.
+   ''' </summary>
+   ''' <returns>A string that contains the long time string representation of the current DateTime object.</returns>
    Public Function ToLongTimeString() As String
       Return Me.Date.ToLongTimeString
    End Function
 
+   ''' <summary>
+   ''' Converts the value of this instance to the equivalent OLE Automation date.
+   ''' </summary>
+   ''' <returns>A double-precision floating-point number that contains an OLE Automation date equivalent to the value of this instance.</returns>
    Public Function ToOADate() As Double
       Return Me.Date.ToOADate
    End Function
 
+   ''' <summary>
+   ''' Converts the value of the current DateTime object to its equivalent short date string representation.
+   ''' </summary>
+   ''' <returns>A string that contains the short date string representation of the current DateTime object.</returns>
    Public Function ToShortDateString() As String
       Return Me.Date.ToShortDateString
    End Function
 
+   ''' <summary>
+   ''' Converts the value of the current DateTime object to its equivalent short time string representation.
+   ''' </summary>
+   ''' <returns>A string that contains the short time string representation of the current DateTime object.</returns>
    Public Function ToShortTimeString() As String
       Return Me.Date.ToShortTimeString
    End Function
 
+   ''' <summary>
+   ''' Converts the value of the current DateTime object to its equivalent string representation using the formatting conventions of the current culture.
+   ''' </summary>
+   ''' <returns>A string representation of the value of the current DateTime object.</returns>
    Public Overrides Function ToString() As String
       Return Me.Date.ToString
    End Function
 
+   ''' <summary>
+   ''' Converts the value of the current DateTime object to its equivalent string representation using the specified format And the formatting conventions of the current culture.
+   ''' </summary>
+   ''' <param name="format">A standard Or custom date And time format string.</param>
+   ''' <returns>A string representation of value of the current DateTime object as specified by format.</returns>
    Public Overloads Function ToString(ByVal format As String) As String
       Return Me.Date.ToString(format)
    End Function
 
+   ''' <summary>
+   ''' Converts the value of the current DateTime object to its equivalent string representation.
+   ''' </summary>
+   ''' <param name="provider">An object that supplies culture-specific formatting information.</param>
+   ''' <returns>A string representation of value of the current DateTime object as specified by provider.</returns>
+   Public Overloads Function ToString(ByVal provider As System.IFormatProvider) As String
+      Return Me.Date.ToString(provider)
+   End Function
+
+   ''' <summary>
+   ''' Converts the value of the current DateTime object to its equivalent string representation.
+   ''' </summary>
+   ''' <param name="format">A standard Or custom date And time format string.</param>
+   ''' <param name="provider">An object that supplies culture-specific formatting information.</param>
+   ''' <returns>A string representation of value of the current DateTime object as specified by format And provider.</returns>
    Public Overloads Function ToString(ByVal format As String, ByVal provider As System.IFormatProvider) As String
       Return Me.Date.ToString(format, provider)
    End Function
+
+   ''' <summary>
+   ''' Implements <see cref="Object.GetHashCode()"/>
+   ''' </summary>
+   ''' <returns><see cref="Object.GetHashCode()"/></returns>
+   Public Overrides Function GetHashCode() As Int32
+
+      Dim hashCode As Int32 = -794484751
+      hashCode = hashCode * -1521134295 + Me.Date.GetHashCode()
+      hashCode = hashCode * -1521134295 + Me.DateTime.GetHashCode()
+      Return hashCode
+
+   End Function
+
 
 #End Region
 
