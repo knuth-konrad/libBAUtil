@@ -6,6 +6,7 @@ Imports System.Globalization
 Public Class StringUtil
 
 #Region "Declares"
+
    ' Bytes to <unit> - Function Bytes2FormattedString()
    ''' <summary>
    ''' Data storage units
@@ -18,7 +19,75 @@ Public Class StringUtil
       GB = MB * B
       TB = GB * B
    End Enum
+
 #End Region
+
+#Region "Asc()"
+
+   ''' <summary>
+   ''' Return the ASCII value of a character
+   ''' </summary>
+   ''' <param name="text">return this character's value</param>
+   ''' <returns>
+   ''' ASCII code, e.g. "A" = 65, If <paramref name="text"/> is <see cref="String.Empty" />
+   ''' or <paramref name="startIndex"/> &gt; length of <paramref name="text"/>, returns -1 
+   ''' </returns>
+   ''' <remarks>
+   ''' Mimics VB6's/PB's Asc()
+   ''' </remarks>
+   Public Overloads Shared Function Asc(ByVal text As String, Optional startIndex As Int32 = 1) As Int32
+
+      ' Safe guards
+      If text.Length < 1 OrElse startIndex > text.Length Then
+         Return -1
+      End If
+
+      Return Convert.ToInt32(System.Text.ASCIIEncoding.ASCII.GetBytes(text.ToCharArray, startIndex - 1, 1)(0))
+
+   End Function
+
+   ''' <summary>
+   ''' Return the ASCII value of a character
+   ''' </summary>
+   ''' <param name="text">return this character's value</param>
+   ''' <returns>
+   ''' ASCII code, e.g. "A" = 65, If <paramref name="text"/> is <see cref="String.Empty" />, 
+   ''' returns -1
+   ''' </returns>
+   ''' <remarks>
+   ''' Mimics VB6's/PB's Asc()
+   ''' </remarks>
+   Public Overloads Shared Function Asc(ByVal text As Char) As Int32
+
+      Return Convert.ToInt32(System.Text.ASCIIEncoding.ASCII.GetBytes(text))
+
+   End Function
+
+   ''' <summary>
+   ''' Return the ASCII value of a character
+   ''' </summary>
+   ''' <param name="text">return this character's value</param>
+   ''' <returns>
+   ''' ASCII code, e.g. "A" = 65, If <paramref name="text"/> is <see cref="String.Empty" />
+   ''' or <paramref name="startIndex"/> &gt; length of <paramref name="text"/>, returns -1 
+   ''' </returns>
+   ''' <remarks>
+   ''' Mimics VB6's/PB's Asc()
+   ''' </remarks>
+   Public Overloads Shared Function Asc(ByVal text As Char(), Optional startIndex As Int32 = 1) As Int32
+
+      ' Safe guards
+      If text.Length < 1 OrElse startIndex > text.Length Then
+         Return -1
+      End If
+
+      Return Convert.ToInt32(System.Text.ASCIIEncoding.ASCII.GetBytes(text, startIndex, 1))
+
+   End Function
+
+#End Region
+
+#Region "Bytes2FormattedString"
 
    ''' <summary>
    ''' Creates a formatted string representing the size in its proper 'spelled out' unit
@@ -126,335 +195,69 @@ Public Class StringUtil
 
    End Function
 
-   ''' <summary>
-   ''' Capitalize the first letter of a string.
-   ''' </summary>
-   ''' <param name="sText">Source string</param>
-   ''' <param name="sCulture">Specific culture string e.g. "en-US"</param>
-   ''' <returns>
-   ''' <paramref name="sText"/> with the first letter capitalized.
-   ''' </returns>
-   ''' <remarks>
-   ''' Source: https://social.msdn.microsoft.com/Forums/vstudio/en-US/c0872f6d-2975-43e6-872a-d2ba7901ed0e/convert-first-letter-of-string-to-capital?forum=csharpgeneral
-   ''' </remarks>
-   Public Shared Function MCase(ByVal sText As String, Optional ByVal sCulture As String = "") As String
-
-      Dim ti As TextInfo
-
-      Try
-         If sCulture.Length > 0 Then
-            ti = New CultureInfo(sCulture, False).TextInfo
-            Return ti.ToTitleCase(sText)
-         Else
-            Return CultureInfo.InvariantCulture.TextInfo.ToTitleCase(sText)
-         End If
-      Catch
-         Return CultureInfo.InvariantCulture.TextInfo.ToTitleCase(sText)
-      End Try
-
-   End Function
-
-#Region "Method Chr()"
-   ''' <summary>
-   ''' Replacement for VB6's Chr() function.
-   ''' </summary>
-   ''' <param name="ansiValue">ANSI value for which to return a string</param>
-   ''' <returns>
-   ''' ANSI String-Representation of <paramref name="ansiValue"/>
-   ''' </returns>
-   ''' <remarks>
-   ''' Source: https://stackoverflow.com/questions/36976240/c-sharp-char-from-int-used-as-string-the-real-equivalent-of-vb-chr?lq=1
-   ''' </remarks>
-   Public Overloads Shared Function Chr(ByVal ansiValue As Int32) As String
-      Return Char.ConvertFromUtf32(ansiValue)
-   End Function
-
-   ''' <summary>
-   ''' Replacement for VB6's Chr() function.
-   ''' </summary>
-   ''' <param name="ansiValue">ANSI value for which to return a string</param>
-   ''' <returns>
-   ''' ANSI String-Representation of <paramref name="ansiValue"/>
-   ''' </returns>
-   Public Overloads Shared Function Chr(ByVal ansiValue As UInt32) As String
-      ' Return Char.ConvertFromUtf32(CType(ansiValue, Int32))
-      Return System.Convert.ToChar(ansiValue).ToString
-   End Function
-
 #End Region
 
-#Region "Method InStr()"
-   Public Overloads Shared Function InStr(ByVal start As Int32, ByVal string1 As String, ByVal string2 As String) As Int32
-
-      ' Safe guards
-      If start <= 0 Then
-         Throw New ArgumentOutOfRangeException("start must be > 0.", "start")
-      End If
-
-      If String.IsNullOrEmpty(string1) Then
-         Return 0
-      End If
-
-      If String.IsNullOrEmpty(string2) Then
-         Return start
-      End If
-
-      Return string1.IndexOf(string2, start - 1) + 1
-
-   End Function
-
-   Public Overloads Shared Function InStr(ByVal string1 As String, ByVal string2 As String) As Int32
-
-      Return InStr(1, string1, string2)
-
-   End Function
-#End Region
+#Region "Date formatting"
 
    ''' <summary>
-   ''' Implements VB6's Left$() functionality.
+   ''' Create a date string of format YYYYMMDD[[T]HHNNSS].
    ''' </summary>
-   ''' <param name="source">Source string</param>
-   ''' <param name="leftChars">Number of characters to return</param>
+   ''' <param name="dtmDate">Date/Time to format</param>
+   ''' <param name="appendTime"><see langref="true"/> = append time to date</param>
+   ''' <param name="dateSeparator">Character to separate date parts</param>
+   ''' <param name="dateTimeSeparator">Character to separate date part from time part</param>
    ''' <returns>
-   ''' For leftChars ...<br />
-   '''    &gt; source.Length: source<br />
-   '''    = 0: Empty string<br />
-   '''    &lt; 0: Position from the end of source, e.g. Left("1234567890", -2) -> "12345678"
+   ''' Date/time formatted as string.
    ''' </returns>
-   ''' <remarks>
-   ''' Source: Developed from https://stackoverflow.com/questions/844059/net-equivalent-of-the-old-vb-leftstring-length-function/12481156
-   ''' </remarks>
-   Public Shared Function Left(ByVal source As String, ByVal leftChars As Integer) As String
+   Public Shared Function DateYMD(ByVal dtmDate As DateTime, Optional ByVal appendTime As Boolean = False,
+                                  Optional ByVal dateSeparator As String = "", Optional ByVal dateTimeSeparator As String = "T") _
+                                  As String
 
-      If String.IsNullOrEmpty(source) OrElse leftChars = 0 Then
-         Return String.Empty
-      ElseIf leftChars > source.Length Then
-         Return source
-      ElseIf leftChars < 0 Then
-         Return source.Substring(0, source.Length + leftChars)
-      Else
-         Return source.Substring(0, Math.Min(leftChars, CType(source.Length, Integer)))
+      ' Date part
+      Dim sResult As String = dtmDate.Year.ToString("0000") & dateSeparator & dtmDate.Month.ToString("00") & dateSeparator & dtmDate.Day.ToString("00")
+
+
+      ' Time part
+      If appendTime = True Then
+         sResult &= dateTimeSeparator & dtmDate.Hour.ToString("00") & dtmDate.Minute.ToString("00") & dtmDate.Second.ToString("00")
       End If
 
-   End Function
-
-   ''' <summary>
-   ''' Implements VB's/PB's Right$() functionality.
-   ''' </summary>
-   ''' <param name="source">Source string</param>
-   ''' <param name="rightChars">Number of characters to return</param>
-   ''' <returns>
-   ''' For rightChars ...<br />
-   '''    &gt; source.Length: source<br />
-   '''    = 0: Empty string<br />
-   '''    &lt; 0: Position from the start of source, e.g. Right("1234567890", -2) -&gt; "34567890"
-   ''' </returns>
-   ''' <remarks>
-   ''' Source: Developed from https://stackoverflow.com/questions/844059/net-equivalent-of-the-old-vb-leftstring-length-function/12481156
-   ''' </remarks>
-   Public Shared Function Right(ByVal source As String, ByVal rightChars As Integer) As String
-
-      If String.IsNullOrEmpty(source) OrElse rightChars = 0 Then
-         Return String.Empty
-      ElseIf rightChars > source.Length Then
-         Return source
-      ElseIf rightChars < 0 Then
-         Return source.Substring(Math.Abs(rightChars))
-      Else
-         Return source.Substring(source.Length - rightChars, rightChars)
-      End If
-
-   End Function
-
-   ''' <summary>
-   ''' Implements VB6's/PB's Mid$() functionality, as .NET's String.SubString() 
-   ''' differs in its behavior that it raises an exception if startIndex > source.Length, 
-   ''' whereas Mid$() returns an empty string in such a case.
-   ''' </summary>
-   ''' <param name="source">Source string</param>
-   ''' <param name="startIndex">(0-based) start</param>
-   ''' <param name="length">Number of chars to return</param>
-   ''' <returns>
-   ''' For <paramref name="startIndex"/> &gt; <paramref name="source"/>.Length: <see cref="String.Empty"/>
-   ''' For <paramref name="length"/> &gt; <paramref name="startIndex"/> + <paramref name="source"/>.Length: all of <paramref name="source"/> from <paramref name="startIndex"/>
-   ''' </returns>
-   ''' <remarks>
-   ''' Source: Developed from https://stackoverflow.com/questions/844059/net-equivalent-of-the-old-vb-leftstring-length-function/12481156
-   ''' </remarks>
-   Public Shared Function Mid(ByVal source As String, ByVal startIndex As Integer, Optional ByVal length As Integer = 0) As String
-
-      ' Safe guards
-      If String.IsNullOrEmpty(source) OrElse (startIndex > source.Length) Then
-         Return String.Empty
-      End If
-      If startIndex < 0 Then
-         Throw New ArgumentOutOfRangeException("startIndex")
-      End If
-      If length < 0 Then
-         Throw New ArgumentOutOfRangeException("length")
-      End If
-
-      ' Adjust length, if needed
-      Try
-         If startIndex + length > source.Length OrElse length = 0 Then
-            Return source.Substring(startIndex - 1)
-         Else
-            Return source.Substring(startIndex - 1, length)
-         End If
-      Catch ex As ArgumentOutOfRangeException
-         Return String.Empty
-      End Try
-
-   End Function
-
-   ''' <summary>
-   ''' Encloses <paramref name="text"/> with double quotation marks (").
-   ''' </summary>
-   ''' <param name="text">Wrap this string in quotation marks.</param>
-   ''' <returns><paramref name="text"/> enclosed in double quotation marks (")</returns>
-   Public Shared Function EnQuote(ByVal text As String) As String
-      Return System.Convert.ToChar(34).ToString & text & System.Convert.ToChar(34).ToString
-   End Function
-
-#Region "Method String()"
-   ''' <summary>
-   ''' Mimics VB6's String() Function
-   ''' </summary>
-   ''' <param name="character">Character to use</param>
-   ''' <param name="count">Number of characters</param>
-   ''' <returns>String of <paramref name="count"/> x <paramref name="character"/></returns>
-   Public Overloads Shared Function [String](ByVal character As Char, ByVal count As Int32) As String
-      Return New String(character, CType(count, Integer))
-   End Function
-
-   ''' <summary>
-   ''' Mimics VB6's String() Function
-   ''' </summary>
-   ''' <param name="character">Character to use</param>
-   ''' <param name="count">Number of characters</param>
-   ''' <returns>String of <paramref name="count"/> x <paramref name="character"/></returns>
-   Public Overloads Shared Function [String](ByVal character As Char, ByVal count As UInt32) As String
-      Return New String(character, CType(count, Integer))
-   End Function
-
-   ''' <summary>
-   ''' Mimics VB6's String() Function
-   ''' </summary>
-   ''' <param name="character">Character to use</param>
-   ''' <param name="count">Number of characters</param>
-   ''' <returns>String of <paramref name="count"/> x <paramref name="character"/></returns>
-   Public Overloads Shared Function [String](ByVal character As String, ByVal count As Int32) As String
-      Return New String(CType(character, Char), CType(count, Integer))
-   End Function
-
-   ''' <summary>
-   ''' Mimics VB6's String() Function
-   ''' </summary>
-   ''' <param name="character">Character to use</param>
-   ''' <param name="count">Number of characters</param>
-   ''' <returns>String of <paramref name="count"/> x <paramref name="character"/></returns>
-   Public Overloads Shared Function [String](ByVal character As String, ByVal count As UInt32) As String
-      Return New String(CType(character, Char), CType(count, Integer))
-   End Function
-#End Region
-
-#Region "Method Space()"
-   ''' <summary>
-   ''' Mimics VB6's Space() function
-   ''' </summary>
-   ''' <param name="count">Number of space</param>
-   ''' <returns>String of <paramref name="count"/> spaces</returns>
-   Public Overloads Shared Function Space(ByVal count As UInt32) As String
-      Return New String(" "c, CType(count, Integer))
-   End Function
-
-   ''' <summary>
-   ''' Mimics VB6's Space() function
-   ''' </summary>
-   ''' <param name="count">Number of space</param>
-   ''' <returns>String of <paramref name="count"/> spaces</returns>
-   Public Overloads Shared Function Space(ByVal count As Int32) As String
-      Return New String(" "c, CType(count, Integer))
-   End Function
-
-   ''' <summary>
-   ''' Mimics VB6's Space() function
-   ''' </summary>
-   ''' <param name="count">Number of space</param>
-   ''' <returns>String of <paramref name="count"/> spaces</returns>
-   Public Overloads Shared Function Space(ByVal count As UInt64) As String
-      Return New String(" "c, CType(count, Integer))
-   End Function
-
-   ''' <summary>
-   ''' Mimics VB6's Space() function
-   ''' </summary>
-   ''' <param name="count">Number of space</param>
-   ''' <returns>String of <paramref name="count"/> spaces</returns>
-   Public Overloads Shared Function Space(ByVal count As Int64) As String
-      Return New String(" "c, CType(count, Integer))
-   End Function
-#End Region
-
-#Region "TrimAny"
-
-
-   ''' <summary>
-   ''' Remove any occurrence of <paramref name="removeChars"/> in <paramref name="source"/>
-   ''' </summary>
-   ''' <param name="source">Source string</param>
-   ''' <param name="removeChars">List of strings to remove from <paramref name="source"/></param>
-   ''' <returns></returns>
-   Public Overloads Shared Function TrimAny(ByVal source As String, ByVal removeChars() As Char) As String
-
-      Dim result As String = source
-
-      result = result.TrimStart(removeChars)
-      result = result.TrimEnd(removeChars)
-
-      Return result
-
-   End Function
-
-   ''' <summary>
-   ''' Remove any occurrence of <paramref name="removeChars"/> in <paramref name="source"/>
-   ''' </summary>
-   ''' <param name="source">Source string</param>
-   ''' <param name="removeChars">List of strings to remove from <paramref name="source"/></param>
-   ''' <returns></returns>
-   Public Overloads Shared Function TrimAny(ByVal source As String, ByVal removeChars As String) As String
-
-      Dim result As String = source
-
-      result = result.TrimStart(removeChars.ToCharArray)
-      result = result.TrimEnd(removeChars.ToCharArray)
-
-      Return result
-
-   End Function
-
-   ''' <summary>
-   ''' Remove any occurrence of <paramref name="removeChars"/> in <paramref name="source"/>
-   ''' </summary>
-   ''' <param name="source">Source string</param>
-   ''' <param name="removeChars">List of strings to remove from <paramref name="source"/></param>
-   ''' <returns></returns>
-   Public Overloads Shared Function TrimAny(ByVal source As String, ByVal removeChars() As String) As String
-
-      Dim result As String = source
-
-      For Each s As String In removeChars
-         result = result.TrimStart(s.ToCharArray)
-         result = result.TrimEnd(s.ToCharArray)
-      Next
-
-      Return result
+      Return sResult
 
    End Function
 
 #End Region
 
-#Region "Extract"
+#Region "Extract()"
+
+   ''' <summary>
+   ''' Extract characters from a string up to a character or group of characters.
+   ''' </summary>
+   ''' <param name="mainString">mainString is the string expression from which to extract.</param>
+   ''' <param name="anyMatchChar">If <see langword="true"/>, matchString specifies a list of single characters to be searched for individually, 
+   ''' a match on any one of which will cause the extract operation to be performed up to that character.
+   ''' </param>
+   ''' <param name="matchStr">matchString is the string expression to extract up to. Extract is case-sensitive.</param>
+   ''' <returns>Extract returns a sub-string of mainString, starting with its first character (or the character specified by startIndex) and up to (but not including) the first occurrence of matchString. 
+   ''' If matchString is not present in mainString, or either string parameter is empty, all of mainString is returned.
+   ''' </returns>
+   ''' <remarks>Mimics PB's Extract$()</remarks>
+   Public Overloads Shared Function Extract(ByVal mainString As String, ByVal anyMatchChar As Boolean, ByVal matchStr As String) As String
+      Return Extract(1, mainString, anyMatchChar, matchStr)
+   End Function
+
+   ''' <summary>
+   ''' Extract characters from a string up to a character or group of characters.
+   ''' </summary>
+   ''' <param name="mainString">mainString is the string expression from which to extract.</param>
+   ''' <param name="matchStr">matchString is the string expression to extract up to. Extract is case-sensitive.</param>
+   ''' <returns>Extract returns a sub-string of mainString, starting with its first character (or the character specified by startIndex) and up to (but not including) the first occurrence of matchString. 
+   ''' If matchString is not present in mainString, or either string parameter is empty, all of mainString is returned.
+   ''' </returns>
+   ''' <remarks>Mimics PB's Extract$()</remarks>
+   Public Overloads Shared Function Extract(ByVal mainString As String, ByVal matchStr As String) As String
+      Return Extract(1, mainString, False, matchStr)
+   End Function
 
    ''' <summary>
    ''' Extract characters from a string up to a character or group of characters.
@@ -545,38 +348,213 @@ Public Class StringUtil
 
    End Function
 
+#End Region
+
+#Region "Chr()"
+
    ''' <summary>
-   ''' Extract characters from a string up to a character or group of characters.
+   ''' Replacement for VB6's Chr() function.
    ''' </summary>
-   ''' <param name="mainString">mainString is the string expression from which to extract.</param>
-   ''' <param name="anyMatchChar">If <see langword="true"/>, matchString specifies a list of single characters to be searched for individually, 
-   ''' a match on any one of which will cause the extract operation to be performed up to that character.
-   ''' </param>
-   ''' <param name="matchStr">matchString is the string expression to extract up to. Extract is case-sensitive.</param>
-   ''' <returns>Extract returns a sub-string of mainString, starting with its first character (or the character specified by startIndex) and up to (but not including) the first occurrence of matchString. 
-   ''' If matchString is not present in mainString, or either string parameter is empty, all of mainString is returned.
+   ''' <param name="ansiValue">ANSI value for which to return a string</param>
+   ''' <returns>
+   ''' ANSI String-Representation of <paramref name="ansiValue"/>
    ''' </returns>
-   ''' <remarks>Mimics PB's Extract$()</remarks>
-   Public Overloads Shared Function Extract(ByVal mainString As String, ByVal anyMatchChar As Boolean, ByVal matchStr As String) As String
-      Return Extract(1, mainString, anyMatchChar, matchStr)
+   ''' <remarks>
+   ''' Source: https://stackoverflow.com/questions/36976240/c-sharp-char-from-int-used-as-string-the-real-equivalent-of-vb-chr?lq=1
+   ''' </remarks>
+   Public Overloads Shared Function Chr(ByVal ansiValue As Int32) As String
+      Return Char.ConvertFromUtf32(ansiValue)
    End Function
 
    ''' <summary>
-   ''' Extract characters from a string up to a character or group of characters.
+   ''' Replacement for VB6's Chr() function.
    ''' </summary>
-   ''' <param name="mainString">mainString is the string expression from which to extract.</param>
-   ''' <param name="matchStr">matchString is the string expression to extract up to. Extract is case-sensitive.</param>
-   ''' <returns>Extract returns a sub-string of mainString, starting with its first character (or the character specified by startIndex) and up to (but not including) the first occurrence of matchString. 
-   ''' If matchString is not present in mainString, or either string parameter is empty, all of mainString is returned.
+   ''' <param name="ansiValue">ANSI value for which to return a string</param>
+   ''' <returns>
+   ''' ANSI String-Representation of <paramref name="ansiValue"/>
    ''' </returns>
-   ''' <remarks>Mimics PB's Extract$()</remarks>
-   Public Overloads Shared Function Extract(ByVal mainString As String, ByVal matchStr As String) As String
-      Return Extract(1, mainString, False, matchStr)
+   Public Overloads Shared Function Chr(ByVal ansiValue As UInt32) As String
+      ' Return Char.ConvertFromUtf32(CType(ansiValue, Int32))
+      Return System.Convert.ToChar(ansiValue).ToString
    End Function
 
 #End Region
 
-#Region "Remain"
+#Region "InStr()"
+
+   Public Overloads Shared Function InStr(ByVal start As Int32, ByVal string1 As String, ByVal string2 As String) As Int32
+
+      ' Safe guards
+      If start <= 0 Then
+         Throw New ArgumentOutOfRangeException("start must be > 0.", "start")
+      End If
+
+      If String.IsNullOrEmpty(string1) Then
+         Return 0
+      End If
+
+      If String.IsNullOrEmpty(string2) Then
+         Return start
+      End If
+
+      Return string1.IndexOf(string2, start - 1) + 1
+
+   End Function
+
+   Public Overloads Shared Function InStr(ByVal string1 As String, ByVal string2 As String) As Int32
+
+      Return InStr(1, string1, string2)
+
+   End Function
+
+#End Region
+
+#Region "MCase()"
+
+   ''' <summary>
+   ''' Capitalize the first letter of a string.
+   ''' </summary>
+   ''' <param name="sText">Source string</param>
+   ''' <param name="sCulture">Specific culture string e.g. "en-US"</param>
+   ''' <returns>
+   ''' <paramref name="sText"/> with the first letter capitalized.
+   ''' </returns>
+   ''' <remarks>
+   ''' Source: https://social.msdn.microsoft.com/Forums/vstudio/en-US/c0872f6d-2975-43e6-872a-d2ba7901ed0e/convert-first-letter-of-string-to-capital?forum=csharpgeneral
+   ''' </remarks>
+   Public Shared Function MCase(ByVal sText As String, Optional ByVal sCulture As String = "") As String
+
+      Dim ti As TextInfo
+
+      Try
+         If sCulture.Length > 0 Then
+            ti = New CultureInfo(sCulture, False).TextInfo
+            Return ti.ToTitleCase(sText)
+         Else
+            Return CultureInfo.InvariantCulture.TextInfo.ToTitleCase(sText)
+         End If
+      Catch
+         Return CultureInfo.InvariantCulture.TextInfo.ToTitleCase(sText)
+      End Try
+
+   End Function
+
+#End Region
+
+#Region "Space()"
+
+   ''' <summary>
+   ''' Mimics VB6's Space() function
+   ''' </summary>
+   ''' <param name="count">Number of space</param>
+   ''' <returns>String of <paramref name="count"/> spaces</returns>
+   Public Overloads Shared Function Space(ByVal count As Int32) As String
+      Return New String(" "c, CType(count, Integer))
+   End Function
+
+   ''' <summary>
+   ''' Mimics VB6's Space() function
+   ''' </summary>
+   ''' <param name="count">Number of space</param>
+   ''' <returns>String of <paramref name="count"/> spaces</returns>
+   Public Overloads Shared Function Space(ByVal count As Int64) As String
+      Return New String(" "c, CType(count, Integer))
+   End Function
+
+   ''' <summary>
+   ''' Mimics VB6's Space() function
+   ''' </summary>
+   ''' <param name="count">Number of space</param>
+   ''' <returns>String of <paramref name="count"/> spaces</returns>
+   Public Overloads Shared Function Space(ByVal count As UInt32) As String
+      Return New String(" "c, CType(count, Integer))
+   End Function
+
+   ''' <summary>
+   ''' Mimics VB6's Space() function
+   ''' </summary>
+   ''' <param name="count">Number of space</param>
+   ''' <returns>String of <paramref name="count"/> spaces</returns>
+   Public Overloads Shared Function Space(ByVal count As UInt64) As String
+      Return New String(" "c, CType(count, Integer))
+   End Function
+
+#End Region
+
+#Region "String()"
+
+   ''' <summary>
+   ''' Mimics VB6's String() Function
+   ''' </summary>
+   ''' <param name="character">Character to use</param>
+   ''' <param name="count">Number of characters</param>
+   ''' <returns>String of <paramref name="count"/> x <paramref name="character"/></returns>
+   Public Overloads Shared Function [String](ByVal character As Char, ByVal count As Int32) As String
+      Return New String(character, CType(count, Integer))
+   End Function
+
+   ''' <summary>
+   ''' Mimics VB6's String() Function
+   ''' </summary>
+   ''' <param name="character">Character to use</param>
+   ''' <param name="count">Number of characters</param>
+   ''' <returns>String of <paramref name="count"/> x <paramref name="character"/></returns>
+   Public Overloads Shared Function [String](ByVal character As Char, ByVal count As UInt32) As String
+      Return New String(character, CType(count, Integer))
+   End Function
+
+   ''' <summary>
+   ''' Mimics VB6's String() Function
+   ''' </summary>
+   ''' <param name="character">Character to use</param>
+   ''' <param name="count">Number of characters</param>
+   ''' <returns>String of <paramref name="count"/> x <paramref name="character"/></returns>
+   Public Overloads Shared Function [String](ByVal character As String, ByVal count As Int32) As String
+      Return New String(CType(character, Char), CType(count, Integer))
+   End Function
+
+   ''' <summary>
+   ''' Mimics VB6's String() Function
+   ''' </summary>
+   ''' <param name="character">Character to use</param>
+   ''' <param name="count">Number of characters</param>
+   ''' <returns>String of <paramref name="count"/> x <paramref name="character"/></returns>
+   Public Overloads Shared Function [String](ByVal character As String, ByVal count As UInt32) As String
+      Return New String(CType(character, Char), CType(count, Integer))
+   End Function
+
+#End Region
+
+#Region "Remain()"
+
+   ''' <summary>
+   ''' Return the portion of a string following the first occurrence of a character or group of characters.
+   ''' </summary>
+   ''' <param name="mainString">mainString is searched for the string specified in matchString. If found, all characters after matchString are returned.</param>
+   ''' <param name="anyMatchChar">If <see langword="true"/>, matchString specifies a list of single characters to be searched for individually, 
+   ''' a match on any one of which will cause the extract operation to be performed up to that character.
+   ''' </param>
+   ''' <param name="matchStr">matchString is the string expression after which the remainder of mainString is returned. Remain is case-sensitive.</param>
+   ''' <returns>Remain returns a sub-string of mainString, following with its first character (or the character specified by startIndex) after (but not including) the first occurrence of matchString. 
+   ''' If matchString is not present in mainString, or either string parameter is empty, all of mainString is returned.
+   ''' </returns>
+   ''' <remarks>Mimics PB's Remain$()</remarks>
+   Public Overloads Shared Function Remain(ByVal mainString As String, ByVal anyMatchChar As Boolean, ByVal matchStr As String) As String
+      Return Remain(1, mainString, anyMatchChar, matchStr)
+   End Function
+
+   ''' <summary>
+   ''' Return the portion of a string following the first occurrence of a character or group of characters.
+   ''' </summary>
+   ''' <param name="mainString">mainString is searched for the string specified in matchString. If found, all characters after matchString are returned.</param>
+   ''' <param name="matchStr">matchString is the string expression after which the remainder of mainString is returned. Remain is case-sensitive.</param>
+   ''' <returns>Remain returns a sub-string of mainString, following with its first character (or the character specified by startIndex) after (but not including) the first occurrence of matchString. 
+   ''' If matchString is not present in mainString, or either string parameter is empty, all of mainString is returned.
+   ''' </returns>
+   ''' <remarks>Mimics PB's Remain$()</remarks>
+   Public Overloads Shared Function Remain(ByVal mainString As String, ByVal matchStr As String) As String
+      Return Remain(1, mainString, False, matchStr)
+   End Function
 
    ''' <summary>
    ''' Return the portion of a string following the first occurrence of a character or group of characters.
@@ -667,68 +645,152 @@ Public Class StringUtil
 
    End Function
 
-   ''' <summary>
-   ''' Return the portion of a string following the first occurrence of a character or group of characters.
-   ''' </summary>
-   ''' <param name="mainString">mainString is searched for the string specified in matchString. If found, all characters after matchString are returned.</param>
-   ''' <param name="anyMatchChar">If <see langword="true"/>, matchString specifies a list of single characters to be searched for individually, 
-   ''' a match on any one of which will cause the extract operation to be performed up to that character.
-   ''' </param>
-   ''' <param name="matchStr">matchString is the string expression after which the remainder of mainString is returned. Remain is case-sensitive.</param>
-   ''' <returns>Remain returns a sub-string of mainString, following with its first character (or the character specified by startIndex) after (but not including) the first occurrence of matchString. 
-   ''' If matchString is not present in mainString, or either string parameter is empty, all of mainString is returned.
-   ''' </returns>
-   ''' <remarks>Mimics PB's Remain$()</remarks>
-   Public Overloads Shared Function Remain(ByVal mainString As String, ByVal anyMatchChar As Boolean, ByVal matchStr As String) As String
-      Return Remain(1, mainString, anyMatchChar, matchStr)
-   End Function
+#End Region
+
+#Region "StrIncrement()"
 
    ''' <summary>
-   ''' Return the portion of a string following the first occurrence of a character or group of characters.
+   ''' "Increments" a string, e.g. takes the character and numerical portion of a string and increments it.
    ''' </summary>
-   ''' <param name="mainString">mainString is searched for the string specified in matchString. If found, all characters after matchString are returned.</param>
-   ''' <param name="matchStr">matchString is the string expression after which the remainder of mainString is returned. Remain is case-sensitive.</param>
-   ''' <returns>Remain returns a sub-string of mainString, following with its first character (or the character specified by startIndex) after (but not including) the first occurrence of matchString. 
-   ''' If matchString is not present in mainString, or either string parameter is empty, all of mainString is returned.
-   ''' </returns>
-   ''' <remarks>Mimics PB's Remain$()</remarks>
-   Public Overloads Shared Function Remain(ByVal mainString As String, ByVal matchStr As String) As String
-      Return Remain(1, mainString, False, matchStr)
-   End Function
+   ''' <param name="mainString">Increment this string.</param>
+   ''' <returns>Incremented mainString</returns>
+   ''' <remarks>
+   ''' Numbers and characters become incremented naturally, i.e. "5" -> "6", "a" -> "c".
+   ''' The string as a whole will be "incremented" following this rules, e.g.
+   ''' "aa" -> "ab"
+   ''' "a0" -> "a1"
+   ''' The interesting part happens if "9"  -> "0" and "z" -> "a", e.g. "a9z" -> "b0a"
+   ''' The logic behind this is z "plus 1" becomes a, but just as 9 plus 1 becomes 10,
+   ''' we need to carry over the "1" of the "10" to the next higher base, so "a" becomes "b".
+   ''' Any non-alphanumeric character in <paramref name="mainString"/> remains as is, e.g.
+   ''' 00-AA-Z9 -> 00-AB-A0
+   ''' </remarks>
+   Public Shared Function StrIncrement(ByVal mainString As String) As String
 
+      'StrIncr procedure for PowerBASIC
+      ' by Dave Navarro, Jr.
+      ' Donated to the Public Domain
+      ' Last Revision: July 15, 1994
+      ' Update by Knuth Konrad
+
+
+      Dim lValue, x As Int32
+      Dim sChar, sTemp As String
+
+      ' "9"'s only?
+      sTemp = mainString.Replace("9", String.Empty)
+      If sTemp.Length = 0 Then
+         lValue = Convert.ToInt32(mainString)
+         lValue = lValue + 1
+         Return lValue.ToString
+      End If
+
+      ' If TALLY(sString, "9") = LEN(sString) Then
+      'String besteht nur aus Zahlen und nur aus
+      '9ern
+      ' lValue = VAL(sString)
+      ' INCR lValue
+      ' StrIncr = TRIM$(STR$(lValue))
+      ' Exit Function
+      ' End If
+
+      For x = mainString.Length To 1 Step -1
+
+         'For x = LEN(sString) To 1 Step -1
+
+         sChar = Mid(mainString, x, 1)
+
+         If (sChar >= "0") And (sChar <= "8") Then
+            sChar = Chr(Asc(sChar) + 1)
+            MID$(mainString, x, 1) = sChar
+            Exit For
+         ElseIf sChar = "9" Then
+            sChar = "0"
+            MID$(mainString, x, 1) = sChar
+         ElseIf (sChar >= "A") And (sChar <= "Y") Then
+            sChar = Chr(Asc(sChar) + 1)
+            MID$(mainString, x, 1) = sChar
+            Exit For
+         ElseIf sChar = "Z" Then
+            sChar = "A"
+            MID$(mainString, x, 1) = sChar
+         ElseIf (sChar >= "a") And (sChar <= "y") Then
+            sChar = Chr(Asc(sChar) + 1)
+            MID$(mainString, x, 1) = sChar
+            Exit For
+         ElseIf sChar = "z" Then
+            sChar = "a"
+            MID$(mainString, x, 1) = sChar
+         End If
+
+      Next x
+
+      Return mainString
+
+   End Function
+   '------------------------------------------------------------------------------
 
 #End Region
 
-#Region "Date formatting"
+#Region "TrimAny()"
+
    ''' <summary>
-   ''' Create a date string of format YYYYMMDD[[T]HHNNSS].
+   ''' Remove any occurrence of <paramref name="removeChars"/> in <paramref name="source"/>
    ''' </summary>
-   ''' <param name="dtmDate">Date/Time to format</param>
-   ''' <param name="appendTime"><see langref="true"/> = append time to date</param>
-   ''' <param name="dateSeparator">Character to separate date parts</param>
-   ''' <param name="dateTimeSeparator">Character to separate date part from time part</param>
-   ''' <returns>
-   ''' Date/time formatted as string.
-   ''' </returns>
-   Public Shared Function DateYMD(ByVal dtmDate As DateTime, Optional ByVal appendTime As Boolean = False,
-                                  Optional ByVal dateSeparator As String = "", Optional ByVal dateTimeSeparator As String = "T") _
-                                  As String
+   ''' <param name="source">Source string</param>
+   ''' <param name="removeChars">List of strings to remove from <paramref name="source"/></param>
+   ''' <returns></returns>
+   Public Overloads Shared Function TrimAny(ByVal source As String, ByVal removeChars As String) As String
 
-      ' Date part
-      Dim sResult As String = dtmDate.Year.ToString("0000") & dateSeparator & dtmDate.Month.ToString("00") & dateSeparator & dtmDate.Day.ToString("00")
+      Dim result As String = source
 
+      result = result.TrimStart(removeChars.ToCharArray)
+      result = result.TrimEnd(removeChars.ToCharArray)
 
-      ' Time part
-      If appendTime = True Then
-         sResult &= dateTimeSeparator & dtmDate.Hour.ToString("00") & dtmDate.Minute.ToString("00") & dtmDate.Second.ToString("00")
-      End If
-
-      Return sResult
+      Return result
 
    End Function
+
+   ''' <summary>
+   ''' Remove any occurrence of <paramref name="removeChars"/> in <paramref name="source"/>
+   ''' </summary>
+   ''' <param name="source">Source string</param>
+   ''' <param name="removeChars">List of strings to remove from <paramref name="source"/></param>
+   ''' <returns></returns>
+   Public Overloads Shared Function TrimAny(ByVal source As String, ByVal removeChars() As Char) As String
+
+      Dim result As String = source
+
+      result = result.TrimStart(removeChars)
+      result = result.TrimEnd(removeChars)
+
+      Return result
+
+   End Function
+
+   ''' <summary>
+   ''' Remove any occurrence of <paramref name="removeChars"/> in <paramref name="source"/>
+   ''' </summary>
+   ''' <param name="source">Source string</param>
+   ''' <param name="removeChars">List of strings to remove from <paramref name="source"/></param>
+   ''' <returns></returns>
+   Public Overloads Shared Function TrimAny(ByVal source As String, ByVal removeChars() As String) As String
+
+      Dim result As String = source
+
+      For Each s As String In removeChars
+         result = result.TrimStart(s.ToCharArray)
+         result = result.TrimEnd(s.ToCharArray)
+      Next
+
+      Return result
+
+   End Function
+
 #End Region
 
 #Region "VB6 String constants"
+
    ' ** Replacements for various handy VB6 string constants
 
    ''' <summary>
@@ -787,5 +849,111 @@ Public Class StringUtil
    End Function
 
 #End Region
+
+   ''' <summary>
+   ''' Encloses <paramref name="text"/> with double quotation marks (").
+   ''' </summary>
+   ''' <param name="text">Wrap this string in quotation marks.</param>
+   ''' <returns><paramref name="text"/> enclosed in double quotation marks (")</returns>
+   Public Shared Function EnQuote(ByVal text As String) As String
+      Return System.Convert.ToChar(34).ToString & text & System.Convert.ToChar(34).ToString
+   End Function
+
+   ''' <summary>
+   ''' Implements VB6's Left$() functionality.
+   ''' </summary>
+   ''' <param name="source">Source string</param>
+   ''' <param name="leftChars">Number of characters to return</param>
+   ''' <returns>
+   ''' For leftChars ...<br />
+   '''    &gt; source.Length: source<br />
+   '''    = 0: Empty string<br />
+   '''    &lt; 0: Position from the end of source, e.g. Left("1234567890", -2) -> "12345678"
+   ''' </returns>
+   ''' <remarks>
+   ''' Source: Developed from https://stackoverflow.com/questions/844059/net-equivalent-of-the-old-vb-leftstring-length-function/12481156
+   ''' </remarks>
+   Public Shared Function Left(ByVal source As String, ByVal leftChars As Integer) As String
+
+      If String.IsNullOrEmpty(source) OrElse leftChars = 0 Then
+         Return String.Empty
+      ElseIf leftChars > source.Length Then
+         Return source
+      ElseIf leftChars < 0 Then
+         Return source.Substring(0, source.Length + leftChars)
+      Else
+         Return source.Substring(0, Math.Min(leftChars, CType(source.Length, Integer)))
+      End If
+
+   End Function
+
+   ''' <summary>
+   ''' Implements VB6's/PB's Mid$() functionality, as .NET's String.SubString() 
+   ''' differs in its behavior that it raises an exception if startIndex > source.Length, 
+   ''' whereas Mid$() returns an empty string in such a case.
+   ''' </summary>
+   ''' <param name="source">Source string</param>
+   ''' <param name="startIndex">(0-based) start</param>
+   ''' <param name="length">Number of chars to return</param>
+   ''' <returns>
+   ''' For <paramref name="startIndex"/> &gt; <paramref name="source"/>.Length: <see cref="String.Empty"/>
+   ''' For <paramref name="length"/> &gt; <paramref name="startIndex"/> + <paramref name="source"/>.Length: all of <paramref name="source"/> from <paramref name="startIndex"/>
+   ''' </returns>
+   ''' <remarks>
+   ''' Source: Developed from https://stackoverflow.com/questions/844059/net-equivalent-of-the-old-vb-leftstring-length-function/12481156
+   ''' </remarks>
+   Public Shared Function Mid(ByVal source As String, ByVal startIndex As Integer, Optional ByVal length As Integer = 0) As String
+
+      ' Safe guards
+      If String.IsNullOrEmpty(source) OrElse (startIndex > source.Length) Then
+         Return String.Empty
+      End If
+      If startIndex < 0 Then
+         Throw New ArgumentOutOfRangeException("startIndex")
+      End If
+      If length < 0 Then
+         Throw New ArgumentOutOfRangeException("length")
+      End If
+
+      ' Adjust length, if needed
+      Try
+         If startIndex + length > source.Length OrElse length = 0 Then
+            Return source.Substring(startIndex - 1)
+         Else
+            Return source.Substring(startIndex - 1, length)
+         End If
+      Catch ex As ArgumentOutOfRangeException
+         Return String.Empty
+      End Try
+
+   End Function
+
+   ''' <summary>
+   ''' Implements VB's/PB's Right$() functionality.
+   ''' </summary>
+   ''' <param name="source">Source string</param>
+   ''' <param name="rightChars">Number of characters to return</param>
+   ''' <returns>
+   ''' For rightChars ...<br />
+   '''    &gt; source.Length: source<br />
+   '''    = 0: Empty string<br />
+   '''    &lt; 0: Position from the start of source, e.g. Right("1234567890", -2) -&gt; "34567890"
+   ''' </returns>
+   ''' <remarks>
+   ''' Source: Developed from https://stackoverflow.com/questions/844059/net-equivalent-of-the-old-vb-leftstring-length-function/12481156
+   ''' </remarks>
+   Public Shared Function Right(ByVal source As String, ByVal rightChars As Integer) As String
+
+      If String.IsNullOrEmpty(source) OrElse rightChars = 0 Then
+         Return String.Empty
+      ElseIf rightChars > source.Length Then
+         Return source
+      ElseIf rightChars < 0 Then
+         Return source.Substring(Math.Abs(rightChars))
+      Else
+         Return source.Substring(source.Length - rightChars, rightChars)
+      End If
+
+   End Function
 
 End Class
