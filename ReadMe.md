@@ -45,7 +45,7 @@ Returns the Enumeration member's name for the specific value.
 - IsSerializable  
 Determine if an object is serializable.
 - Serialize  
-Serialze an object to (a) XML (string).
+Serialize an object to (a) XML (string).
 - Deserialize  
 Deserialize a XML (string) to an object.
 - DeserializeAsClass  
@@ -64,13 +64,13 @@ Emulate the respective VB6/VBA methods.
 - Space()  
 Create a string with (n) spaces.
 - String()  
-Create a string consisting of (n) charatcers.
+Create a string consisting of (n) characters.
 - TrimAny()  
 Trim (start and end) _any_ of the passed characters from a string.
 - DateYMD()  
 Return a date as a string in the form yyyymmdd[[T]hhnnss]
 - EnQuote()  
-Enclose a string in dobule quotes _(")_.
+Enclose a string in double quotes _(")_.
 - vbNewLine, vbTab, vbQuote, vbNullString  
 Replacements for various handy VB6 string constants.
 - vbWhiteSpace  
