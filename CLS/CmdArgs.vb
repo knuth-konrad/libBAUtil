@@ -7,7 +7,7 @@ Imports libBAUtil.StringUtil
 Namespace Utils.Args
 
    ''' <summary>
-   ''' Commandline parameter handling
+   ''' Command line parameter handling
    ''' See https://docs.microsoft.com/en-us/archive/msdn-magazine/2019/march/net-parse-the-command-line-with-system-commandline
    ''' See https://github.com/commandlineparser/commandline
    ''' </summary>

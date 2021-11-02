@@ -27,7 +27,8 @@ Public Class StringUtil
    ''' <summary>
    ''' Return the ASCII value of a character
    ''' </summary>
-   ''' <param name="text">return this character's value</param>
+   ''' <param name="text">Return this character's value.</param>
+   ''' <param name="startIndex">Start from the specified index.</param>
    ''' <returns>
    ''' ASCII code, e.g. "A" = 65, If <paramref name="text"/> is <see cref="String.Empty" />
    ''' or <paramref name="startIndex"/> &gt; length of <paramref name="text"/>, returns -1 
@@ -67,6 +68,7 @@ Public Class StringUtil
    ''' Return the ASCII value of a character
    ''' </summary>
    ''' <param name="text">return this character's value</param>
+   ''' <param name="startIndex">Start from the specified index.</param>
    ''' <returns>
    ''' ASCII code, e.g. "A" = 65, If <paramref name="text"/> is <see cref="String.Empty" />
    ''' or <paramref name="startIndex"/> &gt; length of <paramref name="text"/>, returns -1 
@@ -382,11 +384,29 @@ Public Class StringUtil
 
 #Region "InStr()"
 
+   ''' <summary>
+   ''' Returns an integer specifying the start position of the first occurrence of one string within another.
+   ''' </summary>
+   ''' <param name="start">
+   ''' Numeric expression that sets the starting position for each search. If omitted, search begins at the first character position. The start index is 1-based.
+   ''' </param>
+   ''' <param name="string1">String expression being searched.</param>
+   ''' <param name="string2">String expression sought.</param>
+   ''' <returns>
+   ''' 0 if <paramref name="string1"/> is zero length or <see langword="null"/>.
+   ''' <paramref name="start"/> if <paramref name="string2"/> is zero length or <see langword="null"/>.
+   ''' Position where match begins if <paramref name="string2"/> is found in <paramref name="string1"/>.
+   ''' 0 if <paramref name="start"/> is > length of <paramref name="string1"/>.
+   ''' </returns>
    Public Overloads Shared Function InStr(ByVal start As Int32, ByVal string1 As String, ByVal string2 As String) As Int32
 
       ' Safe guards
       If start <= 0 Then
          Throw New ArgumentOutOfRangeException("start must be > 0.", "start")
+      End If
+
+      If start > string1.Length Then
+         Return 0
       End If
 
       If String.IsNullOrEmpty(string1) Then
@@ -401,10 +421,18 @@ Public Class StringUtil
 
    End Function
 
+   ''' <summary>
+   ''' Returns an integer specifying the start position of the first occurrence of one string within another.
+   ''' </summary>
+   ''' <param name="string1">String expression being searched.</param>
+   ''' <param name="string2">String expression sought.</param>
+   ''' <returns>
+   ''' 0 if <paramref name="string1"/> is zero length or <see langword="null"/>.
+   ''' The starting position for the search, which defaults to the first character position if <paramref name="string2"/> is zero length or <see langword="null"/>.
+   ''' Position where match begins if <paramref name="string2"/> is found in <paramref name="string1"/>.
+   ''' </returns>
    Public Overloads Shared Function InStr(ByVal string1 As String, ByVal string2 As String) As Int32
-
       Return InStr(1, string1, string2)
-
    End Function
 
 #End Region
@@ -739,7 +767,7 @@ Public Class StringUtil
    ''' </summary>
    ''' <param name="source">Source string</param>
    ''' <param name="removeChars">List of strings to remove from <paramref name="source"/></param>
-   ''' <returns></returns>
+   ''' <returns>Trimmed string.</returns>
    Public Overloads Shared Function TrimAny(ByVal source As String, ByVal removeChars As String) As String
 
       Dim result As String = source
@@ -756,7 +784,7 @@ Public Class StringUtil
    ''' </summary>
    ''' <param name="source">Source string</param>
    ''' <param name="removeChars">List of strings to remove from <paramref name="source"/></param>
-   ''' <returns></returns>
+   ''' <returns>Trimmed string.</returns>
    Public Overloads Shared Function TrimAny(ByVal source As String, ByVal removeChars() As Char) As String
 
       Dim result As String = source
@@ -773,7 +801,7 @@ Public Class StringUtil
    ''' </summary>
    ''' <param name="source">Source string</param>
    ''' <param name="removeChars">List of strings to remove from <paramref name="source"/></param>
-   ''' <returns></returns>
+   ''' <returns>Trimmed string.</returns>
    Public Overloads Shared Function TrimAny(ByVal source As String, ByVal removeChars() As String) As String
 
       Dim result As String = source
@@ -843,7 +871,7 @@ Public Class StringUtil
    ''' <summary>
    ''' Return a string of what's considered to be 'white space'
    ''' </summary>
-   ''' <returns></returns>
+   ''' <returns>'White space'</returns>
    Public Shared Function vbWhiteSpace() As String
       Return vbTab() & vbNewLine() & " "
    End Function

@@ -156,57 +156,59 @@ End Class
          End Set
       End Property
 
-      ''' <summary>
-      ''' Return the lowercase representation of the string's content
-      ''' </summary>
-      Public Function ToLower() As String
+   ''' <summary>
+   ''' Return the lowercase representation of the string's content
+   ''' </summary>
+   ''' <returns>A string in lowercase.</returns>
+   Public Function ToLower() As String
          Return Me.Value.ToLower
       End Function
 
-      ''' <summary>
-      ''' Return the uppercase representation of the string's content
-      ''' </summary>
-      Public Function ToUpper() As String
-         Return Me.Value.ToUpper
-      End Function
+   ''' <summary>
+   ''' Return the uppercase representation of the string's content
+   ''' </summary>
+   ''' <returns>A string in uppercase.</returns>
+   Public Function ToUpper() As String
+      Return Me.Value.ToUpper
+   End Function
 
-      ''' <summary>
-      ''' Initializes a new instance of the FixedLengthString class
-      ''' </summary>
-      ''' <param name="stringLength">Length of string</param>
-      Public Sub New(ByVal stringLength As UInt16)
+   ''' <summary>
+   ''' Initializes a new instance of the FixedLengthString class
+   ''' </summary>
+   ''' <param name="stringLength">Length of string</param>
+   Public Sub New(ByVal stringLength As UInt16)
 
-         MyBase.New
-         With Me
-            .Length = stringLength
-            .Value = New String(.PaddingChar, stringLength)
-         End With
-      End Sub
+      MyBase.New
+      With Me
+         .Length = stringLength
+         .Value = New String(.PaddingChar, stringLength)
+      End With
+   End Sub
 
-      ''' <summary>
-      ''' Initializes a new instance of the FixedLengthString class
-      ''' </summary>
-      ''' <param name="stringLength">Length of string</param>
-      ''' <param name="stringValue">String content</param>
-      Public Sub New(ByVal stringLength As UInt16, ByVal stringValue As String)
+   ''' <summary>
+   ''' Initializes a new instance of the FixedLengthString class
+   ''' </summary>
+   ''' <param name="stringLength">Length of string</param>
+   ''' <param name="stringValue">String content</param>
+   Public Sub New(ByVal stringLength As UInt16, ByVal stringValue As String)
 
-         MyBase.New
-         With Me
-            .Length = stringLength
-            .Value = stringValue
-            If stringValue.Length < .Length Then
-               .Value = stringValue.PadRight(.Length, .PaddingChar)
-            End If
-         End With
+      MyBase.New
+      With Me
+         .Length = stringLength
+         .Value = stringValue
+         If stringValue.Length < .Length Then
+            .Value = stringValue.PadRight(.Length, .PaddingChar)
+         End If
+      End With
 
-      End Sub
+   End Sub
 
-      ''' <summary>
-      ''' Initializes a new instance of the FixedLengthString class
-      ''' </summary>
-      ''' <param name="stringLength">Length of string</param>
-      ''' <param name="stringMinLength">Minimum length of string</param>
-      Public Sub New(ByVal stringLength As UInt16, ByVal stringMinLength As UInt16)
+   ''' <summary>
+   ''' Initializes a new instance of the FixedLengthString class
+   ''' </summary>
+   ''' <param name="stringLength">Length of string</param>
+   ''' <param name="stringMinLength">Minimum length of string</param>
+   Public Sub New(ByVal stringLength As UInt16, ByVal stringMinLength As UInt16)
 
          MyBase.New
          If (stringMinLength > 0) And (stringLength < stringMinLength) Then

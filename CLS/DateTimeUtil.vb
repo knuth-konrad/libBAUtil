@@ -805,67 +805,180 @@ Imports libBAUtil.StringUtil
    End Sub
 
    ''' <summary>
-   ''' Initializes a new instance of the <see cref="DateTimeOffset"/> structure using the specified DateTime value.
+   ''' Initializes a new instance of the <see cref="System.DateTime"/> structure using the specified DateTime value.
    ''' </summary>
    ''' <param name="newDate">A date and time.</param>
    Public Sub New(ByVal newDate As DateTime)
       Me.Date = newDate
    End Sub
 
+   ''' <summary>
+   ''' Initializes a new instance of the <see cref="System.DateTime"/> structure using the specified number of ticks.
+   ''' </summary>
+   ''' <param name="ticks">A 100-nanosecond units.</param>
    Public Sub New(ByVal ticks As Int64)
       Me.Date = New DateTime(ticks)
    End Sub
 
+   ''' <summary>
+   ''' Initializes a new instance of the <see cref="System.DateTime"/> structure using the specified number of ticks 
+   ''' and to Coordinated Universal Time (UTC) or local time.
+   ''' </summary>
+   ''' <param name="ticks">A 100-nanosecond units.</param>
+   ''' <param name="kind">One of the enumeration values that indicates whether ticks specifies a local time, 
+   ''' Coordinated Universal Time (UTC), or neither</param>
    Public Sub New(ByVal ticks As Int64, ByVal kind As DateTimeKind)
       Me.Date = New DateTime(ticks, kind)
    End Sub
 
+   ''' <summary>
+   ''' Initializes a new instance of the <see cref="System.DateTime"/> structure to the specified year, month, and day.
+   ''' </summary>
+   ''' <param name="year">The year (1 through 9999).</param>
+   ''' <param name="month">The month (1 through 12).</param>
+   ''' <param name="day">The day (1 through the number of days in <paramref name="month"/>).</param>
    Public Sub New(ByVal year As Int32, ByVal month As Int32, ByVal day As Int32)
       Me.Date = New Date(year, month, day)
    End Sub
 
+   ''' <summary>
+   ''' Initializes a new instance of the <see cref="System.DateTime"/> structure to the specified year, month, and day for the specified calendar.
+   ''' </summary>
+   ''' <param name="year">The year (1 through the number of years in <paramref name="calendar"/>).</param>
+   ''' <param name="month">The month (1 through 12 in <paramref name="calendar"/>).</param>
+   ''' <param name="day">The day (1 through the number of days in <paramref name="month"/>).</param>
+   ''' <param name="calendar">The calendar that is used to interpret <paramref name="year"/>, <paramref name="month"/>, and <paramref name="day"/>.</param>
    Public Sub New(ByVal year As Int32, ByVal month As Int32, ByVal day As Int32, ByVal calendar As Globalization.Calendar)
       Me.Date = New Date(year, month, day, calendar)
    End Sub
 
+   ''' <summary>
+   ''' Initializes a new instance of the <see cref="System.DateTime"/> structure to the specified year, month, day, hour, minute, and second.
+   ''' </summary>
+   ''' <param name="year">The year (1 through 9999).</param>
+   ''' <param name="month">The month (1 through 12).</param>
+   ''' <param name="day">The day (1 through the number of days in <paramref name="month"/>).</param>
+   ''' <param name="hour">The hours (0 through 23).</param>
+   ''' <param name="minute">The minutes (0 through 59).</param>
+   ''' <param name="second">The seconds (0 through 59).</param>
    Public Sub New(ByVal year As Int32, ByVal month As Int32, ByVal day As Int32,
                         ByVal hour As Int32, ByVal minute As Int32, ByVal second As Int32)
       Me.Date = New Date(year, month, day, hour, minute, second)
    End Sub
 
+   ''' <summary>
+   ''' Initializes a new instance of the <see cref="System.DateTime"/> structure to the specified year, month, day, hour, minute, and second, 
+   ''' and Coordinated Universal Time (UTC) or local time.
+   ''' </summary>
+   ''' <param name="year">The year (1 through 9999).</param>
+   ''' <param name="month">The month (1 through 12).</param>
+   ''' <param name="day">The day (1 through the number of days in <paramref name="month"/>).</param>
+   ''' <param name="hour">The hours (0 through 23).</param>
+   ''' <param name="minute">The minutes (0 through 59).</param>
+   ''' <param name="second">The seconds (0 through 59).</param>
+   ''' <param name="kind">One of the enumeration values that indicates whether <paramref name="year"/>, <paramref name="month"/>, 
+   ''' <paramref name="day"/>, <paramref name="hour"/>, <paramref name="minute"/> and <paramref name="second"/> specify a local time, 
+   ''' Coordinated Universal Time (UTC), or neither.</param>
    Public Sub New(ByVal year As Int32, ByVal month As Int32, ByVal day As Int32,
                         ByVal hour As Int32, ByVal minute As Int32, ByVal second As Int32, ByVal kind As DateTimeKind)
       Me.Date = New Date(year, month, day, hour, minute, second, kind)
    End Sub
 
+   ''' <summary>
+   ''' Initializes a new instance of the <see cref="System.DateTime"/> structure to the specified year, month, day, hour, minute, and second, 
+   ''' for the specified calendar.
+   '''  </summary>
+   ''' <param name="year">The year (1 through 9999).</param>
+   ''' <param name="month">The month (1 through 12).</param>
+   ''' <param name="day">The day (1 through the number of days in <paramref name="month"/>).</param>
+   ''' <param name="hour">The hours (0 through 23).</param>
+   ''' <param name="minute">The minutes (0 through 59).</param>
+   ''' <param name="second">The seconds (0 through 59).</param>
+   ''' <param name="calendar">The calendar that is used to interpret <paramref name="year"/>, <paramref name="month"/>, and <paramref name="day"/>.</param>
    Public Sub New(ByVal year As Int32, ByVal month As Int32, ByVal day As Int32,
                         ByVal hour As Int32, ByVal minute As Int32, ByVal second As Int32, ByVal calendar As Globalization.Calendar)
       Me.Date = New Date(year, month, day, hour, minute, second, calendar)
    End Sub
 
+   ''' <summary>
+   ''' Initializes a new instance of the <see cref="System.DateTime"/> structure to the specified year, month, day, hour, minute, and second, and millisecond.
+   ''' </summary>
+   ''' <param name="year">The year (1 through 9999).</param>
+   ''' <param name="month">The month (1 through 12).</param>
+   ''' <param name="day">The day (1 through the number of days in <paramref name="month"/>).</param>
+   ''' <param name="hour">The hours (0 through 23).</param>
+   ''' <param name="minute">The minutes (0 through 59).</param>
+   ''' <param name="second">The seconds (0 through 59).</param>
+   ''' <param name="millisecond">The milliseconds (0 through 999).</param>
    Public Sub New(ByVal year As Int32, ByVal month As Int32, ByVal day As Int32,
                         ByVal hour As Int32, ByVal minute As Int32, ByVal second As Int32, ByVal millisecond As Int32)
       Me.Date = New Date(year, month, day, hour, minute, second, millisecond)
    End Sub
 
+   ''' <summary>
+   ''' Initializes a new instance of the <see cref="System.DateTime"/> structure to the specified year, month, day, hour, minute, and second, 
+   ''' and Coordinated Universal Time (UTC) or local time.
+   ''' </summary>
+   ''' <param name="year">The year (1 through 9999).</param>
+   ''' <param name="month">The month (1 through 12).</param>
+   ''' <param name="day">The day (1 through the number of days in <paramref name="month"/>).</param>
+   ''' <param name="hour">The hours (0 through 23).</param>
+   ''' <param name="minute">The minutes (0 through 59).</param>
+   ''' <param name="second">The seconds (0 through 59).</param>
+   ''' <param name="millisecond">The milliseconds (0 through 999).</param>
+   ''' <param name="kind">One of the enumeration values that indicates whether <paramref name="year"/>, <paramref name="month"/>, 
+   ''' <paramref name="day"/>, <paramref name="hour"/>, <paramref name="minute"/> and <paramref name="second"/> specify a local time, 
+   ''' Coordinated Universal Time (UTC), or neither.</param>
    Public Sub New(ByVal year As Int32, ByVal month As Int32, ByVal day As Int32,
                         ByVal hour As Int32, ByVal minute As Int32, ByVal second As Int32, ByVal millisecond As Int32,
                         kind As DateTimeKind)
       Me.Date = New Date(year, month, day, hour, minute, second, millisecond, kind)
    End Sub
 
+   ''' <summary>
+   ''' Initializes a new instance of the <see cref="System.DateTime"/> structure to the specified year, month, day, hour, minute, and second, 
+   ''' for the specified calendar.
+   '''  </summary>
+   ''' <param name="year">The year (1 through 9999).</param>
+   ''' <param name="month">The month (1 through 12).</param>
+   ''' <param name="day">The day (1 through the number of days in <paramref name="month"/>).</param>
+   ''' <param name="hour">The hours (0 through 23).</param>
+   ''' <param name="minute">The minutes (0 through 59).</param>
+   ''' <param name="second">The seconds (0 through 59).</param>
+   ''' <param name="millisecond">The milliseconds (0 through 999).</param>
+   ''' <param name="calendar">The calendar that is used to interpret <paramref name="year"/>, <paramref name="month"/>, and <paramref name="day"/>.</param>
    Public Sub New(ByVal year As Int32, ByVal month As Int32, ByVal day As Int32,
                         ByVal hour As Int32, ByVal minute As Int32, ByVal second As Int32, ByVal millisecond As Int32,
                         calendar As Globalization.Calendar)
       Me.Date = New Date(year, month, day, hour, minute, second, millisecond, calendar)
    End Sub
 
+   ''' <summary>
+   ''' Initializes a new instance of the <see cref="System.DateTime"/> structure to the specified year, month, day, hour, minute, and second, 
+   ''' for the specified calendar.
+   '''  </summary>
+   ''' <param name="year">The year (1 through 9999).</param>
+   ''' <param name="month">The month (1 through 12).</param>
+   ''' <param name="day">The day (1 through the number of days in <paramref name="month"/>).</param>
+   ''' <param name="hour">The hours (0 through 23).</param>
+   ''' <param name="minute">The minutes (0 through 59).</param>
+   ''' <param name="second">The seconds (0 through 59).</param>
+   ''' <param name="millisecond">The milliseconds (0 through 999).</param>
+   ''' <param name="calendar">The calendar that is used to interpret <paramref name="year"/>, <paramref name="month"/>, and <paramref name="day"/>.</param>
+   ''' <param name="kind">One of the enumeration values that indicates whether <paramref name="year"/>, <paramref name="month"/>, 
+   ''' <paramref name="day"/>, <paramref name="hour"/>, <paramref name="minute"/> and <paramref name="second"/> specify a local time, 
+   ''' Coordinated Universal Time (UTC), or neither.</param>
    Public Sub New(ByVal year As Int32, ByVal month As Int32, ByVal day As Int32,
                         ByVal hour As Int32, ByVal minute As Int32, ByVal second As Int32, ByVal millisecond As Int32,
                         ByVal calendar As Globalization.Calendar, ByVal kind As DateTimeKind)
       Me.Date = New Date(year, month, day, hour, minute, second, millisecond, calendar, kind)
    End Sub
 
+   ''' <summary>
+   ''' Initializes a new instance of the <see cref="System.DateTime"/> structure to the specified [year], month, day.
+   ''' </summary>
+   ''' <param name="iataDate">The year (1 through 9999).</param>
+   ''' <remarks><paramref name="iataDate"/> must be either in the form of <see cref="IATADateShort"/> or <see cref="IATADateShort"/></remarks>
    Public Sub New(ByVal iataDate As String)
       Me.Date = Me.ToDate(iataDate)
    End Sub
