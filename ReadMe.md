@@ -79,3 +79,7 @@ A string consisting of what's considered to be _white space_.
 ## FixedLengthString
 
 Emulates a VB6/VBA fixed length string (e.g. ```MyString * 3```).
+
+---
+
+For detailed information about this assembly's objects, see the included [CHM help file](./SandCastleHelp/Help/baUtil.chm)
