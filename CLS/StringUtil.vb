@@ -756,7 +756,6 @@ Public Class StringUtil
       Return mainString
 
    End Function
-   '------------------------------------------------------------------------------
 
 #End Region
 

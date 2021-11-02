@@ -1,6 +1,6 @@
 ''' <summary>
-''' Separate code And (this) info data from ConsoleHelper,
-''' allowing for easier editing this info.
+''' Separate code and (this) info data from ConsoleHelper,
+''' allowing for easier customization.
 ''' </summary>
 Public Class ConHelperData
    '  Copyright notice values
