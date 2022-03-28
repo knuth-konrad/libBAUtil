@@ -332,7 +332,7 @@ Namespace Utils.Args
 
          For Each o As KeyValue In Me.KeyValues
             If caseSensitive = False Then
-               If o.Key.ToLower = key Then
+               If o.Key.ToLower = key.ToLower Then
                   Return o.Value
                End If
             Else
