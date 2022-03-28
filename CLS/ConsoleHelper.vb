@@ -13,6 +13,11 @@ Public Class ConsoleHelper
    ' Console defaults
    ' Private Const CON_SEPARATOR As String = "---"
 
+   ' Console cursor position WaitIndicator
+   Private mThdCurLeft, mThdCurTop, mThdSpinDelay As Int32
+   Private mThdNewLine As Boolean
+   Private thdWaitIndicator As System.Threading.Thread
+
 #End Region
 
 #Region "AppIntro"
@@ -163,6 +168,87 @@ Public Class ConsoleHelper
       End If
 
    End Sub
+#End Region
+
+#Region "WaitIndicator"
+
+   ''' <summary>
+   ''' Starts a "spinning wheel" kinda wait time indicator
+   ''' </summary>
+   ''' <param name="newLine">Add a newline on the first post?</param>
+   Public Sub WaitIndicatorStart(Optional ByVal newLine As Boolean = True, Optional ByVal spinDelay As Int32 = 100)
+
+      mThdCurLeft = Console.CursorLeft
+      mThdCurTop = Console.CursorTop
+      mThdNewLine = newLine
+      mThdSpinDelay = spinDelay
+      thdWaitIndicator = New Threading.Thread(AddressOf WaitIndicator)
+      thdWaitIndicator.Start()
+
+   End Sub
+
+   ''' <summary>
+   ''' Stops a previously started <see cref="WaitIndicatorStart(Boolean, Integer)"/> wait time indicator.
+   ''' </summary>
+   Public Sub WaitIndicatorStop()
+
+      If Not thdWaitIndicator Is Nothing Then
+         thdWaitIndicator.Abort()
+         thdWaitIndicator.Join()
+      End If
+
+   End Sub
+
+   Protected Overrides Sub Finalize()
+      WaitIndicatorStop()
+      MyBase.Finalize()
+   End Sub
+
+   Private Sub WaitIndicator()
+
+      Dim lStep As Int32
+      Dim blnBeenHere As Boolean = False
+      Dim curLeftOld, curTopOld As Int32, curVisibleOld As Boolean
+
+      Dim asChar() As String = {"/", "-", "\", "|"}
+
+      ' Safe guard
+      If Console.IsOutputRedirected = True Then
+         Exit Sub
+      End If
+
+      Do
+         Threading.Thread.BeginCriticalRegion()
+
+         curLeftOld = Console.CursorLeft
+         curTopOld = Console.CursorTop
+         curVisibleOld = Console.CursorVisible
+
+         Console.SetCursorPosition(mThdCurLeft, mThdCurTop)
+         Console.CursorVisible = False
+         Console.Write(asChar(lStep))
+
+         If blnBeenHere = False Then
+            If mThdNewLine = True Then
+               curTopOld += 1
+               curLeftOld = 0
+            End If
+            blnBeenHere = True
+         End If
+
+         lStep += 1
+         If lStep >= 3 Then
+            lStep = 0
+         End If
+         Console.SetCursorPosition(curLeftOld, curTopOld)
+         Console.CursorVisible = curVisibleOld
+         Threading.Thread.EndCriticalRegion()
+
+         Threading.Thread.Sleep(mThdSpinDelay)
+      Loop
+
+   End Sub
+
 #End Region
 
 End Class
