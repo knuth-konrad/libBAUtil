@@ -259,9 +259,10 @@ Namespace Utils.Args
 #Region "Methods - Public"
 
       ''' <summary>
-      ''' Initializes the object by parsing System.Environment.GetCommandLineArgs()
+      ''' Initializes the object by parsing <see cref="System.Environment.GetCommandLineArgs"/>.
       ''' </summary>
-      ''' <returns></returns>
+      ''' <param name="cmdLineArgs">Parameters may optionally passed as a string.</param>
+      ''' <returns><see langword="true"/> if parameters could successfully be parsed.</returns>
       Public Function Initialize(Optional ByVal cmdLineArgs As String = "") As Boolean
 
          ' Clear everything, as we're parsing anew.
@@ -297,6 +298,13 @@ Namespace Utils.Args
 
       End Sub
 
+      ''' <summary>
+      ''' Verify if a parameter was passed
+      ''' </summary>
+      ''' <param name="key">Name (<see cref="KeyValue.Key"/>) of the parameter</param>
+      ''' <returns><see langword="true"/> if <paramref name="key"/> is present.</returns>
+      ''' <remarks>If <see cref="CaseSensitive"/>=<see langword="true"/> then /param1 and /PARAM1 are 
+      ''' treated as different parameters.</remarks>
       Public Function HasParameter(ByVal key As String) As Boolean
 
          With Me
@@ -322,7 +330,7 @@ Namespace Utils.Args
       ''' </summary>
       ''' <param name="key">The parameter's name (<see cref="KeyValue.Key"/></param>
       ''' <param name="caseSensitive">Treat the name as case-sensitive?</param>
-      ''' <returns></returns>
+      ''' <returns>Returns the <see cref="KeyValue.Value"/> of a parameter by its (parameter) name.</returns>
       Public Function GetValueByName(ByVal key As String, Optional ByVal caseSensitive As Boolean = False) As Object
 
          ' Safe guard
@@ -351,6 +359,9 @@ Namespace Utils.Args
 
 #Region "Constructor/Dispose"
 
+      ''' <summary>
+      ''' Object constructor.
+      ''' </summary>
       Public Sub New()
 
          MyBase.New
@@ -362,6 +373,11 @@ Namespace Utils.Args
 
       End Sub
 
+      ''' <summary>
+      ''' Object constructor.
+      ''' </summary>
+      ''' <param name="delimiterArgs">Character which separates different parameters, e.g. "/" in /Param1=Value1 /Param2=Value2</param>
+      ''' <param name="delimiterValue">Character which separates the parameter name and its value, e.g. "=" in /Param1=Value1 /Param2=Value2</param>
       Public Sub New(Optional ByVal delimiterArgs As String = DELIMITER_ARGS_WIN, Optional ByVal delimiterValue As String = DELIMITER_VALUE)
 
          MyBase.New
@@ -379,6 +395,11 @@ Namespace Utils.Args
 
       End Sub
 
+      ''' <summary>
+      ''' Object constructor.
+      ''' </summary>
+      ''' <param name="delimiterArgsType">Character which separates different parameters as defined in <see cref="eArgumentDelimiterStyle"/></param>
+      ''' <param name="delimiterValue">Character which separates the parameter name and its value, e.g. "=" in /Param1=Value1 /Param2=Value2</param>
       Public Sub New(Optional ByVal delimiterArgsType As eArgumentDelimiterStyle = eArgumentDelimiterStyle.Windows, Optional ByVal delimiterValue As String = DELIMITER_VALUE)
 
          MyBase.New
@@ -400,6 +421,12 @@ Namespace Utils.Args
 
       End Sub
 
+      ''' <summary>
+      ''' Object constructor.
+      ''' </summary>
+      ''' <param name="keyValueList">Command line parameters as a List(Of <see cref="KeyValue"/></param>
+      ''' <param name="delimiterArgs">Character which separates different parameters, e.g. "/" in /Param1=Value1 /Param2=Value2</param>
+      ''' <param name="delimiterValue">Character which separates the parameter name and its value, e.g. "=" in /Param1=Value1 /Param2=Value2</param>
       Public Sub New(ByVal keyValueList As List(Of KeyValue), Optional ByVal delimiterArgs As String = DELIMITER_ARGS_WIN,
                   Optional ByVal delimiterValue As String = DELIMITER_VALUE)
 
@@ -418,6 +445,13 @@ Namespace Utils.Args
 
       End Sub
 
+
+      ''' <summary>
+      ''' Object constructor.
+      ''' </summary>
+      ''' <param name="keyValueList">Command line parameters as a List(Of <see cref="KeyValue"/></param>
+      ''' <param name="delimiterArgsType">Character which separates different parameters as defined in <see cref="eArgumentDelimiterStyle"/></param>
+      ''' <param name="delimiterValue">Character which separates the parameter name and its value, e.g. "=" in /Param1=Value1 /Param2=Value2</param>
       Public Sub New(ByVal keyValueList As List(Of KeyValue), Optional ByVal delimiterArgsType As eArgumentDelimiterStyle = eArgumentDelimiterStyle.Windows,
                   Optional ByVal delimiterValue As String = DELIMITER_VALUE)
 
@@ -518,6 +552,10 @@ Namespace Utils.Args
 
 #Region "Methods - Public"
 
+      ''' <summary>
+      ''' Returns this parameter name.
+      ''' </summary>
+      ''' <returns><see cref="KeyValue.Key"/> and <see cref="KeyValue.HelpText"/> when available.</returns>
       Public Overrides Function ToString() As String
 
          With Me
@@ -533,6 +571,13 @@ Namespace Utils.Args
 
 #End Region
 
+      ''' <summary>
+      ''' Create a new instance of this object.
+      ''' </summary>
+      ''' <param name="keyShort">Short parameter name, e.g. /v</param>
+      ''' <param name="keyLong">Verbose parameter name, e.g. /version</param>
+      ''' <param name="value">Value of this parameter</param>
+      ''' <param name="helpText">Explanatory text for this parameter</param>
       Public Sub New(Optional ByVal keyShort As String = "", Optional ByVal keyLong As String = "",
                   Optional ByVal value As Object = Nothing, Optional ByVal helpText As String = "")
 

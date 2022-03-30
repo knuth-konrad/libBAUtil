@@ -176,6 +176,7 @@ Public Class ConsoleHelper
    ''' Starts a "spinning wheel" kinda wait time indicator
    ''' </summary>
    ''' <param name="newLine">Add a newline on the first post?</param>
+   ''' <param name="spinDelay">A "spinning tick" occurs every <paramref name="spinDelay"/> milliseconds.</param>
    Public Sub WaitIndicatorStart(Optional ByVal newLine As Boolean = True, Optional ByVal spinDelay As Int32 = 100)
 
       mThdCurLeft = Console.CursorLeft
@@ -199,6 +200,9 @@ Public Class ConsoleHelper
 
    End Sub
 
+   ''' <summary>
+   ''' Object Finalizer
+   ''' </summary>
    Protected Overrides Sub Finalize()
       WaitIndicatorStop()
       MyBase.Finalize()

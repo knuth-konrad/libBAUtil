@@ -21,9 +21,8 @@
     <HtmlHelpName>baUtil</HtmlHelpName>
     <Language>en-US</Language>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\bin\Release\libBAUtil.dll" />
-      <DocumentationSource sourceFile="..\bin\Release\libBAUtil.xml" />
-    </DocumentationSources>
+      <DocumentationSource sourceFile="..\bin\Debug\libBAUtil.dll" />
+<DocumentationSource sourceFile="..\bin\Debug\libBAUtil.xml" /></DocumentationSources>
     <HelpFileFormat>HtmlHelp1</HelpFileFormat>
     <SyntaxFilters>C#, Visual Basic, Visual Basic Usage</SyntaxFilters>
     <PresentationStyle>VS2013</PresentationStyle>
