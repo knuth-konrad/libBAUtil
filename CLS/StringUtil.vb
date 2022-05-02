@@ -816,67 +816,6 @@ Public Class StringUtil
 
 #End Region
 
-#Region "VB6 String constants"
-
-   ' ** Replacements for various handy VB6 string constants
-
-   ''' <summary>
-   ''' Mimics VB6's vbNewLine constant.
-   ''' </summary>
-   ''' <param name="n">Return this number of new lines</param>
-   ''' <returns>OS-specific new line character(s)</returns>
-   Public Shared Function vbNewLine(Optional ByVal n As Int32 = 1) As String
-      Dim sResult As String = String.Empty
-      For i As Int32 = 1 To n
-         sResult &= Environment.NewLine
-      Next
-      Return sResult
-   End Function
-
-   ''' <summary>
-   ''' Mimics VB6's vbNullString constant
-   ''' </summary>
-   ''' <returns>String.Empty</returns>
-   Public Shared Function vbNullString() As String
-      Return String.Empty
-   End Function
-
-   ''' <summary>
-   ''' Constant for a double quotation mark (").
-   ''' </summary>
-   ''' <param name="n">Number of DQs to return</param>
-   ''' <returns><paramref name="n"/> "</returns>
-   Public Shared Function vbQuote(Optional ByVal n As Int32 = 1) As String
-      Dim sResult As String = String.Empty
-      For i As Int32 = 1 To n
-         sResult &= System.Convert.ToChar(34).ToString
-      Next
-      Return sResult
-   End Function
-
-   ''' <summary>
-   ''' Mimics VB6's vbTab constant.
-   ''' </summary>
-   ''' <param name="n">Number of tabs to return</param>
-   ''' <returns><paramref name="n"/> tabs.</returns>
-   Public Shared Function vbTab(Optional ByVal n As Int32 = 1) As String
-      Dim sResult As String = String.Empty
-      For i As Int32 = 1 To n
-         sResult &= System.Convert.ToChar(9).ToString
-      Next
-      Return sResult
-   End Function
-
-   ''' <summary>
-   ''' Return a string of what's considered to be 'white space'
-   ''' </summary>
-   ''' <returns>'White space'</returns>
-   Public Shared Function vbWhiteSpace() As String
-      Return vbTab() & vbNewLine() & " "
-   End Function
-
-#End Region
-
    ''' <summary>
    ''' Encloses <paramref name="text"/> with double quotation marks (").
    ''' </summary>
@@ -886,6 +825,7 @@ Public Class StringUtil
       Return System.Convert.ToChar(34).ToString & text & System.Convert.ToChar(34).ToString
    End Function
 
+#Region "Left()"
    ''' <summary>
    ''' Implements VB6's Left$() functionality.
    ''' </summary>
@@ -913,7 +853,9 @@ Public Class StringUtil
       End If
 
    End Function
+#End Region
 
+#Region "Mid()"
    ''' <summary>
    ''' Implements VB6's/PB's Mid$() functionality, as .NET's String.SubString() 
    ''' differs in its behavior that it raises an exception if startIndex > source.Length, 
@@ -954,7 +896,9 @@ Public Class StringUtil
       End Try
 
    End Function
+#End Region
 
+#Region "Right()"
    ''' <summary>
    ''' Implements VB's/PB's Right$() functionality.
    ''' </summary>
@@ -982,5 +926,174 @@ Public Class StringUtil
       End If
 
    End Function
+#End Region
+
+#Region "Wrap()"
+
+   ''' <summary>
+   ''' Wraps a string in double quotes (")/>
+   ''' </summary>
+   ''' <param name="text">Original string</param>
+   ''' <returns>Enclosed <paramref name="text"/></returns>
+   Public Shared Function Wrap(ByVal text As String) As String
+      Return Wrap(text, vbQuote)
+   End Function
+
+   ''' <summary>
+   ''' Wraps a string into <paramref name="leftChar"/> And <paramref name="rightChar"/>
+   ''' </summary>
+   ''' <param name="text">Original string</param>
+   ''' <param name="leftChar">Left 'bracket'</param>
+   ''' <param name="rightChar">Right 'bracket'. If <paramref name="rightChar"/> = "", <paramref name="leftChar"/> is used instead.</param>
+   ''' <returns>Enclosed <paramref name="text"/></returns>
+   Public Shared Function Wrap(ByVal text As String, ByVal leftChar As String, Optional ByVal rightChar As String = "") As String
+
+      If rightChar.Length < 1 Then
+         Return leftChar & text & leftChar
+      Else
+         Return leftChar & text & rightChar
+      End If
+
+   End Function
+
+   ''' <summary>
+   ''' Wraps a string into <paramref name="wrapChar"/>
+   ''' </summary>
+   ''' <param name="text">Original string</param>
+   ''' <param name="wrapChar">'Bracket' character</param>
+   ''' <returns>Enclosed <paramref name="text"/></returns>
+   Public Shared Function Wrap(ByVal text As String, ByVal wrapChar As Char) As String
+      Return wrapChar & text & wrapChar
+   End Function
+
+   ''' <summary>
+   ''' Wraps a string into <paramref name="leftChar"/> And <paramref name="rightChar"/>
+   ''' </summary>
+   ''' <param name="text">Original string</param>
+   ''' <param name="leftChar">Left 'bracket'</param>
+   ''' <param name="rightChar">Right 'bracket'.</param>
+   ''' <returns>Enclosed <paramref name="text"/></returns>
+   Public Shared Function Wrap(ByVal text As String, ByVal LeftChar As Char, ByVal rightChar As Char) As String
+      Return LeftChar & text & rightChar
+   End Function
+
+#End Region
+
+#Region "UnWrap()"
+
+   ''' <summary>
+   ''' Unwraps a string from <paramref name="leftChar"/> And <paramref name="rightChar"/>
+   ''' </summary>
+   ''' <param name="text">Original string</param>
+   ''' <param name="leftChar">Left 'bracket'</param>
+   ''' <param name="rightChar">Right 'bracket'. If <paramref name="rightChar"/> = "", <paramref name="leftChar"/> is used instead.</param>
+   ''' <returns>Enclosed <paramref name="text"/></returns>
+   Public Shared Function UnWrap(ByVal text As String, ByVal leftChar As String, Optional ByVal rightChar As String = "") As String
+
+      ' Safe guard
+      If (text.Length < 1) Then
+         Return text
+      End If
+
+      If (text.Length > leftChar.Length And text.StartsWith(leftChar)) Then
+         text = text.Substring(leftChar.Length)
+      End If
+
+      If (rightChar.Length < 1) Then
+         rightChar = leftChar
+      End If
+
+      If (text.Length > leftChar.Length And text.EndsWith(leftChar)) Then
+         text = text.Substring(0, text.Length - leftChar.Length)
+      End If
+
+      Return text
+
+   End Function
+
+#End Region
+
+#Region "VB6 String constants"
+
+   ' ** Replacements for various handy VB6 string constants
+
+   ''' <summary>
+   ''' Mimics VB6's vbNewLine constant.
+   ''' </summary>
+   ''' <param name="n">Return this number of new lines</param>
+   ''' <returns>OS-specific new line character(s)</returns>
+   Public Shared Function vbNewLine(Optional ByVal n As Int32 = 1) As String
+      Dim sResult As String = String.Empty
+      For i As Int32 = 1 To n
+         sResult &= Environment.NewLine
+      Next
+      Return sResult
+   End Function
+
+   ''' <summary>
+   ''' Mimics VB6's vbNullString constant
+   ''' </summary>
+   ''' <returns>String.Empty</returns>
+   Public Shared Function vbNullString() As String
+      Return String.Empty
+   End Function
+
+   ''' <summary>
+   ''' Constant for a double quotation mark (").
+   ''' </summary>
+   ''' <param name="n">Number of DQs to return</param>
+   ''' <returns><paramref name="n"/> "</returns>
+   Public Shared Function vbQuote(Optional ByVal n As Int32 = 1) As String
+      Dim sResult As String = String.Empty
+      For i As Int32 = 1 To n
+         sResult &= System.Convert.ToChar(34).ToString
+      Next
+      Return sResult
+   End Function
+
+   ''' <summary>
+   ''' Constant for a double quotation mark (").
+   ''' </summary>
+   ''' <param name="n">Number of DQs to return</param>
+   ''' <returns><paramref name="n"/> "</returns>
+   Public Shared Function vbDobuleQuote(Optional ByVal n As Int32 = 1) As String
+      Return vbQuote(n)
+   End Function
+
+   ''' <summary>
+   ''' Constant for a single quotation mark/apostrophe (').
+   ''' </summary>
+   ''' <param name="n">Number of SQs to return</param>
+   ''' <returns><paramref name="n"/> "</returns>
+   Public Shared Function vbSingleQuote(Optional ByVal n As Int32 = 1) As String
+      Dim sResult As String = String.Empty
+      For i As Int32 = 1 To n
+         sResult &= System.Convert.ToChar(39).ToString
+      Next
+      Return sResult
+   End Function
+
+   ''' <summary>
+   ''' Mimics VB6's vbTab constant.
+   ''' </summary>
+   ''' <param name="n">Number of tabs to return</param>
+   ''' <returns><paramref name="n"/> tabs.</returns>
+   Public Shared Function vbTab(Optional ByVal n As Int32 = 1) As String
+      Dim sResult As String = String.Empty
+      For i As Int32 = 1 To n
+         sResult &= System.Convert.ToChar(9).ToString
+      Next
+      Return sResult
+   End Function
+
+   ''' <summary>
+   ''' Return a string of what's considered to be 'white space'
+   ''' </summary>
+   ''' <returns>'White space'</returns>
+   Public Shared Function vbWhiteSpace() As String
+      Return vbTab() & vbNewLine() & " "
+   End Function
+
+#End Region
 
 End Class
