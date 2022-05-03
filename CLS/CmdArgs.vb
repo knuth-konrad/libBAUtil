@@ -211,7 +211,7 @@ Namespace Utils.Args
             If sParam.Contains(.DelimiterValue) Then
                ' Parameter of the form /key=value
 
-               Dim o As New KeyValue
+               Dim o As New KeyValue(sParam)
 
                With o
                   ' '/file' for /file=MyFile.txt
@@ -231,7 +231,7 @@ Namespace Utils.Args
                ' Parameter of the form /Value.
                ' These are considered to be boolean parameters. If present, their value is 'True'
 
-               Dim o As New KeyValue
+               Dim o As New KeyValue(sParam)
 
                With o
                   .KeyLong = sParam.Trim
@@ -478,11 +478,14 @@ Namespace Utils.Args
 
    End Class
 
+   ''' <summary>
+   ''' A single command line parameter + its value, i.e. /parameter=value.
+   ''' </summary>
    Public Class KeyValue
+      Inherits KeyValueBase
 
       Private msHelpText As String = String.Empty
-      Private msKeyLong As String = String.Empty
-      Private msKeyShort As String = String.Empty
+      Private msOriginalParameter As String = String.Empty
 
       Private moValue As Object
 
@@ -499,26 +502,15 @@ Namespace Utils.Args
       End Property
 
       ''' <summary>
-      ''' 'Outspoken' parameter name, e.g. /file
+      ''' The full original parameter, e.g. /file=MyFile.txt
       ''' </summary>
-      Public Property KeyLong As String
+      ''' <returns></returns>
+      Public Property OriginalParameter As String
          Get
-            Return msKeyLong
+            Return msOriginalParameter
          End Get
          Set(value As String)
-            msKeyLong = value
-         End Set
-      End Property
-
-      ''' <summary>
-      ''' Short parameter name, e.g. /f
-      ''' </summary>
-      Public Property KeyShort As String
-         Get
-            Return msKeyShort
-         End Get
-         Set(value As String)
-            msKeyShort = value
+            msOriginalParameter = value
          End Set
       End Property
 
@@ -574,12 +566,16 @@ Namespace Utils.Args
       ''' <summary>
       ''' Create a new instance of this object.
       ''' </summary>
+      ''' <param name="originalParameter">Key/value pair as originally passed via command line, e.g. /file=MyFile.txt</param>
       ''' <param name="keyShort">Short parameter name, e.g. /v</param>
       ''' <param name="keyLong">Verbose parameter name, e.g. /version</param>
       ''' <param name="value">Value of this parameter</param>
       ''' <param name="helpText">Explanatory text for this parameter</param>
-      Public Sub New(Optional ByVal keyShort As String = "", Optional ByVal keyLong As String = "",
-                  Optional ByVal value As Object = Nothing, Optional ByVal helpText As String = "")
+      Public Sub New(ByVal originalParameter As String,
+                     Optional ByVal keyShort As String = "",
+                     Optional ByVal keyLong As String = "",
+                     Optional ByVal value As Object = Nothing,
+                     Optional ByVal helpText As String = "")
 
          MyBase.New
 
@@ -587,9 +583,79 @@ Namespace Utils.Args
             .HelpText = helpText
             .KeyLong = keyLong
             .KeyShort = keyShort
+            .OriginalParameter = originalParameter
             .Value = value
          End With
 
+      End Sub
+
+   End Class
+
+   ''' <summary>
+   ''' Base/parent KeyValue class
+   ''' </summary>
+   Public Class KeyValueBase
+
+      Private msKeyLong As String = String.Empty
+      Private msKeyShort As String = String.Empty
+      Private mbolIsMandatory As Boolean
+
+      ''' <summary>
+      ''' This parameter is mandatory
+      ''' </summary>
+      ''' <returns></returns>
+      Public Property IsMandatory As Boolean
+         Get
+            Return mbolIsMandatory
+         End Get
+         Set(value As Boolean)
+            mbolIsMandatory = value
+         End Set
+      End Property
+
+      ''' <summary>
+      ''' 'Outspoken' parameter name, e.g. /file
+      ''' </summary>
+      Public Property KeyLong As String
+         Get
+            Return msKeyLong
+         End Get
+         Set(value As String)
+            msKeyLong = value
+         End Set
+      End Property
+
+      ''' <summary>
+      ''' Short parameter name, e.g. /f
+      ''' </summary>
+      Public Property KeyShort As String
+         Get
+            Return msKeyShort
+         End Get
+         Set(value As String)
+            msKeyShort = value
+         End Set
+      End Property
+
+      ''' <summary>
+      ''' Short And long parameter name
+      ''' <param name="shortKey">Short parameter name, e.g. /f</param>
+      ''' <param name="longKey">'Outspoken' parameter name, e.g. /file</param>
+      ''' </summary>
+      Public Sub New(Optional ByVal shortKey As String = "", Optional ByVal longKey As String = "")
+         KeyLong = longKey
+         KeyShort = shortKey
+      End Sub
+
+      ''' <summary>
+      ''' Short And long parameter name
+      ''' </summary>
+      ''' <param name="o">
+      ''' <see cref="KeyValueBase"/> object from which to take <see cref="KeyValueBase.KeyShort"/> and <see cref="KeyValue.KeyLong"/> names.
+      ''' </param>
+      Public Sub New(ByVal o As KeyValueBase)
+         KeyLong = o.KeyLong
+         KeyShort = o.KeyShort
       End Sub
 
    End Class

@@ -966,17 +966,6 @@ Public Class StringUtil
       Return wrapChar & text & wrapChar
    End Function
 
-   ''' <summary>
-   ''' Wraps a string into <paramref name="leftChar"/> And <paramref name="rightChar"/>
-   ''' </summary>
-   ''' <param name="text">Original string</param>
-   ''' <param name="leftChar">Left 'bracket'</param>
-   ''' <param name="rightChar">Right 'bracket'.</param>
-   ''' <returns>Enclosed <paramref name="text"/></returns>
-   Public Shared Function Wrap(ByVal text As String, ByVal LeftChar As Char, ByVal rightChar As Char) As String
-      Return LeftChar & text & rightChar
-   End Function
-
 #End Region
 
 #Region "UnWrap()"
