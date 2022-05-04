@@ -1,4 +1,4 @@
-Imports libBAUtil.StringUtil
+Imports libBAUtil.StringHelper
 Imports libBAUtil.ConHelperData
 
 ''' <summary>

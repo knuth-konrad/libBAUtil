@@ -3,7 +3,7 @@ Imports System.Globalization
 ''' <summary>
 ''' General purpose string handling/formatting helpers
 ''' </summary>
-Public Class StringUtil
+Public Class StringHelper
 
 #Region "Declares"
 
@@ -969,6 +969,22 @@ Public Class StringUtil
 #End Region
 
 #Region "UnWrap()"
+
+   ''' <summary>
+   ''' Unwraps a string from double quotes.
+   ''' </summary>
+   ''' <param name="text">Original string</param>
+   ''' <returns><paramref name="text"/> w/o outer double quotes, e.g. "(My text)" becomes (My text)</returns>
+   Public Shared Function UnWrap(ByVal text As String) As String
+
+      ' Safe guard
+      If (text.Length < 1) Then
+         Return text
+      Else
+         Return UnWrap(text, vbQuote)
+      End If
+
+   End Function
 
    ''' <summary>
    ''' Unwraps a string from <paramref name="leftChar"/> And <paramref name="rightChar"/>

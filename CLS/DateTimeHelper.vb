@@ -3,7 +3,7 @@
 '  Changed: -
 '------------------------------------------------------------------------------
 Imports System.ComponentModel
-Imports libBAUtil.StringUtil
+Imports libBAUtil.StringHelper
 
 ''' <summary>
 ''' Enhanced with mostly tourism-related methods/properties <see cref="System.DateTime"/> object.
@@ -11,7 +11,7 @@ Imports libBAUtil.StringUtil
 ''' <remarks>
 ''' Inherits <see cref="DateTime"/>
 ''' </remarks>
-<DefaultProperty("Date")> <Serializable()> Public Class DateTimeUtil
+<DefaultProperty("Date")> <Serializable()> Public Class DateTimeHelper
 
 #Region "Declares"
    ''' <summary>

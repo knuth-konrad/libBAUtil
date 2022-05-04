@@ -2,7 +2,7 @@
 '   Author: Knuth Konrad 2021-04-05
 '  Changed: -
 '------------------------------------------------------------------------------
-Imports libBAUtil.StringUtil
+Imports libBAUtil.StringHelper
 
 Namespace Utils.Args
 

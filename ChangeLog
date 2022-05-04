@@ -1,3 +1,8 @@
+2022-05-04
+	** CHANGE **
+	- Renamed all objects from *Util to *Helper, e.g. StringUtil -> StringHelper
+	
+	
 2021-11-01
 	** NEW **
 	- StringUtil: new method Asc(), Extract(), Remain(), StrIncrement(), TrimAny()

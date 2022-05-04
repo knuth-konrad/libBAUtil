@@ -76,15 +76,15 @@
     <Compile Include="CLS\CmdArgs.vb" />
     <Compile Include="CLS\ConHelperData.vb" />
     <Compile Include="CLS\ConsoleHelper.vb" />
-    <Compile Include="CLS\CryptoUtil.vb" />
-    <Compile Include="CLS\DateTimeUtil.vb" />
-    <Compile Include="CLS\DBOleDBUtil.vb" />
-    <Compile Include="CLS\DBSqlDBUtil.vb" />
+    <Compile Include="CLS\CryptoHelper.vb" />
+    <Compile Include="CLS\DateTimeHelper.vb" />
+    <Compile Include="CLS\DBOleDBHelper.vb" />
+    <Compile Include="CLS\DBSqlDBHelper.vb" />
     <Compile Include="CLS\baUtil.vb" />
-    <Compile Include="CLS\FilesystemUtil.vb" />
-    <Compile Include="CLS\FileUtil.vb" />
-    <Compile Include="CLS\ObjectUtil.vb" />
-    <Compile Include="CLS\StringUtil.vb" />
+    <Compile Include="CLS\FilesystemHelper.vb" />
+    <Compile Include="CLS\FileHelper.vb" />
+    <Compile Include="CLS\ObjectHelper.vb" />
+    <Compile Include="CLS\StringHelper.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
