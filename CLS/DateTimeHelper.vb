@@ -556,7 +556,7 @@ Imports libBAUtil.StringHelper
       ElseIf iataDate.Length = 7 Then
          sDay = Left(iataDate, 2)
          sMonth = iataDate.Substring(2, 3)
-         sYear = Right(iataDate, 2)
+         sYear = Left(Now.Year.ToString, 2) & Right(iataDate, 2)
       End If
 
       Select Case sMonth.ToLower
@@ -977,8 +977,7 @@ Imports libBAUtil.StringHelper
    ''' <summary>
    ''' Initializes a new instance of the <see cref="System.DateTime"/> structure to the specified [year], month, day.
    ''' </summary>
-   ''' <param name="iataDate">The year (1 through 9999).</param>
-   ''' <remarks><paramref name="iataDate"/> must be either in the form of <see cref="IATADateShort"/> or <see cref="IATADateShort"/></remarks>
+   ''' <param name="iataDate">A date in either the form of <see cref="IATADateShort"/> or <see cref="IATADateShort"/></param>
    Public Sub New(ByVal iataDate As String)
       Me.Date = Me.ToDate(iataDate)
    End Sub
