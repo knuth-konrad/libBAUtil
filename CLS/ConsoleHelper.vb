@@ -1,3 +1,5 @@
+Imports System.Reflection
+
 Imports libBAUtil.StringHelper
 Imports libBAUtil.ConHelperData
 
@@ -70,6 +72,29 @@ Public Class ConsoleHelper
       Console.ForegroundColor = ConsoleColor.Gray
 
    End Sub
+
+   ''' <summary>
+   ''' Display an application intro
+   ''' </summary>
+   ''' <param name="mainAssembly">Assembly of the main executable</param>
+   ''' <example>
+   ''' ConHeadline(System.Refelction.Assembly.GetEntryAssembly())
+   ''' </example>
+   ''' <remarks>
+   ''' See https://docs.microsoft.com/en-us/dotnet/api/system.version?view=net-5.0
+   ''' </remarks>
+   Public Overloads Shared Sub AppIntro(ByVal mainAssembly As Assembly)
+
+      Dim assemName As AssemblyName = mainAssembly.GetName()
+      Dim ver As Version = assemName.Version
+
+      Console.ForegroundColor = ConsoleColor.White
+      Console.WriteLine(Chr(16) & " {0} v{1}", assemName.Name, ver.ToString() & " " & Chr(17))
+      Console.ForegroundColor = ConsoleColor.Gray
+
+   End Sub
+
+
 #End Region
 
 #Region "AppCopyright"
