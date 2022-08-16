@@ -13,6 +13,8 @@ Namespace Utils.Args
    ''' </summary>
    Public Class CmdArgs
 
+      Implements System.IDisposable
+
 #Region "Declarations"
 
       ''' <summary>
@@ -48,6 +50,7 @@ Namespace Utils.Args
       Dim msDelimiterArgs As String = String.Empty       ' Arguments delimiter, typically "/"
       Dim msDelimiterValue As String = String.Empty      ' Key/value delimiter, typically "="
       Dim msOriginalParameters As String = String.Empty  ' Parameters as passed to the application
+      Dim listValidParameters As List(Of String)         ' List of all valid parameter
 
       Private mcolKeyValues As List(Of KeyValue)
 
@@ -101,6 +104,15 @@ Namespace Utils.Args
          End Get
          Set(value As String)
             msDelimiterValue = value
+         End Set
+      End Property
+
+      Public Property ValidParameters As List(Of String)
+         Get
+            Return listValidParameters
+         End Get
+         Set(value As List(Of String))
+            listValidParameters = value
          End Set
       End Property
 
@@ -163,7 +175,9 @@ Namespace Utils.Args
                If .CaseSensitive = False Then
                   If (o.Key.ToLower = currentKey.Key.ToLower) AndAlso (i <> currentIndex) Then
                      Return True
-                  ElseIf (o.Key = currentKey.Key) AndAlso (i <> currentIndex) Then
+                  End If
+               Else
+                  If (o.Key = currentKey.Key) AndAlso (i <> currentIndex) Then
                      Return True
                   End If
                End If
@@ -305,7 +319,7 @@ Namespace Utils.Args
       ''' <returns><see langword="true"/> if <paramref name="key"/> is present.</returns>
       ''' <remarks>If <see cref="CaseSensitive"/>=<see langword="true"/> then /param1 and /PARAM1 are 
       ''' treated as different parameters.</remarks>
-      Public Function HasParameter(ByVal key As String) As Boolean
+      Public Overloads Function HasParameter(ByVal key As String) As Boolean
 
          With Me
             For Each o As KeyValue In .KeyValues
@@ -322,6 +336,80 @@ Namespace Utils.Args
          End With
 
          Return False
+
+      End Function
+
+      ''' <summary>
+      ''' Determine if a certain parameter is present
+      ''' </summary>
+      ''' <param name="paramlist">List of parameter names (<see cref="KeyValue.Key"/>)</param>
+      ''' <returns>
+      ''' <see langword="true"/> if all parameters passed are present, otherwise <see langword="false"/>
+      ''' </returns>
+      Public Overloads Function HasParameter(ByVal paramList As List(Of String)) As Boolean
+
+         With Me
+            For Each s As String In paramList
+               If HasParameter(s) = False Then
+                  Return False
+               End If
+            Next
+         End With
+
+         ' Reaching here, all parameters have been found
+         Return True
+
+      End Function
+
+      ''' <summary>
+      ''' Determine if any of these parameters are present
+      ''' </summary>
+      ''' <param name="paramlist">List of parameter names (<see cref="KeyValue.Key"/>)</param>
+      ''' <returns>
+      ''' <see langword="true"/> if at least one of the parameters passed is present, otherwise <see langword="false"/>
+      ''' </returns>
+      Public Overloads Function HasAnyParameter(ByVal paramList As List(Of String)) As Boolean
+
+         With Me
+            For Each s As String In paramList
+               If HasParameter(s) = True Then
+                  Return True
+               End If
+            Next
+         End With
+
+         ' Reaching here, no parameter has been found
+         Return False
+
+      End Function
+
+      ''' <summary>
+      ''' Return the corresponding KeyValue object
+      ''' </summary>
+      ''' <param name="key">The parameter's name (<see cref="KeyValue.Key"/></param>
+      ''' <param name="caseSensitive">Treat the name as case-sensitive?</param>
+      ''' <returns><see cref="KeyValue"/> whose <see cref="KeyValue.Key"/> equals <paramref name="key"/>.</returns>
+      Public Function GetParameterByName(ByVal key As String, Optional ByVal caseSensitive As Boolean = False) As KeyValue
+
+         ' Safe guard
+         If HasParameter(key) = False Then
+            Throw New ArgumentException("Parameter doesn't exist: " & key)
+         End If
+
+         For Each o As KeyValue In Me.KeyValues
+            If caseSensitive = False Then
+               If o.Key.ToLower = key.ToLower Then
+                  Return o
+               End If
+            Else
+               If o.Key = key Then
+                  Return o
+               End If
+            End If
+         Next
+
+         ' We should never reach this point
+         Return Nothing
 
       End Function
 
@@ -367,8 +455,9 @@ Namespace Utils.Args
          MyBase.New
 
          With Me
-            .DelimiterArgs = DELIMITER_ARGS_WIN
+            .DelimiterArgs = GetDefaultDelimiterForOS()
             .DelimiterValue = DELIMITER_VALUE
+            .ValidParameters = New List(Of String)
          End With
 
       End Sub
@@ -472,6 +561,26 @@ Namespace Utils.Args
             .KeyValues = keyValueList
          End With
 
+      End Sub
+
+      Public Sub New(Optional ByVal validParams As List(Of String) = Nothing)
+
+         MyBase.New
+
+         With Me
+            .DelimiterArgs = GetDefaultDelimiterForOS()
+            .DelimiterValue = DELIMITER_VALUE
+            If Not validParams Is Nothing Then
+               .ValidParameters = validParams
+            Else
+               .ValidParameters = New List(Of String)
+            End If
+         End With
+
+      End Sub
+
+      Public Overloads Sub Dispose() Implements IDisposable.Dispose
+         GC.SuppressFinalize(Me)
       End Sub
 
 #End Region
