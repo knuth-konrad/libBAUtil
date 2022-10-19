@@ -105,6 +105,19 @@ Public Class FilesystemHelper
    End Function
 
    ''' <summary>
+   ''' Alias for <see cref="System.IO.Directory.Exists(String)"/>
+   ''' </summary>
+   ''' <param name="folder">The file to check.</param>
+   ''' <returns><see langword="true"/> if the caller has the required permissions and path contains the name of an existing file; otherwise, <see langword="false"/>. 
+   ''' This method also returns <see langword="false"/> if path is <see langword="null"/>, an invalid path, or a zero-length string. 
+   ''' If the caller does not have sufficient permissions to read the specified file, no exception is thrown and the method returns 
+   ''' <see langword="false"/> regardless of the existence of path.
+   ''' </returns>
+   Public Shared Function FolderExists(ByVal folder As String) As Boolean
+      Return Directory.Exists(folder)
+   End Function
+
+   ''' <summary>
    ''' Creates a backup of a file by copying/moving it from the source 
    ''' to the target folder.
    ''' </summary>
