@@ -91,7 +91,7 @@
     <Compile Include="CLS\LoggingHelper.vb" />
     <Compile Include="CLS\ObjectHelper.vb" />
     <Compile Include="CLS\StringHelper.vb" />
-    <Compile Include="ComHelper.vb" />
+    <Compile Include="CLS\ComHelper.vb" />
     <Compile Include="GlobalSuppressions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

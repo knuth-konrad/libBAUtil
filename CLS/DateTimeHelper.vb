@@ -38,11 +38,18 @@ Imports libBAUtil.StringHelper
 		ToMixed  ' 01Jan
 		ToUpper  ' 01JAN
 	End Enum
+
+	''' <summary>
+	''' Win32 FileTime structure.
+	''' </summary>
 	Public Structure FileTime
 		Dim dwLowDateTime As Integer
 		Dim dwHighDateTime As Integer
 	End Structure
 
+	''' <summary>
+	''' Win32 SYSTEMTIME structure.
+	''' </summary>
 	Private Structure SYSTEMTIME
 		Dim wYear As Short
 		Dim wMonth As Short
@@ -547,7 +554,7 @@ Imports libBAUtil.StringHelper
 			month += 1
 		End If
 
-		Dim dtm As New DateTime(year, month, 1)
+		Dim dtm As New DateTime(year, month, 1, 0, 0, 0, DateTimeKind.Local)
 
 		Dim tsp As New TimeSpan(1, 0, 0, 0)
 		Return dtm.Subtract(tsp)
@@ -612,7 +619,7 @@ Imports libBAUtil.StringHelper
 		End Select
 
 		' Should handle all other exceptions
-		Return New DateTime(Integer.Parse(sYear), lMonth, Integer.Parse(sDay))
+		Return New DateTime(Integer.Parse(sYear), lMonth, Integer.Parse(sDay), 0, 0, 0, DateTimeKind.Local)
 
 	End Function
 
@@ -706,7 +713,7 @@ Imports libBAUtil.StringHelper
 	''' Converts a IATA date string to a DateTime value
 	''' </summary>
 	''' <param name="iataDate"></param>
-	''' <returns></returns>
+	''' <returns>DateTime variable</returns>
 	Public Function ToDateFromIATA(ByVal iataDate As String) As DateTime
 
 		' Dim sDay, sMonth, sYear As String
@@ -714,7 +721,7 @@ Imports libBAUtil.StringHelper
 
 
 		' Safe guard
-		If iataDate.Length <> 5 Or iataDate.Length <> 7 Then
+		If iataDate.Length <> 5 OrElse iataDate.Length <> 7 Then
 			Throw New System.ArgumentException("Invalid IATA date: " & iataDate)
 		End If
 
@@ -772,7 +779,7 @@ Imports libBAUtil.StringHelper
 				Throw New System.ArgumentException("Invalid IATA month: " & Mid(iataDate, 3, 3))
 		End Select
 
-		Return New DateTime(lYear, lMonth, lDay)
+		Return New DateTime(lYear, lMonth, lDay, 0, 0, 0, DateTimeKind.Local)
 
 	End Function
 
@@ -916,18 +923,22 @@ Imports libBAUtil.StringHelper
 	''' </summary>
 	''' <returns><see cref="Object.GetHashCode()"/></returns>
 	Public Overrides Function GetHashCode() As Int32
-
-		Dim hashCode As Int32 = -794484751
-		hashCode = hashCode * -1521134295 + Me.Date.GetHashCode()
-		hashCode = hashCode * -1521134295 + Me.DateTime.GetHashCode()
-		Return hashCode
-
+		Return (Me.DateTime, Me.Day, Me.DayOfWeek, Me.DayOfYear, Me.Hour, Me.Millisecond, Me.Minute, Me.Month, Me.Second, Me.Ticks, Me.TimeOfDay).GetHashCode()
 	End Function
 
+	''' <summary>
+	''' Create a new DateTime variable with the following values
+	''' </summary>
+	''' <param name="year">Year</param>
+	''' <param name="month">Month</param>
+	''' <param name="day">Day</param>
+	''' <param name="hour">Hour</param>
+	''' <param name="minute">Minute</param>
+	''' <param name="second">Second</param>
+	''' <returns>New Datetime</returns>
 	Public Function SetDate(ByVal year As Int32, ByVal month As Int32, ByVal day As Int32, Optional ByVal hour As Int32 = 0, Optional ByVal minute As Int32 = 0, Optional ByVal second As Int32 = 0) As DateTime
-		Return New DateTime(year, month, day, hour, minute, second)
+		Return New DateTime(year, month, day, hour, minute, second, DateTimeKind.Local)
 	End Function
-
 
 #End Region
 
@@ -1029,7 +1040,7 @@ Imports libBAUtil.StringHelper
 	''' <param name="calendar">The calendar that is used to interpret <paramref name="year"/>, <paramref name="month"/>, and <paramref name="day"/>.</param>
 	Public Sub New(ByVal year As Int32, ByVal month As Int32, ByVal day As Int32,
 											 ByVal hour As Int32, ByVal minute As Int32, ByVal second As Int32, ByVal calendar As Globalization.Calendar)
-		Me.Date = New Date(year, month, day, hour, minute, second, calendar)
+		Me.Date = New DateTime(year, month, day, hour, minute, second, calendar)
 	End Sub
 
 	''' <summary>

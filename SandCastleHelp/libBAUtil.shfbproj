@@ -16,13 +16,14 @@
     <RootNamespace>Documentation</RootNamespace>
     <Name>Documentation</Name>
     <!-- SHFB properties -->
-    <FrameworkVersion>.NET Framework 4.7.2</FrameworkVersion>
+    <FrameworkVersion>.NET Framework 4.8</FrameworkVersion>
     <OutputPath>.\Help\</OutputPath>
     <HtmlHelpName>baUtil</HtmlHelpName>
     <Language>en-US</Language>
     <DocumentationSources>
       <DocumentationSource sourceFile="..\bin\Debug\libBAUtil.dll" />
-<DocumentationSource sourceFile="..\bin\Debug\libBAUtil.xml" /></DocumentationSources>
+      <DocumentationSource sourceFile="..\bin\Debug\libBAUtil.xml" />
+    </DocumentationSources>
     <HelpFileFormat>HtmlHelp1</HelpFileFormat>
     <SyntaxFilters>C#, Visual Basic, Visual Basic Usage</SyntaxFilters>
     <PresentationStyle>VS2013</PresentationStyle>
@@ -87,4 +88,9 @@
     </PostBuildEvent>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NLog">
+      <HintPath>..\bin\Debug\NLog.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

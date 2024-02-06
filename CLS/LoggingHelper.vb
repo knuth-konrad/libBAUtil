@@ -2,9 +2,6 @@ Imports System.Linq
 Imports System.Reflection
 Imports libBAUtil.StringHelper
 
-
-' ToDo: implement GetNLogCurrentLogFile()
-
 ''' <summary>
 ''' (NLog) logging helper methods
 ''' </summary>
@@ -68,22 +65,19 @@ Public Class LoggingHelper
   ''' <remarks>
   ''' Source: https://stackoverflow.com/questions/7332393/how-can-i-query-the-path-to-an-nlog-log-file
   ''' </remarks>
-  Public Function GetNLogCurrentLogFile() As String
-
-    ' ToDo: Ausprogrammieren
+  Public Function GetNLogCurrentLogFile(Optional fileTargetName As String = "logfile") As String
 
     ' https://stackoverflow.com/questions/13393180/log-with-nlog-to-available-drive
     ' https://www.appsloveworld.com/linq/100/25/vb-net-linq-query-on-listof-object-source-code
     ' https://www.aspsnippets.com/questions/149948/Filter-List-Using-Linq-in-C-and-VBNet/
     ' https://www.tutlane.com/tutorial/linq/linq-to-lists-collections
 
-    Dim fileTarget As NLog.Targets.FileTarget
 
     For Each ft As NLog.Targets.FileTarget In NLog.LogManager.Configuration.AllTargets
+      If ft.Name = fileTargetName Then
+        Return ft.FileName.Render(New NLog.LogEventInfo)
+      End If
     Next
-
-    ' fileTarget = NLog.LogManager.Configuration.AllTargets.FirstOrDefault(Function(t) t >= t Is NLog.Targets.FileTarget) As NLog.Targets.FileTarget
-
 
   End Function
 
