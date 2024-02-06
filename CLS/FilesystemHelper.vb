@@ -24,24 +24,24 @@ Public Class FilesystemHelper
    ''' </returns>
    Public Shared Function DenormalizePath(ByVal sPath As String, Optional ByVal sDelim As String = "\",
                                           Optional bolCheckTail As Boolean = True) As String
-      '------------------------------------------------------------------------------
-      'Prereq.  : -
-      'Note     : -
-      '
-      '   Author: Bruce McKinney - Hardcore Visual Basic 5
-      '     Date: 08.04.2019
-      '   Source: -
-      '  Changed: 09.08.1999, Knuth Konrad
-      '           - Pass argument(s) ByVal and String instead of Variant
-      '------------------------------------------------------------------------------
-      If bolCheckTail = True Then
-         If StringHelper.Right(sPath, sDelim.Length) <> sDelim Then
-            Return sPath
-         Else
-            Return sPath.Substring(1, sPath.Length - sDelim.Length)
-         End If
+    '------------------------------------------------------------------------------
+    'Prereq.  : -
+    'Note     : -
+    '
+    '   Author: Bruce McKinney - Hardcore Visual Basic 5
+    '     Date: 08.04.2019
+    '   Source: -
+    '  Changed: 09.08.1999, Knuth Konrad
+    '           - Pass argument(s) ByVal and String instead of Variant
+    '------------------------------------------------------------------------------
+    If bolCheckTail Then
+      If StringHelper.Right(sPath, sDelim.Length) <> sDelim Then
+        Return sPath
       Else
-         If StringHelper.Left(sPath, sDelim.Length) <> sDelim Then
+        Return sPath.Substring(1, sPath.Length - sDelim.Length)
+      End If
+    Else
+      If StringHelper.Left(sPath, sDelim.Length) <> sDelim Then
             Return sPath
          Else
             Return sPath.Substring(sDelim.Length + 1)
@@ -66,23 +66,23 @@ Public Class FilesystemHelper
    ''' </returns>
    Public Shared Function NormalizePath(ByVal sPath As String, Optional ByVal sDelim As String = "\",
                                         Optional bolCheckTail As Boolean = True) As String
-      '------------------------------------------------------------------------------
-      'Prereq.  : -
-      '
-      '   Author: Bruce McKinney - Hardcore Visual Basic 5
-      '     Date: 07.06.2018
-      '   Source: -
-      '   Change: 09.08.1999, Knuth Konrad
-      '           - Pass argument(s) ByVal and String instead of Variant
-      '------------------------------------------------------------------------------
-      If bolCheckTail = True Then
-         If StringHelper.Right(sPath, sDelim.Length) <> sDelim Then
-            Return sPath & sDelim
-         Else
-            Return sPath
-         End If
+    '------------------------------------------------------------------------------
+    'Prereq.  : -
+    '
+    '   Author: Bruce McKinney - Hardcore Visual Basic 5
+    '     Date: 07.06.2018
+    '   Source: -
+    '   Change: 09.08.1999, Knuth Konrad
+    '           - Pass argument(s) ByVal and String instead of Variant
+    '------------------------------------------------------------------------------
+    If bolCheckTail Then
+      If StringHelper.Right(sPath, sDelim.Length) <> sDelim Then
+        Return sPath & sDelim
       Else
-         If StringHelper.Left(sPath, sDelim.Length) <> sDelim Then
+        Return sPath
+      End If
+    Else
+      If StringHelper.Left(sPath, sDelim.Length) <> sDelim Then
             Return sDelim & sPath
          Else
             Return sPath
@@ -165,15 +165,15 @@ Public Class FilesystemHelper
       Dim destFile As String = String.Empty
       Dim destExt As String = String.Empty
 
-      ' Safe guard
-      If FileExists(fileSource) = False Then
-         Return False
-      End If
+    ' Safe guard
+    If Not FileExists(fileSource) Then
+      Return False
+    End If
 
-      ' Check if the destination file already exists
-      ' Split the file name into its components path, file name, extension
-      ' Create a new backup file name (incrementTarget = True)
-      If FileExists(fileDest) Then
+    ' Check if the destination file already exists
+    ' Split the file name into its components path, file name, extension
+    ' Create a new backup file name (incrementTarget = True)
+    If FileExists(fileDest) Then
 
          ' Split the file name into its components
          destPath = GetDirectoryName(fileDest)
@@ -182,25 +182,25 @@ Public Class FilesystemHelper
 
          ' Target already exists, create a copy instead?
          Dim i As Int32
-         If incrementTarget = True Then
-            i = 0
-            ' Generate a new file name that eventually doesn't exist in the target folder. Stop at 9999!
-            tempFile = NormalizePath(destPath) & destFile & "." & String.Format("{0:0000}", i) & destExt
-            Do While Exists(tempFile) = True And i < 9999
-               i += 1
-               tempFile = NormalizePath(destPath) & destFile & "." & String.Format("{0:0000}", i) & destExt
-            Loop
-         Else
-            tempFile = fileDest
+      If incrementTarget Then
+        i = 0
+        ' Generate a new file name that eventually doesn't exist in the target folder. Stop at 9999!
+        tempFile = NormalizePath(destPath) & destFile & "." & String.Format("{0:0000}", i) & destExt
+        Do While Exists(tempFile) AndAlso i < 9999
+          i += 1
+          tempFile = NormalizePath(destPath) & destFile & "." & String.Format("{0:0000}", i) & destExt
+        Loop
+      Else
+        tempFile = fileDest
          End If
       Else
          tempFile = fileDest
       End If
 
-      If copyOnly = True Then
-         File.Copy(fileSource, tempFile)
-      Else
-         File.Move(fileSource, tempFile)
+    If copyOnly Then
+      File.Copy(fileSource, tempFile)
+    Else
+      File.Move(fileSource, tempFile)
       End If
 
       newFile = tempFile
