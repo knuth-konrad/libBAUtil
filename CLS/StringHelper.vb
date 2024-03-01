@@ -343,7 +343,7 @@ Public Class StringHelper
     If mainString.Contains(matchStr) Then
       Return Mid(mainString, startIndex, InStr(mainString, matchStr) - 1)
     Else
-      Return vbNullString()
+      Return String.Empty
     End If
 
   End Function
