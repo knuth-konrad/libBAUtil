@@ -56,8 +56,8 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\..\zTEST\libBaUtilTest\packages\NLog.5.2.8\lib\net46\NLog.dll</HintPath>
+    <Reference Include="NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\..\PROJECT\STA\STAData\packages\NLog.6.0.1\lib\net46\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -142,5 +142,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\..\..\zTEST\libBaUtilTest\packages\Vsxmd.1.4.5\build\Vsxmd.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\zTEST\libBaUtilTest\packages\Vsxmd.1.4.5\build\Vsxmd.targets'))" />
+    <Error Condition="!Exists('..\..\..\PROJECT\STA\STAData\packages\NLog.Schema.6.0.1\build\NLog.Schema.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\PROJECT\STA\STAData\packages\NLog.Schema.6.0.1\build\NLog.Schema.targets'))" />
   </Target>
+  <Import Project="..\..\..\PROJECT\STA\STAData\packages\NLog.Schema.6.0.1\build\NLog.Schema.targets" Condition="Exists('..\..\..\PROJECT\STA\STAData\packages\NLog.Schema.6.0.1\build\NLog.Schema.targets')" />
 </Project>
